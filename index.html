@@ -1,1 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Business Letter Review</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --text-main: #1e293b;
+            --text-light: #64748b;
+            --primary: #475569;
+            --phrasal-color: #3b82f6; /* Blue */
+            --phrasal-bg: #eff6ff;
+            --idiom-color: #f59e0b; /* Orange */
+            --idiom-bg: #fffbeb;
+            --tech-color: #ec4899; /* Pink/Red */
+            --tech-bg: #fdf2f8;
+            --correct-color: #10b981; /* Green */
+            --correct-bg: #ecfdf5;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 90vh;
+        }
+
+        /* Header */
+        header {
+            background-color: #0f172a;
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .team-members span {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        /* Navigation Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f1f5f9;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            background: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            color: #0f172a;
+            background: white;
+            border-bottom: 3px solid #0f172a;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 40px;
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+        }
+
+        .toolbar p {
+            width: 100%;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-light);
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid;
+            border-radius: 8px;
+            background: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-phrasal { border-color: var(--phrasal-color); color: var(--phrasal-color); }
+        .btn-phrasal.active { background-color: var(--phrasal-color); color: white; }
+        
+        .btn-idiom { border-color: var(--idiom-color); color: var(--idiom-color); }
+        .btn-idiom.active { background-color: var(--idiom-color); color: white; }
+        
+        .btn-tech { border-color: var(--tech-color); color: var(--tech-color); }
+        .btn-tech.active { background-color: var(--tech-color); color: white; }
+
+        /* Email Format */
+        .email-box {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 30px;
+            font-size: 17px;
+            line-height: 1.8;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .email-header {
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+
+        .email-box p {
+            margin-bottom: 20px;
+        }
+
+        /* Highlights */
+        .error-word {
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px dashed transparent;
+        }
+
+        /* Phrasal Highlight */
+        .show-phrasal .phrasal {
+            background-color: var(--phrasal-bg);
+            color: var(--phrasal-color);
+            border-color: var(--phrasal-color);
+        }
+        .show-phrasal .phrasal:hover { background-color: var(--phrasal-color); color: white; }
+
+        /* Idiom Highlight */
+        .show-idiom .idiom {
+            background-color: var(--idiom-bg);
+            color: var(--idiom-color);
+            border-color: var(--idiom-color);
+        }
+        .show-idiom .idiom:hover { background-color: var(--idiom-color); color: white; }
+
+        /* Tech Highlight */
+        .show-tech .tech {
+            background-color: var(--tech-bg);
+            color: var(--tech-color);
+            border-color: var(--tech-color);
+        }
+        .show-tech .tech:hover { background-color: var(--tech-color); color: white; }
+
+        /* Corrected Highlight */
+        .corrected-word {
+            background-color: var(--correct-bg);
+            color: var(--correct-color);
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--correct-color);
+        }
+
+        /* Modal / Information Card */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-card {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-overlay.show .modal-card {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .modal-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .tag-phrasal { background: var(--phrasal-bg); color: var(--phrasal-color); }
+        .tag-idiom { background: var(--idiom-bg); color: var(--idiom-color); }
+        .tag-tech { background: var(--tech-bg); color: var(--tech-color); }
+
+        .modal-card h2 {
+            font-size: 24px;
+            color: #ef4444; /* Red for wrong */
+            text-decoration: line-through;
+            margin-bottom: 5px;
+        }
+
+        .modal-card h3 {
+            font-size: 28px;
+            color: var(--correct-color);
+            margin-bottom: 15px;
+        }
+
+        .modal-spanish {
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-size: 16px;
+            display: block;
+        }
+
+        .modal-explanation {
+            background: #f8fafc;
+            padding: 15px;
+            border-left: 4px solid #cbd5e1;
+            border-radius: 0 8px 8px 0;
+            font-size: 15px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Business Letter Review</h1>
+        <p>Identifying and correcting vocabulary in formal business writing.</p>
+        <div class="team-members">
+            <span>Gianella Armas</span>
+            <span>Rosamía Céspedes</span>
+            <span>Marilin Medina</span>
+            <span>Eric Mozombite</span>
+            <span>Paola Mamani</span>
+            <span>Tamia Obregón</span>
+        </div>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('original')">1. Original Email Analysis</button>
+        <button class="tab-btn" onclick="switchTab('corrected')">2. Corrected Email</button>
+    </div>
+
+    <!-- TAB 1: ORIGINAL EMAIL -->
+    <div id="original" class="content active">
+        <div class="toolbar">
+            <p>Click the buttons below to find the errors in the text, then click on the highlighted words to see the correction!</p>
+            <button class="filter-btn btn-phrasal" onclick="toggleHighlight('phrasal')">
+                <span class="icon">🔵</span> Show Phrasal Verbs (3)
+            </button>
+            <button class="filter-btn btn-idiom" onclick="toggleHighlight('idiom')">
+                <span class="icon">🟠</span> Show Idioms (3)
+            </button>
+            <button class="filter-btn btn-tech" onclick="toggleHighlight('tech')">
+                <span class="icon">🔴</span> Show Technical Terms (4)
+            </button>
+        </div>
+
+        <div class="email-box" id="email-text">
+            <div class="email-header">
+                <strong>Subject:</strong> Contractual Agreement and Delivery Terms<br>
+                <strong>From:</strong> Laura Martínez (Contracts Manager)<br>
+                <strong>To:</strong> Mr. González
+            </div>
+            
+            <p>Dear Mr. González,</p>
+
+            <p>I hope this letter finds you well. We want to <span class="error-word idiom" data-id="i1">break the ice</span> with your company. As we discussed last week, our company is eager to <span class="error-word phrasal" data-id="p1">get off the ground</span> with the new partnership. We believe this collaboration will allow us to <span class="error-word phrasal" data-id="p2">iron out</span> the problems that have delayed our expansion in Latin America.</p>
+
+            <p>However, after reviewing the draft contract, we noticed several issues that must be clarified before signing. First, the clause on <span class="error-word tech" data-id="t1">force major</span> seems incorrectly applied. It states that minor delays in shipping due to traffic would qualify, which is not professionally suitable. Second, the reference to the <span class="error-word tech" data-id="t2">bill of landing</span> is inaccurate, as the correct term should specify the legal document used in maritime transport.</p>
+
+            <p>Additionally, the contract mentions that our team will <span class="error-word idiom" data-id="i2">touch base</span> with your representatives every two weeks. While the intention is clear, the phrasing may not be appropriate in formal business writing. Similarly, the idiom <span class="error-word idiom" data-id="i3">the ball is in your court</span> appears in the section on dispute resolution, which may sound informal and unsuitable for legal documentation.</p>
+
+            <p>We also found the use of <span class="error-word tech" data-id="t3">arbitrage clause</span> instead of "arbitration clause," which changes the meaning entirely. Furthermore, the text refers to a memorandum of understanding (MOU) but translates it incorrectly as <span class="error-word tech" data-id="t4">"memorando de entendimiento obligatorio"</span>, which misrepresents its non-binding nature.</p>
+
+            <p>Finally, the contract requires us to <span class="error-word phrasal" data-id="p3">carry out with</span> the delivery schedule, but the phrasal verb is misused and should be corrected for clarity.</p>
+
+            <p>We kindly request that these points be revised so that both parties can proceed with confidence. Please let us know when you are available to meet and finalize the agreement.</p>
+
+            <p>Sincerely,<br>Laura Martínez</p>
+        </div>
+    </div>
+
+    <!-- TAB 2: CORRECTED EMAIL -->
+    <div id="corrected" class="content">
+        <div class="toolbar" style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: none;">
+            <p style="color: var(--correct-color);">✅ This is the final professional version of the letter.</p>
+        </div>
+        <div class="email-box">
+            <div class="email-header">
+                <strong>Subject:</strong> Contractual Agreement and Delivery Terms<br>
+                <strong>From:</strong> Laura Martínez (Contracts Manager)<br>
+                <strong>To:</strong> Mr. González
+            </div>
+            
+            <p>Dear Mr. González,</p>
+
+            <p>I hope this letter finds you well. We want to <span class="corrected-word">establish a relationship</span> with your company. As we discussed last week, our company is eager to <span class="corrected-word">initiate</span> the new partnership. We believe this collaboration will allow us to <span class="corrected-word">resolve</span> the problems that have delayed our expansion in Latin America.</p>
+
+            <p>However, after reviewing the draft contract, we noticed several issues that must be clarified before signing. First, the clause on <span class="corrected-word">force majeure</span> seems incorrectly applied. It states that minor delays in shipping due to traffic would qualify, which is not professionally suitable. Second, the reference to the <span class="corrected-word">bill of lading</span> is inaccurate, as the correct term should specify the legal document used in maritime transport.</p>
+
+            <p>Additionally, the contract mentions that our team will <span class="corrected-word">contact</span> your representatives every two weeks. While the intention is clear, the phrasing may not be appropriate in formal business writing. Similarly, stating that <span class="corrected-word">it is your responsibility</span> appears in the section on dispute resolution, which provides clear legal accountability.</p>
+
+            <p>We also found the use of an <span class="corrected-word">arbitration clause</span> instead of an "arbitrage clause," to properly reflect the meaning. Furthermore, the text refers to a memorandum of understanding (MOU) but translates it incorrectly. It should be translated as <span class="corrected-word">"memorando de entendimiento (no vinculante)"</span>, to accurately represent its non-binding nature.</p>
+
+            <p>Finally, the contract requires us to <span class="corrected-word">comply with</span> the delivery schedule, providing better clarity for both parties.</p>
+
+            <p>We kindly request that these points be revised so that both parties can proceed with confidence. Please let us know when you are available to meet and finalize the agreement.</p>
+
+            <p>Sincerely,<br>Laura Martínez</p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div class="modal-overlay" id="modal">
+    <div class="modal-card">
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+        <span class="modal-tag" id="modal-tag">Category</span>
+        <h2 id="modal-wrong">wrong word</h2>
+        <h3 id="modal-right">Correct Word</h3>
+        <span class="modal-spanish" id="modal-spanish">(Spanish Translation)</span>
+        
+        <div class="modal-explanation">
+            <strong>Why make this change?</strong><br>
+            <span id="modal-reason">Explanation goes here.</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Database of errors
+    const errorData = {
+        // Phrasal Verbs
+        'p1': {
+            type: 'Phrasal Verb', tagClass: 'tag-phrasal',
+            wrong: 'get off the ground', right: 'initiate / commence',
+            spanish: 'iniciar / comenzar',
+            reason: 'This phrasal verb is too informal for a contract. "Initiate" is more professional and clear.'
+        },
+        'p2': {
+            type: 'Phrasal Verb', tagClass: 'tag-phrasal',
+            wrong: 'iron out', right: 'resolve / fix',
+            spanish: 'resolver / solucionar',
+            reason: '"Iron out" sounds casual. Business documents need direct and objective verbs like "resolve".'
+        },
+        'p3': {
+            type: 'Phrasal Verb', tagClass: 'tag-phrasal',
+            wrong: 'carry out with', right: 'comply with',
+            spanish: 'cumplir con (la entrega)',
+            reason: 'Grammar error. "Carry out with" is incorrect. "Comply with" is the correct formal term for following a schedule or rule.'
+        },
+        // Idioms
+        'i1': {
+            type: 'Idiom', tagClass: 'tag-idiom',
+            wrong: 'break the ice', right: 'establish a relationship',
+            spanish: 'establecer una relación formal',
+            reason: 'Idioms can confuse people from other countries. "Establish a relationship" explains exactly what you mean.'
+        },
+        'i2': {
+            type: 'Idiom', tagClass: 'tag-idiom',
+            wrong: 'touch base', right: 'contact / communicate',
+            spanish: 'contactar / comunicarse',
+            reason: 'This is a sports idiom (baseball). It is not appropriate to schedule formal business meetings.'
+        },
+        'i3': {
+            type: 'Idiom', tagClass: 'tag-idiom',
+            wrong: 'the ball is in your court', right: 'it is your responsibility / pending your action',
+            spanish: 'es su responsabilidad / depende de usted',
+            reason: 'This is a cliché. A contract needs to say exactly who is responsible for an action without using metaphors.'
+        },
+        // Technical Terms
+        't1': {
+            type: 'Technical Term', tagClass: 'tag-tech',
+            wrong: 'force major', right: 'force majeure',
+            spanish: 'fuerza mayor',
+            reason: 'Spelling error. The correct legal term comes from French and must be spelled "majeure".'
+        },
+        't2': {
+            type: 'Technical Term', tagClass: 'tag-tech',
+            wrong: 'bill of landing', right: 'bill of lading',
+            spanish: 'conocimiento de embarque',
+            reason: 'Common typo. "Lading" means loading cargo. "Landing" is for airplanes. This is a very important maritime document.'
+        },
+        't3': {
+            type: 'Technical Term', tagClass: 'tag-tech',
+            wrong: 'arbitrage clause', right: 'arbitration clause',
+            spanish: 'cláusula de arbitraje',
+            reason: 'Wrong word! "Arbitrage" is for buying/selling in finance. "Arbitration" is a legal process to solve problems outside of court.'
+        },
+        't4': {
+            type: 'Technical Term', tagClass: 'tag-tech',
+            wrong: 'memorando de entendimiento obligatorio', right: 'memorandum of understanding (MOU)',
+            spanish: 'memorando de entendimiento (no vinculante)',
+            reason: 'An MOU is an agreement, but it is NOT legally binding (obligatorio). This translation changes the legal power of the document.'
+        }
+    };
+
+    // Tab Switching Logic
+    function switchTab(tabId) {
+        document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // Toggle Highlights
+    function toggleHighlight(category) {
+        const emailBox = document.getElementById('email-text');
+        const btn = document.querySelector(`.btn-${category}`);
+        
+        emailBox.classList.toggle(`show-${category}`);
+        btn.classList.toggle('active');
+    }
+
+    // Modal Logic
+    const modal = document.getElementById('modal');
+    
+    document.querySelectorAll('.error-word').forEach(word => {
+        word.addEventListener('click', function() {
+            // Only show modal if the category is currently highlighted
+            const classList = document.getElementById('email-text').classList;
+            const isPhrasalVisible = classList.contains('show-phrasal') && this.classList.contains('phrasal');
+            const isIdiomVisible = classList.contains('show-idiom') && this.classList.contains('idiom');
+            const isTechVisible = classList.contains('show-tech') && this.classList.contains('tech');
+
+            if (isPhrasalVisible || isIdiomVisible || isTechVisible) {
+                const data = errorData[this.dataset.id];
+                
+                // Populate modal
+                document.getElementById('modal-tag').textContent = data.type;
+                document.getElementById('modal-tag').className = `modal-tag ${data.tagClass}`;
+                document.getElementById('modal-wrong').textContent = `"${data.wrong}"`;
+                document.getElementById('modal-right').textContent = data.right;
+                document.getElementById('modal-spanish').textContent = `(ES: ${data.spanish})`;
+                document.getElementById('modal-reason').textContent = data.reason;
+                
+                // Show modal
+                modal.classList.add('show');
+            }
+        });
+    });
+
+    function closeModal() {
+        modal.classList.remove('show');
+    }
+
+    // Close modal when clicking outside the card
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+</script>
+
+</body>
+</html>
