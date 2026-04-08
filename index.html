@@ -1,542 +1,1031 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-PE">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Business Letter Review</title>
+    <title>Portal de Exportación | Andean Pure Grains</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Courier Prime', 'monospace']
+                    },
+                    colors: {
+                        brand: { 50: '#f4f1ea', 100: '#e9e2d5', 500: '#D4AF37', 600: '#b5952f', 800: '#3E2723', 900: '#271816' },
+                        adex: { green: '#2E7D32', dark: '#1B5E20' }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --bg-color: #f8fafc;
-            --text-main: #1e293b;
-            --text-light: #64748b;
-            --primary: #475569;
-            --phrasal-color: #3b82f6; /* Blue */
-            --phrasal-bg: #eff6ff;
-            --idiom-color: #f59e0b; /* Orange */
-            --idiom-bg: #fffbeb;
-            --tech-color: #ec4899; /* Pink/Red */
-            --tech-bg: #fdf2f8;
-            --correct-color: #10b981; /* Green */
-            --correct-bg: #ecfdf5;
-            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-        }
+        body { background-color: #f8fafc; }
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .nav-link { transition: all 0.2s ease-in-out; }
+        .nav-link.active { background-color: #3E2723; color: #D4AF37; font-weight: 600; border-left: 4px solid #D4AF37; }
+        .nav-link:not(.active):hover { background-color: #f1f5f9; color: #3E2723; }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+        /* Estilo tipo "Papel A4" para los documentos */
+        .document-paper {
             background: white;
-            border-radius: 16px;
-            box-shadow: var(--card-shadow);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 90vh;
-        }
-
-        /* Header */
-        header {
-            background-color: #0f172a;
-            color: white;
-            padding: 30px 40px;
-            text-align: center;
-        }
-
-        header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .team-members {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .team-members span {
-            background: rgba(255,255,255,0.1);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-
-        /* Navigation Tabs */
-        .tabs {
-            display: flex;
-            border-bottom: 1px solid #e2e8f0;
-            background: #f1f5f9;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 15px 20px;
-            border: none;
-            background: none;
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-light);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active {
-            color: #0f172a;
-            background: white;
-            border-bottom: 3px solid #0f172a;
-        }
-
-        /* Content Area */
-        .content {
-            padding: 40px;
-            display: none;
-        }
-
-        .content.active {
-            display: block;
-        }
-
-        /* Toolbar */
-        .toolbar {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e2e8f0;
-            flex-wrap: wrap;
-        }
-
-        .toolbar p {
             width: 100%;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: var(--text-light);
-        }
-
-        .filter-btn {
-            padding: 10px 20px;
-            border: 2px solid;
-            border-radius: 8px;
-            background: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-phrasal { border-color: var(--phrasal-color); color: var(--phrasal-color); }
-        .btn-phrasal.active { background-color: var(--phrasal-color); color: white; }
-        
-        .btn-idiom { border-color: var(--idiom-color); color: var(--idiom-color); }
-        .btn-idiom.active { background-color: var(--idiom-color); color: white; }
-        
-        .btn-tech { border-color: var(--tech-color); color: var(--tech-color); }
-        .btn-tech.active { background-color: var(--tech-color); color: white; }
-
-        /* Email Format */
-        .email-box {
-            background: #ffffff;
+            max-width: 900px;
+            min-height: 1100px;
+            margin: 0 auto 30px auto;
+            padding: 40px 50px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 30px;
-            font-size: 17px;
-            line-height: 1.8;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            font-family: 'Inter', sans-serif;
+            color: #333;
         }
 
-        .email-header {
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-            color: var(--text-light);
-        }
-
-        .email-box p {
-            margin-bottom: 20px;
-        }
-
-        /* Highlights */
-        .error-word {
-            font-weight: 600;
-            padding: 2px 6px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px dashed transparent;
-        }
-
-        /* Phrasal Highlight */
-        .show-phrasal .phrasal {
-            background-color: var(--phrasal-bg);
-            color: var(--phrasal-color);
-            border-color: var(--phrasal-color);
-        }
-        .show-phrasal .phrasal:hover { background-color: var(--phrasal-color); color: white; }
-
-        /* Idiom Highlight */
-        .show-idiom .idiom {
-            background-color: var(--idiom-bg);
-            color: var(--idiom-color);
-            border-color: var(--idiom-color);
-        }
-        .show-idiom .idiom:hover { background-color: var(--idiom-color); color: white; }
-
-        /* Tech Highlight */
-        .show-tech .tech {
-            background-color: var(--tech-bg);
-            color: var(--tech-color);
-            border-color: var(--tech-color);
-        }
-        .show-tech .tech:hover { background-color: var(--tech-color); color: white; }
-
-        /* Corrected Highlight */
-        .corrected-word {
-            background-color: var(--correct-bg);
-            color: var(--correct-color);
-            font-weight: 600;
-            padding: 2px 6px;
-            border-radius: 4px;
-            border: 1px solid var(--correct-color);
-        }
-
-        /* Modal / Information Card */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-card {
+        .document-paper-dam {
             background: white;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: var(--card-shadow);
-            position: relative;
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto 30px auto;
+            padding: 40px 50px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            font-family: 'Courier Prime', monospace;
+            color: #333;
         }
 
-        .modal-overlay.show {
-            display: flex;
-        }
+        .doc-header { border-bottom: 2px solid #3E2723; padding-bottom: 15px; margin-bottom: 20px; }
+        .doc-title { font-size: 24px; font-weight: 700; color: #3E2723; text-align: center; letter-spacing: 1px; }
+        .doc-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+        .doc-table th, .doc-table td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; }
+        .doc-table th { background-color: #f8fafc; font-weight: 600; color: #3E2723; }
+        
+        .fade-in { animation: fadeIn 0.3s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .modal-overlay.show .modal-card {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-light);
-        }
-
-        .modal-tag {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-
-        .tag-phrasal { background: var(--phrasal-bg); color: var(--phrasal-color); }
-        .tag-idiom { background: var(--idiom-bg); color: var(--idiom-color); }
-        .tag-tech { background: var(--tech-bg); color: var(--tech-color); }
-
-        .modal-card h2 {
-            font-size: 24px;
-            color: #ef4444; /* Red for wrong */
-            text-decoration: line-through;
-            margin-bottom: 5px;
-        }
-
-        .modal-card h3 {
-            font-size: 28px;
-            color: var(--correct-color);
-            margin-bottom: 15px;
-        }
-
-        .modal-spanish {
-            font-style: italic;
-            color: var(--text-light);
-            margin-bottom: 20px;
-            font-size: 16px;
-            display: block;
-        }
-
-        .modal-explanation {
-            background: #f8fafc;
-            padding: 15px;
-            border-left: 4px solid #cbd5e1;
-            border-radius: 0 8px 8px 0;
-            font-size: 15px;
-        }
-
+        /* Estilos específicos DAM */
+        .dam-box { border: 1px solid #000; padding: 6px; font-size: 12px; }
+        .dam-header-box { background-color: #f1f5f9; font-weight: bold; border-bottom: 1px solid #000; padding-bottom: 2px; margin-bottom: 4px; }
     </style>
 </head>
-<body>
+<body class="h-screen flex overflow-hidden text-slate-800">
 
-<div class="container">
-    <header>
-        <h1>Business Letter Review</h1>
-        <p>Identifying and correcting vocabulary in formal business writing.</p>
-        <div class="team-members">
-            <span>Gianella Armas</span>
-            <span>Rosamía Céspedes</span>
-            <span>Marilin Medina</span>
-            <span>Eric Mozombite</span>
-            <span>Paola Mamani</span>
-            <span>Tamia Obregón</span>
-        </div>
-    </header>
-
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('original')">1. Original Email Analysis</button>
-        <button class="tab-btn" onclick="switchTab('corrected')">2. Corrected Email</button>
-    </div>
-
-    <!-- TAB 1: ORIGINAL EMAIL -->
-    <div id="original" class="content active">
-        <div class="toolbar">
-            <p>Click the buttons below to find the errors in the text, then click on the highlighted words to see the correction!</p>
-            <button class="filter-btn btn-phrasal" onclick="toggleHighlight('phrasal')">
-                <span class="icon">🔵</span> Show Phrasal Verbs (3)
-            </button>
-            <button class="filter-btn btn-idiom" onclick="toggleHighlight('idiom')">
-                <span class="icon">🟠</span> Show Idioms (3)
-            </button>
-            <button class="filter-btn btn-tech" onclick="toggleHighlight('tech')">
-                <span class="icon">🔴</span> Show Technical Terms (4)
-            </button>
-        </div>
-
-        <div class="email-box" id="email-text">
-            <div class="email-header">
-                <strong>Subject:</strong> Contractual Agreement and Delivery Terms<br>
-                <strong>From:</strong> Laura Martínez (Contracts Manager)<br>
-                <strong>To:</strong> Mr. González
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col h-full shadow-sm z-20 shrink-0">
+        <!-- Brand / Header -->
+        <div class="p-6 border-b border-slate-100 bg-brand-800 text-white">
+            <h1 class="text-xl font-bold tracking-tight">ADEX <span class="text-brand-500">Escuela</span></h1>
+            <p class="text-xs text-brand-100 mt-1 opacity-80">Recta Final - Ciclo 2026-I</p>
+            <div class="mt-4 pt-4 border-t border-brand-600/30">
+                <p class="text-sm font-semibold">Andean Pure Grains</p>
+                <p class="text-[11px] text-brand-100 mt-1"><i class="fa-solid fa-user-tie mr-1"></i> Prof. José Darío Dueñas</p>
             </div>
-            
-            <p>Dear Mr. González,</p>
-
-            <p>I hope this letter finds you well. We want to <span class="error-word idiom" data-id="i1">break the ice</span> with your company. As we discussed last week, our company is eager to <span class="error-word phrasal" data-id="p1">get off the ground</span> with the new partnership. We believe this collaboration will allow us to <span class="error-word phrasal" data-id="p2">iron out</span> the problems that have delayed our expansion in Latin America.</p>
-
-            <p>However, after reviewing the draft contract, we noticed several issues that must be clarified before signing. First, the clause on <span class="error-word tech" data-id="t1">force major</span> seems incorrectly applied. It states that minor delays in shipping due to traffic would qualify, which is not professionally suitable. Second, the reference to the <span class="error-word tech" data-id="t2">bill of landing</span> is inaccurate, as the correct term should specify the legal document used in maritime transport.</p>
-
-            <p>Additionally, the contract mentions that our team will <span class="error-word idiom" data-id="i2">touch base</span> with your representatives every two weeks. While the intention is clear, the phrasing may not be appropriate in formal business writing. Similarly, the idiom <span class="error-word idiom" data-id="i3">the ball is in your court</span> appears in the section on dispute resolution, which may sound informal and unsuitable for legal documentation.</p>
-
-            <p>We also found the use of <span class="error-word tech" data-id="t3">arbitrage clause</span> instead of "arbitration clause," which changes the meaning entirely. Furthermore, the text refers to a memorandum of understanding (MOU) but translates it incorrectly as <span class="error-word tech" data-id="t4">"memorando de entendimiento obligatorio"</span>, which misrepresents its non-binding nature.</p>
-
-            <p>Finally, the contract requires us to <span class="error-word phrasal" data-id="p3">carry out with</span> the delivery schedule, but the phrasal verb is misused and should be corrected for clarity.</p>
-
-            <p>We kindly request that these points be revised so that both parties can proceed with confidence. Please let us know when you are available to meet and finalize the agreement.</p>
-
-            <p>Sincerely,<br>Laura Martínez</p>
         </div>
-    </div>
 
-    <!-- TAB 2: CORRECTED EMAIL -->
-    <div id="corrected" class="content">
-        <div class="toolbar" style="margin-bottom: 15px; padding-bottom: 10px; border-bottom: none;">
-            <p style="color: var(--correct-color);">✅ This is the final professional version of the letter.</p>
-        </div>
-        <div class="email-box">
-            <div class="email-header">
-                <strong>Subject:</strong> Contractual Agreement and Delivery Terms<br>
-                <strong>From:</strong> Laura Martínez (Contracts Manager)<br>
-                <strong>To:</strong> Mr. González
+        <!-- Menú -->
+        <nav class="flex-1 overflow-y-auto py-4">
+            <div class="px-4 mb-2">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Lineamientos del Docente</p>
             </div>
+            <a href="#" onclick="showSection('instrucciones', this)" class="nav-link active flex items-center px-6 py-3 text-sm text-slate-600">
+                <i class="fa-solid fa-chalkboard-user w-6 text-center"></i> Cronograma y Regla de Oro
+            </a>
+            <a href="#" onclick="showSection('senasa', this)" class="nav-link flex items-center px-6 py-3 text-sm text-slate-600">
+                <i class="fa-solid fa-seedling w-6 text-center"></i> Requisitos SENASA
+            </a>
+
+            <div class="px-4 mt-6 mb-2 border-t border-slate-100 pt-4">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Expediente de Exportación</p>
+            </div>
+            <a href="#" onclick="showSection('doc-factura', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
+                <i class="fa-solid fa-file-invoice-dollar w-6 text-center"></i> 1. Factura Comercial
+            </a>
+            <a href="#" onclick="showSection('doc-packing', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
+                <i class="fa-solid fa-boxes-packing w-6 text-center"></i> 2. Packing List
+            </a>
+            <a href="#" onclick="showSection('doc-dam', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
+                <i class="fa-solid fa-file-signature w-6 text-center"></i> 3. DAM Proyectada (A y B)
+            </a>
+            <a href="#" onclick="showSection('doc-bl', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
+                <i class="fa-solid fa-ship w-6 text-center"></i> 4. Bill of Lading (B/L)
+            </a>
+            <a href="#" onclick="showSection('doc-origen', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
+                <i class="fa-solid fa-globe w-6 text-center"></i> 5. Certificado de Origen
+            </a>
+            <a href="#" onclick="showSection('doc-cve03', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
+                <i class="fa-solid fa-industry w-6 text-center"></i> 6. Formato SENASA (CVE-03)
+            </a>
+            <a href="#" onclick="showSection('doc-ca0203', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
+                <i class="fa-solid fa-file-contract w-6 text-center"></i> 7. Formato SENASA (RIV)
+            </a>
+            <a href="#" onclick="showSection('doc-fito', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
+                <i class="fa-solid fa-leaf w-6 text-center"></i> 8. Cert. Fitosanitario
+            </a>
+        </nav>
+
+        <!-- Footer Sidebar -->
+        <div class="p-4 border-t border-slate-200 bg-slate-50 text-[10px] text-slate-500 text-center">
+            Equipo: Diego C., Gianella A., Marilin M., Rosamía C., Paola M., Tamia O.
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 bg-slate-50 overflow-y-auto relative">
+        <div class="max-w-5xl mx-auto p-8 pb-20" id="content-container">
             
-            <p>Dear Mr. González,</p>
+            <!-- SECCIÓN: INSTRUCCIONES Y REGLA DE ORO -->
+            <section id="instrucciones" class="content-section block fade-in">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+                    <div class="bg-brand-800 px-8 py-6 text-white flex justify-between items-center">
+                        <div>
+                            <h2 class="text-2xl font-bold">Instrucciones: Recta Final</h2>
+                            <p class="text-brand-100 text-sm mt-1">Apuntes de la clase del 01 de abril de 2026</p>
+                        </div>
+                        <i class="fa-solid fa-bullhorn text-4xl text-brand-500 opacity-80"></i>
+                    </div>
+                    
+                    <div class="p-8">
+                        <h3 class="text-lg font-bold text-brand-800 border-b-2 border-brand-500 pb-2 inline-block mb-6">1. Nuevo Cronograma Oficial</h3>
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg mb-6 flex gap-4 items-start">
+                            <i class="fa-solid fa-circle-info text-blue-500 mt-1"></i>
+                            <p class="text-sm text-blue-800"><strong>¡Prórroga!</strong> El avance original del martes 7 se extendió hasta el próximo viernes por Semana Santa. "Para que puedan relajarse un rato", indicó el profesor.</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+                            <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm">
+                                <div class="text-xs font-bold text-brand-500 uppercase tracking-wider mb-1">Semana 11</div>
+                                <h4 class="font-bold text-slate-800">Revisión de Avance</h4>
+                                <p class="text-sm text-slate-600 mt-2">Paso de grupo por grupo verificando discrepancias. Aún no hay exposición.</p>
+                            </div>
+                            <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm border-l-4 border-l-brand-800">
+                                <div class="text-xs font-bold text-brand-500 uppercase tracking-wider mb-1">Semana 12</div>
+                                <h4 class="font-bold text-slate-800">Exposición Oficial</h4>
+                                <p class="text-sm text-slate-600 mt-2">Máximo 10 minutos para sustentar los datos y el mercado elegido.</p>
+                            </div>
+                            <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm">
+                                <div class="text-xs font-bold text-brand-500 uppercase tracking-wider mb-1">Semana 13</div>
+                                <h4 class="font-bold text-slate-800">Informe Final</h4>
+                                <p class="text-sm text-slate-600 mt-2">Subida en PDF a Canvas de todo lo trabajado. Ya no se expone.</p>
+                            </div>
+                            <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm">
+                                <div class="text-xs font-bold text-brand-500 uppercase tracking-wider mb-1">Semana 14</div>
+                                <h4 class="font-bold text-slate-800">Cierre de Sistema</h4>
+                                <p class="text-sm text-slate-600 mt-2">Entrega del documento final en la plataforma de la institución.</p>
+                            </div>
+                        </div>
 
-            <p>I hope this letter finds you well. We want to <span class="corrected-word">establish a relationship</span> with your company. As we discussed last week, our company is eager to <span class="corrected-word">initiate</span> the new partnership. We believe this collaboration will allow us to <span class="corrected-word">resolve</span> the problems that have delayed our expansion in Latin America.</p>
+                        <h3 class="text-lg font-bold text-brand-800 border-b-2 border-brand-500 pb-2 inline-block mb-6">2. La "Regla de Oro"</h3>
+                        <div class="bg-rose-50 border border-rose-200 rounded-xl p-6 mb-4">
+                            <h4 class="text-rose-800 font-bold text-lg mb-2"><i class="fa-solid fa-triangle-exclamation mr-2"></i> Congruencia y Datos Verificables</h4>
+                            <p class="text-slate-700 text-sm mb-4">El profesor enfatizó que <strong>todos los documentos deben "conversar" entre sí</strong>. Una discrepancia de un solo número anula el pago en el banco en la vida real.</p>
+                            <ul class="space-y-3 text-sm text-slate-700">
+                                <li class="flex gap-3"><i class="fa-solid fa-check text-green-600 mt-0.5"></i> <span><strong>Pesos idénticos:</strong> Si la Factura dice 2,270 KG Netos, el Packing List, BL y DAM deben decir exactamente lo mismo.</span></li>
+                                <li class="flex gap-3"><i class="fa-solid fa-check text-green-600 mt-0.5"></i> <span><strong>RUC Simulado Lógico:</strong> RUC 20123456789.</span></li>
+                                <li class="flex gap-3"><i class="fa-solid fa-check text-green-600 mt-0.5"></i> <span><strong>Dirección Real:</strong> Av. Las Américas 123, La Victoria, Lima.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <p>However, after reviewing the draft contract, we noticed several issues that must be clarified before signing. First, the clause on <span class="corrected-word">force majeure</span> seems incorrectly applied. It states that minor delays in shipping due to traffic would qualify, which is not professionally suitable. Second, the reference to the <span class="corrected-word">bill of lading</span> is inaccurate, as the correct term should specify the legal document used in maritime transport.</p>
+            <!-- SECCIÓN: REQUISITOS SENASA -->
+            <section id="senasa" class="content-section hidden fade-in">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-green-800 px-8 py-6 text-white flex justify-between items-center">
+                        <div>
+                            <h2 class="text-2xl font-bold">Requisitos Fitosanitarios (EE.UU.)</h2>
+                            <p class="text-green-100 text-sm mt-1">Autoridad Competente: SENASA</p>
+                        </div>
+                        <i class="fa-solid fa-microscope text-4xl text-green-400 opacity-80"></i>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex flex-col md:flex-row gap-8 mb-8">
+                            <div class="flex-1 bg-slate-50 p-6 rounded-xl border border-slate-200">
+                                <p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-2">Partida Arancelaria Exacta</p>
+                                <p class="text-3xl font-mono font-bold text-brand-800">1008.50.90.00</p>
+                                <p class="text-sm text-slate-600 mt-2">Quinua (*Chenopodium quinoa*) - Las demás.</p>
+                            </div>
+                            <div class="flex-1 bg-slate-50 p-6 rounded-xl border border-slate-200">
+                                <p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-2">Protocolo APHIS-USA</p>
+                                <p class="text-lg font-bold text-slate-800"><i class="fa-solid fa-circle-check text-green-600 mr-2"></i> Sin declaración adicional</p>
+                                <p class="text-sm text-slate-600 mt-2">No requiere tratamiento cuarentenario (fumigación). Solo inspección y Certificado Fitosanitario.</p>
+                            </div>
+                        </div>
 
-            <p>Additionally, the contract mentions that our team will <span class="corrected-word">contact</span> your representatives every two weeks. While the intention is clear, the phrasing may not be appropriate in formal business writing. Similarly, stating that <span class="corrected-word">it is your responsibility</span> appears in the section on dispute resolution, which provides clear legal accountability.</p>
+                        <h3 class="text-lg font-bold text-brand-800 mb-4">Los 3 Formatos Obligatorios de SENASA</h3>
+                        <p class="text-sm text-slate-600 mb-6">Según lo indicado en clase, de todos los formatos del aula virtual, solo se deben llenar estos tres para nuestro caso de exportación:</p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4 p-4 border border-slate-200 rounded-lg">
+                                <div class="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-800 font-bold shrink-0">1</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800">Certificado de Lugar de Producción (CLP)</h4>
+                                    <p class="text-sm text-slate-600 mt-1">Garantiza que la chacra de origen está libre de plagas cuarentenarias. <em>Dato de clase: Su trámite cuesta S/ 20.20 por hectárea.</em></p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 border border-brand-500 bg-brand-50 rounded-lg">
+                                <div class="w-10 h-10 rounded-full bg-brand-500 flex items-center justify-center text-white font-bold shrink-0">2</div>
+                                <div>
+                                    <h4 class="font-bold text-brand-800">Certificación de Planta de Tratamiento/Empaque (CVE-03)</h4>
+                                    <p class="text-sm text-slate-700 mt-1">Aval de que la planta procesadora en Lima cumple con normas de inocuidad. <a href="#" onclick="showSection('doc-cve03', document.querySelectorAll('.nav-link')[5])" class="text-blue-600 hover:underline font-semibold">Ver formato lleno aquí.</a></p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 border border-slate-200 rounded-lg">
+                                <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-700 font-bold shrink-0">+</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800">Reporte de Inspección (CA-02-03)</h4>
+                                    <p class="text-sm text-slate-600 mt-1">Formato de tránsito/inspección. <a href="#" onclick="showSection('doc-ca0203', document.querySelectorAll('.nav-link')[6])" class="text-blue-600 hover:underline font-semibold">Ver documento aquí.</a></p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 border border-slate-200 rounded-lg">
+                                <div class="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-800 font-bold shrink-0">3</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800">Certificado Fitosanitario de Exportación</h4>
+                                    <p class="text-sm text-slate-600 mt-1">Documento final emitido en el puerto del Callao tras inspeccionar el contenedor. <a href="#" onclick="showSection('doc-fito', document.querySelectorAll('.nav-link')[9])" class="text-blue-600 hover:underline font-semibold">Ver documento aquí.</a></p>
+                                </div>
+                            </div>
+                        </div>
 
-            <p>We also found the use of an <span class="corrected-word">arbitration clause</span> instead of an "arbitrage clause," to properly reflect the meaning. Furthermore, the text refers to a memorandum of understanding (MOU) but translates it incorrectly. It should be translated as <span class="corrected-word">"memorando de entendimiento (no vinculante)"</span>, to accurately represent its non-binding nature.</p>
+                        <!-- NUEVA SECCIÓN: INFORMATIVO DETALLADO SENASA -->
+                        <div class="mt-12 border-t border-slate-200 pt-8">
+                            <h3 class="text-2xl font-bold text-brand-800 mb-2"><i class="fa-solid fa-microscope mr-2"></i> Anexo Informativo: Control de Inocuidad (SENASA / FDA)</h3>
+                            <p class="text-sm text-slate-600 mb-6">De acuerdo con el documento de requisitos sanitarios para la partida <strong>1008.50.90.00</strong>, aunque EE.UU. no exige tratamientos cuarentenarios adicionales, el ingreso de la quinua está condicionado a la estricta auditoría de Límites Máximos de Residuos (LMR) e inocuidad en destino.</p>
+                            
+                            <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg mb-8 flex gap-4">
+                                <i class="fa-solid fa-triangle-exclamation text-amber-500 mt-1"></i>
+                                <p class="text-sm text-amber-800"><strong>Alerta Operativa:</strong> El incumplimiento de cualquiera de los siguientes parámetros técnicos generará el rechazo automático del contenedor por parte de la FDA en el puerto de Los Ángeles.</p>
+                            </div>
+                            
+                            <!-- Grid a dos columnas para los 4 factores -->
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                
+                                <!-- 1. Plaguicidas -->
+                                <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+                                    <div class="bg-slate-100 p-4 border-b border-slate-200">
+                                        <h4 class="font-bold text-slate-800"><i class="fa-solid fa-spray-can mr-2 text-slate-500"></i> Contaminantes Químicos (Plaguicidas)</h4>
+                                    </div>
+                                    <div class="overflow-y-auto max-h-64">
+                                        <table class="w-full text-xs text-left border-collapse">
+                                            <thead class="bg-slate-50 text-slate-500 sticky top-0">
+                                                <tr>
+                                                    <th class="p-3 border-b border-slate-200">Ingrediente Activo</th>
+                                                    <th class="p-3 text-center border-b border-slate-200">LMR</th>
+                                                    <th class="p-3 text-center border-b border-slate-200">Unidad</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-slate-100">
+                                                <tr class="hover:bg-slate-50"><td class="p-2 pl-3">Azoxystrobin</td><td class="p-2 text-center font-mono font-bold">3</td><td class="p-2 text-center">ppm</td></tr>
+                                                <tr class="hover:bg-slate-50"><td class="p-2 pl-3">Carfentrazone-ethyl</td><td class="p-2 text-center font-mono font-bold">0.1</td><td class="p-2 text-center">ppm</td></tr>
+                                                <tr class="hover:bg-slate-50"><td class="p-2 pl-3">Chlorantraniliprole</td><td class="p-2 text-center font-mono font-bold">6</td><td class="p-2 text-center">ppm</td></tr>
+                                                <tr class="hover:bg-slate-50"><td class="p-2 pl-3">Etofenprox</td><td class="p-2 text-center font-mono font-bold">5</td><td class="p-2 text-center">ppm</td></tr>
+                                                <tr class="hover:bg-slate-50"><td class="p-2 pl-3">Flupyradifurone</td><td class="p-2 text-center font-mono font-bold">3</td><td class="p-2 text-center">ppm</td></tr>
+                                                <tr class="bg-red-50 hover:bg-red-100 border-l-2 border-red-500"><td class="p-2 pl-3 font-bold text-red-700">Glyphosate (Glifosato)</td><td class="p-2 text-center font-mono font-bold text-red-700">5</td><td class="p-2 text-center text-red-700">ppm</td></tr>
+                                                <tr class="hover:bg-slate-50"><td class="p-2 pl-3">Propiconazole</td><td class="p-2 text-center font-mono font-bold">3</td><td class="p-2 text-center">ppm</td></tr>
+                                                <tr class="hover:bg-slate-50"><td class="p-2 pl-3">pydiflumetofen</td><td class="p-2 text-center font-mono font-bold">4</td><td class="p-2 text-center">ppm</td></tr>
+                                                <tr class="hover:bg-slate-50"><td class="p-2 pl-3">Spinetoram</td><td class="p-2 text-center font-mono font-bold">0.04</td><td class="p-2 text-center">ppm</td></tr>
+                                                <tr class="hover:bg-slate-50"><td class="p-2 pl-3">Spinosad</td><td class="p-2 text-center font-mono font-bold">0.02</td><td class="p-2 text-center">ppm</td></tr>
+                                                <tr class="hover:bg-slate-50"><td class="p-2 pl-3">Dichlorvos</td><td class="p-2 text-center font-mono font-bold">0.5</td><td class="p-2 text-center">ppm</td></tr>
+                                                <tr class="hover:bg-slate-50"><td class="p-2 pl-3">Oxathiapiprolin</td><td class="p-2 text-center font-mono font-bold">0.1</td><td class="p-2 text-center">ppm</td></tr>
+                                                <tr class="hover:bg-slate-50"><td class="p-2 pl-3">Tribenuron-methyl</td><td class="p-2 text-center font-mono font-bold">0.05</td><td class="p-2 text-center">ppm</td></tr>
+                                                <tr class="hover:bg-slate-50"><td class="p-2 pl-3">Zeta-cypermethrin</td><td class="p-2 text-center font-mono font-bold">3</td><td class="p-2 text-center">ppm</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
 
-            <p>Finally, the contract requires us to <span class="corrected-word">comply with</span> the delivery schedule, providing better clarity for both parties.</p>
+                                <!-- 2. Metales Pesados -->
+                                <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+                                    <div class="bg-slate-100 p-4 border-b border-slate-200">
+                                        <h4 class="font-bold text-slate-800"><i class="fa-solid fa-weight-hanging mr-2 text-slate-500"></i> Metales Pesados (Regulados)</h4>
+                                    </div>
+                                    <div>
+                                        <table class="w-full text-xs text-left border-collapse">
+                                            <thead class="bg-slate-50 text-slate-500">
+                                                <tr><th class="p-3 border-b border-slate-200">Metal</th><th class="p-3 text-center border-b border-slate-200">LMR Recomendado</th><th class="p-3 text-center border-b border-slate-200">Unidad</th></tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-slate-100">
+                                                <tr><td class="p-3 pl-3">Plomo (Pb)</td><td class="p-3 text-center font-mono font-bold">0.20</td><td class="p-3 text-center">mg/kg (ppm)</td></tr>
+                                                <tr><td class="p-3 pl-3">Cadmio (Cd)</td><td class="p-3 text-center font-mono font-bold">0.10</td><td class="p-3 text-center">mg/kg (ppm)</td></tr>
+                                                <tr><td class="p-3 pl-3">Arsénico (As)</td><td class="p-3 text-center font-mono font-bold">0.10</td><td class="p-3 text-center">mg/kg (ppm)</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
 
-            <p>We kindly request that these points be revised so that both parties can proceed with confidence. Please let us know when you are available to meet and finalize the agreement.</p>
+                                <!-- 3. Micotoxinas -->
+                                <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+                                    <div class="bg-slate-100 p-4 border-b border-slate-200">
+                                        <h4 class="font-bold text-slate-800"><i class="fa-solid fa-disease mr-2 text-slate-500"></i> Micotoxinas (Hongos)</h4>
+                                    </div>
+                                    <div>
+                                        <table class="w-full text-xs text-left border-collapse">
+                                            <thead class="bg-slate-50 text-slate-500">
+                                                <tr><th class="p-3 border-b border-slate-200">Tipo de Micotoxina</th><th class="p-3 text-center border-b border-slate-200">LMR Máximo</th><th class="p-3 text-center border-b border-slate-200">Unidad</th></tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-slate-100">
+                                                <tr><td class="p-3 pl-3">Aflatoxinas Totales (B1+B2+G1+G2)</td><td class="p-3 text-center font-mono font-bold">20.0</td><td class="p-3 text-center">µg/kg (ppb)</td></tr>
+                                                <tr><td class="p-3 pl-3">Ocratoxina A (OTA)</td><td class="p-3 text-center font-mono font-bold">5.0</td><td class="p-3 text-center">µg/kg (ppb)</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
 
-            <p>Sincerely,<br>Laura Martínez</p>
-        </div>
-    </div>
-</div>
+                                <!-- 4. Control Microbiológico -->
+                                <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+                                    <div class="bg-slate-100 p-4 border-b border-slate-200">
+                                        <h4 class="font-bold text-slate-800"><i class="fa-solid fa-bacterium mr-2 text-slate-500"></i> Componentes Microbiológicos</h4>
+                                    </div>
+                                    <div>
+                                        <table class="w-full text-xs text-left border-collapse">
+                                            <thead class="bg-slate-50 text-slate-500">
+                                                <tr><th class="p-3 border-b border-slate-200">Agente Patógeno</th><th class="p-3 text-center border-b border-slate-200">Criterio FDA</th><th class="p-3 text-center border-b border-slate-200">Tolerancia</th></tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-slate-100">
+                                                <tr><td class="p-3 pl-3 font-bold text-red-600">Salmonella sp.</td><td class="p-3 text-center font-bold">Ausencia</td><td class="p-3 text-center font-mono">en 25g</td></tr>
+                                                <tr><td class="p-3 pl-3 font-bold text-red-600">Escherichia coli</td><td class="p-3 text-center font-bold">&lt; 10</td><td class="p-3 text-center font-mono">UFC/g</td></tr>
+                                                <tr><td class="p-3 pl-3">Mohos y Levaduras</td><td class="p-3 text-center font-bold">&lt; 10^4</td><td class="p-3 text-center font-mono">UFC/g</td></tr>
+                                                <tr><td class="p-3 pl-3">Bacillus cereus</td><td class="p-3 text-center font-bold">&lt; 10^3</td><td class="p-3 text-center font-mono">UFC/g</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
 
-<!-- Modal Structure -->
-<div class="modal-overlay" id="modal">
-    <div class="modal-card">
-        <button class="close-btn" onclick="closeModal()">&times;</button>
-        <span class="modal-tag" id="modal-tag">Category</span>
-        <h2 id="modal-wrong">wrong word</h2>
-        <h3 id="modal-right">Correct Word</h3>
-        <span class="modal-spanish" id="modal-spanish">(Spanish Translation)</span>
-        
-        <div class="modal-explanation">
-            <strong>Why make this change?</strong><br>
-            <span id="modal-reason">Explanation goes here.</span>
-        </div>
-    </div>
-</div>
+                            </div>
+                        </div>
 
-<script>
-    // Database of errors
-    const errorData = {
-        // Phrasal Verbs
-        'p1': {
-            type: 'Phrasal Verb', tagClass: 'tag-phrasal',
-            wrong: 'get off the ground', right: 'initiate / commence',
-            spanish: 'iniciar / comenzar',
-            reason: 'This phrasal verb is too informal for a contract. "Initiate" is more professional and clear.'
-        },
-        'p2': {
-            type: 'Phrasal Verb', tagClass: 'tag-phrasal',
-            wrong: 'iron out', right: 'resolve / fix',
-            spanish: 'resolver / solucionar',
-            reason: '"Iron out" sounds casual. Business documents need direct and objective verbs like "resolve".'
-        },
-        'p3': {
-            type: 'Phrasal Verb', tagClass: 'tag-phrasal',
-            wrong: 'carry out with', right: 'comply with',
-            spanish: 'cumplir con (la entrega)',
-            reason: 'Grammar error. "Carry out with" is incorrect. "Comply with" is the correct formal term for following a schedule or rule.'
-        },
-        // Idioms
-        'i1': {
-            type: 'Idiom', tagClass: 'tag-idiom',
-            wrong: 'break the ice', right: 'establish a relationship',
-            spanish: 'establecer una relación formal',
-            reason: 'Idioms can confuse people from other countries. "Establish a relationship" explains exactly what you mean.'
-        },
-        'i2': {
-            type: 'Idiom', tagClass: 'tag-idiom',
-            wrong: 'touch base', right: 'contact / communicate',
-            spanish: 'contactar / comunicarse',
-            reason: 'This is a sports idiom (baseball). It is not appropriate to schedule formal business meetings.'
-        },
-        'i3': {
-            type: 'Idiom', tagClass: 'tag-idiom',
-            wrong: 'the ball is in your court', right: 'it is your responsibility / pending your action',
-            spanish: 'es su responsabilidad / depende de usted',
-            reason: 'This is a cliché. A contract needs to say exactly who is responsible for an action without using metaphors.'
-        },
-        // Technical Terms
-        't1': {
-            type: 'Technical Term', tagClass: 'tag-tech',
-            wrong: 'force major', right: 'force majeure',
-            spanish: 'fuerza mayor',
-            reason: 'Spelling error. The correct legal term comes from French and must be spelled "majeure".'
-        },
-        't2': {
-            type: 'Technical Term', tagClass: 'tag-tech',
-            wrong: 'bill of landing', right: 'bill of lading',
-            spanish: 'conocimiento de embarque',
-            reason: 'Common typo. "Lading" means loading cargo. "Landing" is for airplanes. This is a very important maritime document.'
-        },
-        't3': {
-            type: 'Technical Term', tagClass: 'tag-tech',
-            wrong: 'arbitrage clause', right: 'arbitration clause',
-            spanish: 'cláusula de arbitraje',
-            reason: 'Wrong word! "Arbitrage" is for buying/selling in finance. "Arbitration" is a legal process to solve problems outside of court.'
-        },
-        't4': {
-            type: 'Technical Term', tagClass: 'tag-tech',
-            wrong: 'memorando de entendimiento obligatorio', right: 'memorandum of understanding (MOU)',
-            spanish: 'memorando de entendimiento (no vinculante)',
-            reason: 'An MOU is an agreement, but it is NOT legally binding (obligatorio). This translation changes the legal power of the document.'
-        }
-    };
+                    </div>
+                </div>
+            </section>
 
-    // Tab Switching Logic
-    function switchTab(tabId) {
-        document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-        
-        document.getElementById(tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
-    }
+            <!-- ============================================================== -->
+            <!-- EXPEDIENTE DE EXPORTACIÓN ACTUALIZADO -->
+            <!-- ============================================================== -->
 
-    // Toggle Highlights
-    function toggleHighlight(category) {
-        const emailBox = document.getElementById('email-text');
-        const btn = document.querySelector(`.btn-${category}`);
-        
-        emailBox.classList.toggle(`show-${category}`);
-        btn.classList.toggle('active');
-    }
+            <!-- DOC 1: FACTURA COMERCIAL -->
+            <section id="doc-factura" class="content-section hidden fade-in">
+                <div class="document-paper">
+                    <div class="doc-header flex justify-between items-end">
+                        <div>
+                            <h2 class="text-2xl font-bold text-brand-800">ANDEAN PURE GRAINS S.A.C.</h2>
+                            <p class="text-sm">Av. Las Américas 123, La Victoria, Lima - Perú</p>
+                            <p class="text-sm">RUC: 20123456789 | Tel: +51 1 710-2030</p>
+                            <p class="text-sm text-blue-600">Andeanpure@gmail.com</p>
+                        </div>
+                        <div class="text-right">
+                            <h1 class="text-3xl font-bold text-slate-400">COMMERCIAL INVOICE</h1>
+                            <p class="font-bold mt-2">N°: INV-2026-001</p>
+                            <p class="text-sm">Date: 2026-04-07</p>
+                        </div>
+                    </div>
 
-    // Modal Logic
-    const modal = document.getElementById('modal');
-    
-    document.querySelectorAll('.error-word').forEach(word => {
-        word.addEventListener('click', function() {
-            // Only show modal if the category is currently highlighted
-            const classList = document.getElementById('email-text').classList;
-            const isPhrasalVisible = classList.contains('show-phrasal') && this.classList.contains('phrasal');
-            const isIdiomVisible = classList.contains('show-idiom') && this.classList.contains('idiom');
-            const isTechVisible = classList.contains('show-tech') && this.classList.contains('tech');
+                    <div class="grid grid-cols-2 gap-8 mb-8 text-sm">
+                        <div class="bg-slate-50 p-4 border border-slate-200 rounded">
+                            <p class="font-bold text-brand-800 border-b border-slate-300 pb-1 mb-2">CONSIGNEE (BUYER):</p>
+                            <p class="font-bold">UNFI (United Natural Foods, Inc.)</p>
+                            <p>11905 Riverside Dr</p>
+                            <p>Mira Loma, CA 91752, USA.</p>
+                            <p>Tax ID: 12-3456789</p>
+                            <p class="mt-2 text-slate-500">Contact: Operations Dept.</p>
+                        </div>
+                        <div class="p-4">
+                            <p><strong>Incoterm:</strong> DDP LOS ÁNGELES (INCOTERMS ® 2020)</p>
+                            <p><strong>Port of Loading:</strong> CALLAO, PERU</p>
+                            <p><strong>Port of Discharge:</strong> Port of Los Angeles, CA, USA</p>
+                            <p class="mt-2"><strong>Payment Terms:</strong> T/T 30% Adv, 70% vs B/L Copy</p>
+                        </div>
+                    </div>
 
-            if (isPhrasalVisible || isIdiomVisible || isTechVisible) {
-                const data = errorData[this.dataset.id];
+                    <table class="doc-table">
+                        <thead>
+                            <tr>
+                                <th>ITEM</th>
+                                <th>DESCRIPTION OF GOODS</th>
+                                <th>HS CODE</th>
+                                <th class="text-center">QTY</th>
+                                <th class="text-center">UNIT</th>
+                                <th class="text-right">U. PRICE</th>
+                                <th class="text-right">TOTAL USD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center font-mono text-xs">1</td>
+                                <td>Organic Peruvian Tricolor Quinoa - Retail Pouch 1 lb (454g)</td>
+                                <td class="font-mono text-xs text-center">1008.50.90.00</td>
+                                <td class="text-center">5000</td>
+                                <td class="text-center">Units</td>
+                                <td class="text-right">$6.40</td>
+                                <td class="text-right">$32,000.00</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" class="text-right font-bold p-2 text-slate-600">TOTAL EXW / FOB VALUE:</td>
+                                <td class="text-right font-bold p-2 text-slate-600">$32,000.00</td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" class="text-right font-bold p-2 text-slate-600">INTL. FREIGHT:</td>
+                                <td class="text-right font-bold p-2 text-slate-600">$2,500.00</td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" class="text-right font-bold p-2 text-slate-600">INSURANCE:</td>
+                                <td class="text-right font-bold p-2 text-slate-600">$500.00</td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" class="text-right font-bold text-lg p-3">TOTAL DDP VALUE:</td>
+                                <td class="text-right font-bold text-lg p-3 bg-brand-50">$35,000.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <div class="mt-24 w-64 text-center">
+                        <div class="border-t border-slate-400 pt-2">
+                            <p class="font-bold">Diego Castillo Flores</p>
+                            <p class="text-xs text-slate-500">Representante Legal</p>
+                            <p class="text-xs text-slate-500">Andean Pure Grains S.A.C.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DOC 2: PACKING LIST -->
+            <section id="doc-packing" class="content-section hidden fade-in">
+                <div class="document-paper">
+                    <div class="text-center mb-10">
+                        <h1 class="text-3xl font-bold text-brand-800">PACKING LIST</h1>
+                        <p class="text-slate-500 mt-2 font-mono">Ref. INV-2026-001</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6 mb-8 text-sm bg-slate-50 p-6 border border-slate-200 rounded">
+                        <div>
+                            <p><strong class="text-brand-800">EXPORTER (SHIPPER):</strong></p>
+                            <p>ANDEAN PURE GRAINS S.A.C.</p>
+                            <p>RUC: 20123456789</p>
+                            <p>Av. Las Américas 123, La Victoria, Lima - Perú</p>
+                            <p class="mt-4"><strong class="text-brand-800">CONSIGNEE (BUYER):</strong></p>
+                            <p>UNFI (United Natural Foods, Inc.)</p>
+                            <p>11905 Riverside Dr, Mira Loma, CA 91752, USA</p>
+                        </div>
+                        <div>
+                            <p><strong class="text-brand-800">DATE:</strong> 2026-04-07</p>
+                            <p><strong class="text-brand-800">INCOTERM:</strong> DDP LOS ÁNGELES</p>
+                            <p class="mt-4"><strong class="text-brand-800">SHIPPING MARKS:</strong></p>
+                            <p>ANDEAN-UNFI / LAX / 1-5</p>
+                            <p class="mt-2"><strong class="text-brand-800">CONTAINER/SEAL:</strong></p>
+                            <p>TBN-LAX-2026-001 / PE-987654</p>
+                        </div>
+                    </div>
+
+                    <table class="doc-table">
+                        <thead>
+                            <tr>
+                                <th>PKG NO</th>
+                                <th>DESCRIPTION OF GOODS</th>
+                                <th class="text-center">QTY</th>
+                                <th class="text-center">UNIT</th>
+                                <th class="text-right">NET WT (KG)</th>
+                                <th class="text-right">GROSS WT (KG)</th>
+                                <th class="text-right">DIMENSIONS (CM)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1/5 to 5/5<br>(Pallets)</td>
+                                <td>250 Cartons containing 5000 units x 1 lb (454g) Organic Peruvian Tricolor Quinoa</td>
+                                <td class="text-center">5000</td>
+                                <td class="text-center">Pouches</td>
+                                <td class="text-right">2,270.00</td>
+                                <td class="text-right">2,500.00</td>
+                                <td class="text-right">120x100x120</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="bg-brand-50 font-bold">
+                                <td colspan="2" class="text-right p-3">TOTAL QUANTITY:</td>
+                                <td class="text-center p-3">5,000</td>
+                                <td></td>
+                                <td class="text-right p-3 text-green-700">2,270.00 KGS</td>
+                                <td class="text-right p-3 text-red-700">2,500.00 KGS</td>
+                                <td class="text-right p-3">7.50 CBM</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </section>
+
+            <!-- DOC 3: DAM (FORMATOS A Y B) -->
+            <section id="doc-dam" class="content-section hidden fade-in">
                 
-                // Populate modal
-                document.getElementById('modal-tag').textContent = data.type;
-                document.getElementById('modal-tag').className = `modal-tag ${data.tagClass}`;
-                document.getElementById('modal-wrong').textContent = `"${data.wrong}"`;
-                document.getElementById('modal-right').textContent = data.right;
-                document.getElementById('modal-spanish').textContent = `(ES: ${data.spanish})`;
-                document.getElementById('modal-reason').textContent = data.reason;
-                
-                // Show modal
-                modal.classList.add('show');
-            }
-        });
-    });
+                <!-- FORMATO A -->
+                <div class="document-paper-dam">
+                    <div class="border-b-2 border-black pb-2 mb-4 flex justify-between items-center">
+                        <img src="https://www.sunat.gob.pe/cl-ti-itmenu/images/logo_sunat.gif" alt="SUNAT" class="h-10 opacity-50 grayscale">
+                        <div class="text-center w-full">
+                            <h1 class="text-xl font-bold">DECLARACIÓN ADUANERA DE MERCANCÍAS</h1>
+                            <p class="font-bold border border-black inline-block px-4 py-1 mt-1">FORMATO A</p>
+                        </div>
+                    </div>
 
-    function closeModal() {
-        modal.classList.remove('show');
-    }
+                    <div class="border border-black text-xs mb-4">
+                        <div class="grid grid-cols-12 border-b border-black">
+                            <div class="col-span-8 p-2 border-r border-black">
+                                <div class="dam-header-box">1. IDENTIFICACIÓN</div>
+                                <div class="grid grid-cols-2 gap-2 mt-2">
+                                    <div>
+                                        <p>1.1 Importador/Exportador</p>
+                                        <p class="font-bold">ANDEAN PURE GRAINS S.A.C.</p>
+                                    </div>
+                                    <div>
+                                        <p>1.2 Código y Documento de Identidad</p>
+                                        <p class="font-bold">4 / 20123456789</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-span-4 p-2">
+                                <div class="dam-header-box">2. REGISTRO DE ADUANAS</div>
+                                <p class="mt-2">Aduana de Despacho: <strong>118 (Marítima Callao)</strong></p>
+                                <p>Régimen: <strong>40 (Exportación Definitiva)</strong></p>
+                                <p>N° Declaración: <strong>118-2026-40-123456</strong></p>
+                            </div>
+                        </div>
 
-    // Close modal when clicking outside the card
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            closeModal();
+                        <div class="grid grid-cols-12 border-b border-black">
+                            <div class="col-span-8 p-2 border-r border-black">
+                                <div class="dam-header-box">3. TRANSPORTE</div>
+                                <div class="grid grid-cols-2 gap-2 mt-2">
+                                    <div>
+                                        <p>3.1 Vía Transporte / Código</p>
+                                        <p class="font-bold">MARÍTIMO / 1</p>
+                                    </div>
+                                    <div>
+                                        <p>3.2 Empresa de Transporte</p>
+                                        <p class="font-bold">MSC NATALIA V.124</p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 mt-2">
+                                    <div>
+                                        <p>3.3 Puerto de Embarque</p>
+                                        <p class="font-bold">PE CLL - CALLAO</p>
+                                    </div>
+                                    <div>
+                                        <p>3.4 Puerto de Desembarque</p>
+                                        <p class="font-bold">US LAX - LOS ANGELES</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-span-4 p-2">
+                                <div class="dam-header-box">4. ALMACÉN</div>
+                                <p class="mt-2">4.1 Depósito Temporal</p>
+                                <p class="font-bold">DP WORLD CALLAO S.R.L.</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-12 border-b border-black">
+                            <div class="col-span-12 p-2">
+                                <div class="dam-header-box">5. TRANSACCIÓN</div>
+                                <div class="grid grid-cols-4 gap-4 mt-2 text-center">
+                                    <div>
+                                        <p>5.1 Moneda</p>
+                                        <p class="font-bold">USD</p>
+                                    </div>
+                                    <div>
+                                        <p>5.2 Naturaleza Transacción</p>
+                                        <p class="font-bold">11</p>
+                                    </div>
+                                    <div>
+                                        <p>5.3 Incoterm</p>
+                                        <p class="font-bold">DDP</p>
+                                    </div>
+                                    <div>
+                                        <p>5.4 País de Destino</p>
+                                        <p class="font-bold">ESTADOS UNIDOS (US)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-12">
+                            <div class="col-span-8 p-2 border-r border-black">
+                                <div class="dam-header-box">6. VALOR ADUANA (Expresado en US$)</div>
+                                <div class="grid grid-cols-4 gap-2 mt-2 text-right">
+                                    <div>
+                                        <p>6.1 FOB</p>
+                                        <p class="font-bold">32,000.00</p>
+                                    </div>
+                                    <div>
+                                        <p>6.2 Flete</p>
+                                        <p class="font-bold">2,500.00</p>
+                                    </div>
+                                    <div>
+                                        <p>6.3 Seguro</p>
+                                        <p class="font-bold">500.00</p>
+                                    </div>
+                                    <div class="bg-gray-100 p-1 border border-black">
+                                        <p>6.4 TOTAL DDP</p>
+                                        <p class="font-bold">35,000.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-span-4 p-2">
+                                <div class="dam-header-box">7. TOTALES (Peso y Bultos)</div>
+                                <p class="mt-2 flex justify-between"><span>7.1 Peso Neto (Kg):</span> <strong class="text-right">2,270.00</strong></p>
+                                <p class="flex justify-between"><span>7.2 Peso Bruto (Kg):</span> <strong class="text-right">2,500.00</strong></p>
+                                <p class="flex justify-between"><span>7.3 Total Bultos:</span> <strong class="text-right">5 PALLETS</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-8">
+                        <div class="inline-block border-t border-black w-64 pt-1">
+                            <p class="font-bold text-sm">Firma del Declarante</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FORMATO B -->
+                <div class="document-paper-dam">
+                    <div class="border-b-2 border-black pb-2 mb-4 flex justify-between items-center">
+                        <img src="https://www.sunat.gob.pe/cl-ti-itmenu/images/logo_sunat.gif" alt="SUNAT" class="h-10 opacity-50 grayscale">
+                        <div class="text-center w-full">
+                            <h1 class="text-xl font-bold">DECLARACIÓN ADUANERA DE MERCANCÍAS</h1>
+                            <p class="font-bold border border-black inline-block px-4 py-1 mt-1">FORMATO B (DETALLE DE ÍTEMS)</p>
+                        </div>
+                    </div>
+
+                    <div class="border border-black text-xs mb-4">
+                        <div class="p-2 border-b border-black bg-slate-50">
+                            <div class="grid grid-cols-2 gap-4">
+                                <p>Declaración N°: <strong>118-2026-40-123456</strong></p>
+                                <p class="text-right">Importador/Exportador: <strong>ANDEAN PURE GRAINS S.A.C.</strong></p>
+                            </div>
+                        </div>
+
+                        <div class="p-2 border-b border-black">
+                            <div class="dam-header-box">5. DESCRIPCIÓN DE LA MERCANCÍA</div>
+                            <div class="grid grid-cols-12 gap-2 mt-2">
+                                <div class="col-span-1">
+                                    <p class="text-gray-500">5.1 Ítem</p>
+                                    <p class="font-bold text-center">1</p>
+                                </div>
+                                <div class="col-span-3">
+                                    <p class="text-gray-500">5.2 Subpartida Nacional</p>
+                                    <p class="font-bold">1008.50.90.00</p>
+                                </div>
+                                <div class="col-span-3">
+                                    <p class="text-gray-500">5.3 N° Factura Comercial</p>
+                                    <p class="font-bold">INV-2026-001</p>
+                                </div>
+                                <div class="col-span-2">
+                                    <p class="text-gray-500">5.4 Cód. Moneda</p>
+                                    <p class="font-bold text-center">USD</p>
+                                </div>
+                                <div class="col-span-3 text-right">
+                                    <p class="text-gray-500">5.5 FOB Unitario</p>
+                                    <p class="font-bold">$6.40</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 p-2 bg-gray-50 border border-dashed border-gray-400">
+                                <p class="text-gray-500 mb-1">5.6 Características, Tipo/Clase, Uso, Presentación, Material</p>
+                                <p class="font-bold uppercase tracking-wide">Quinua Peruana Orgánica En Grano Tricolor, Retail Pouch 1lb (454g). Apta para consumo humano.</p>
+                            </div>
+
+                            <div class="grid grid-cols-12 gap-2 mt-4">
+                                <div class="col-span-3">
+                                    <p class="text-gray-500">5.7 Cantidad Unidad Física</p>
+                                    <p class="font-bold">2,270.00</p>
+                                </div>
+                                <div class="col-span-3">
+                                    <p class="text-gray-500">5.8 Unidad Física</p>
+                                    <p class="font-bold">KG</p>
+                                </div>
+                                <div class="col-span-3">
+                                    <p class="text-gray-500">5.9 Cantidad Unid. Comerc.</p>
+                                    <p class="font-bold">5,000.00</p>
+                                </div>
+                                <div class="col-span-3">
+                                    <p class="text-gray-500">5.10 Unidad Comercial</p>
+                                    <p class="font-bold">U (Unidades)</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-12 gap-2 mt-4 border-t border-gray-200 pt-2">
+                                <div class="col-span-4">
+                                    <p class="text-gray-500">5.11 Marca Comercial</p>
+                                    <p class="font-bold">ANDEAN PURE GRAINS</p>
+                                </div>
+                                <div class="col-span-4">
+                                    <p class="text-gray-500">5.12 País de Origen</p>
+                                    <p class="font-bold">PE (PERÚ)</p>
+                                </div>
+                                <div class="col-span-4 text-right">
+                                    <p class="text-gray-500">5.13 Total FOB Ítem (US$)</p>
+                                    <p class="font-bold">32,000.00</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- DOC 4: B/L -->
+            <section id="doc-bl" class="content-section hidden fade-in">
+                <div class="document-paper relative">
+                    <div class="absolute inset-0 opacity-[0.03] flex items-center justify-center pointer-events-none">
+                        <i class="fa-solid fa-ship text-[400px]"></i>
+                    </div>
+                    <div class="flex justify-between items-center border-b-4 border-blue-900 pb-4 mb-6">
+                        <h1 class="text-3xl font-bold text-blue-900">OCEAN BILL OF LADING (DRAFT)</h1>
+                        <p class="text-xl font-mono text-red-600 font-bold">B/L: TBN-LAX-2026-001</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-0 border-2 border-black text-sm">
+                        <div class="border-r-2 border-b-2 border-black p-3 h-32">
+                            <p class="font-bold text-xs text-slate-500">1. SHIPPER / EXPORTER</p>
+                            <p class="font-bold mt-1">ANDEAN PURE GRAINS S.A.C.</p>
+                            <p>Av. Las Américas 123, La Victoria, Lima - Perú</p>
+                            <p>RUC: 20123456789</p>
+                        </div>
+                        <div class="border-b-2 border-black p-3 h-32">
+                            <p class="font-bold text-xs text-slate-500">B/L NO.</p>
+                            <p class="font-mono mt-1">TBN-LAX-2026-001</p>
+                        </div>
+                        
+                        <div class="border-r-2 border-b-2 border-black p-3 h-32">
+                            <p class="font-bold text-xs text-slate-500">2. CONSIGNEE</p>
+                            <p class="font-bold mt-1">UNFI (United Natural Foods, Inc.)</p>
+                            <p>11905 Riverside Dr, Mira Loma, CA 91752, USA</p>
+                        </div>
+                        <div class="border-b-2 border-black p-3 h-32 bg-slate-50">
+                            <p class="font-bold text-xs text-slate-500">NOTIFY PARTY</p>
+                            <p class="mt-1">SAME AS CONSIGNEE</p>
+                        </div>
+
+                        <div class="col-span-2 grid grid-cols-4 border-b-2 border-black">
+                            <div class="p-3 border-r border-black">
+                                <p class="font-bold text-xs text-slate-500">OCEAN VESSEL</p>
+                                <p class="font-bold mt-1">MSC NATALIA V.124</p>
+                            </div>
+                            <div class="p-3 border-r border-black">
+                                <p class="font-bold text-xs text-slate-500">PORT OF LOADING</p>
+                                <p class="font-bold mt-1">CALLAO, PERU</p>
+                            </div>
+                            <div class="p-3 border-r border-black col-span-2">
+                                <p class="font-bold text-xs text-slate-500">PORT OF DISCHARGE</p>
+                                <p class="font-bold mt-1">LOS ANGELES, USA</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table class="w-full border-x-2 border-b-2 border-black mt-0 text-sm">
+                        <thead class="border-b-2 border-black bg-slate-100">
+                            <tr>
+                                <th class="p-2 border-r border-black text-left">MARKS & NOS.</th>
+                                <th class="p-2 border-r border-black text-center">NO. OF PKGS</th>
+                                <th class="p-2 border-r border-black text-left">DESCRIPTION OF GOODS</th>
+                                <th class="p-2 text-right">GROSS WT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="h-48 align-top">
+                                <td class="p-3 border-r border-black font-mono text-xs">
+                                    ANDEAN-UNFI<br>
+                                    LAX<br>
+                                    1-5<br><br>
+                                    SEAL:<br>PE-987654
+                                </td>
+                                <td class="p-3 border-r border-black text-center font-bold">5 PALLETS<br>(250 BOXES)</td>
+                                <td class="p-3 border-r border-black">
+                                    <strong>SAID TO CONTAIN: ORGANIC TRICOLOR QUINOA</strong><br>
+                                    HS CODE: 1008.50.90.00<br><br>
+                                    <span class="text-xs italic">FREIGHT PREPAID</span><br>
+                                    <span class="text-xs italic">CLEAN ON BOARD</span>
+                                </td>
+                                <td class="p-3 text-right font-bold">2,500.00 KGS<br><br>7.50 CBM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- DOC 5: CERTIFICADO DE ORIGEN -->
+            <section id="doc-origen" class="content-section hidden fade-in">
+                <div class="document-paper">
+                    <h1 class="text-xl font-bold text-center mb-6">CERTIFICATE OF ORIGIN<br><span class="text-sm font-normal">US-Peru Trade Promotion Agreement (PTPA)</span></h1>
+                    
+                    <div class="border border-black text-sm">
+                        <div class="grid grid-cols-2 border-b border-black">
+                            <div class="p-3 border-r border-black">
+                                <p class="text-xs font-bold mb-1">1. EXPORTER NAME AND ADDRESS:</p>
+                                <p>ANDEAN PURE GRAINS S.A.C.</p>
+                                <p>Av. Las Américas 123, La Victoria, Lima - Perú</p>
+                                <p>RUC: 20123456789</p>
+                            </div>
+                            <div class="p-3">
+                                <p class="text-xs font-bold mb-1">2. PRODUCER NAME AND ADDRESS:</p>
+                                <p>SAME AS EXPORTER</p>
+                            </div>
+                        </div>
+                        <div class="border-b border-black p-3">
+                            <p class="text-xs font-bold mb-1">3. IMPORTER NAME AND ADDRESS:</p>
+                            <p>UNFI (United Natural Foods, Inc.)</p>
+                            <p>11905 Riverside Dr, Mira Loma, CA 91752, USA</p>
+                        </div>
+                        
+                        <table class="w-full text-xs text-center border-collapse">
+                            <thead class="bg-slate-100">
+                                <tr>
+                                    <th class="border-b border-r border-black p-2 w-1/3 text-left">4. DESCRIPTION OF GOODS</th>
+                                    <th class="border-b border-r border-black p-2">5. HS CODE</th>
+                                    <th class="border-b border-r border-black p-2">6. CRITERION</th>
+                                    <th class="border-b border-r border-black p-2">7. GROSS WT</th>
+                                    <th class="border-b border-black p-2">8. INVOICE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="h-24 align-top">
+                                    <td class="border-r border-black p-2 text-left">Organic Peruvian Tricolor Quinoa</td>
+                                    <td class="border-r border-black p-2">1008.50.90.00</td>
+                                    <td class="border-r border-black p-2 font-bold">WO</td>
+                                    <td class="border-r border-black p-2">2,500.00 KGS</td>
+                                    <td class="p-2">INV-2026-001</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DOC 6: SENASA CVE-03 -->
+            <section id="doc-cve03" class="content-section hidden fade-in">
+                <div class="document-paper">
+                    <div class="text-right text-xs font-bold mb-4">(Formato cod.: CVE-03)</div>
+                    <h1 class="text-lg font-bold text-center mb-8">SOLICITUD PARA LA CERTIFICACIÓN DE PLANTAS DE TRATAMIENTO Y/O EMPAQUE</h1>
+                    
+                    <div class="space-y-6 text-sm">
+                        <!-- PARTE I -->
+                        <div>
+                            <div class="bg-slate-200 p-1 font-bold mb-2">PARTE I. INFORMACIÓN DE LA EMPRESA SOLICITANTE</div>
+                            <div class="grid grid-cols-12 gap-2 mb-2">
+                                <div class="col-span-8"><strong>1. NOMBRE O RAZÓN SOCIAL:</strong> Andean Pure Grains S.A.C.</div>
+                                <div class="col-span-4"><strong>2. R.U.C. N°:</strong> 20123456789</div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-2 mb-2">
+                                <div class="col-span-8"><strong>3. DOMICILIO LEGAL:</strong> Av. Las Américas</div>
+                                <div class="col-span-4"><strong>4. N°:</strong> 123</div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 mb-2">
+                                <div><strong>5. URBANIZACIÓN:</strong> Sta. Catalina</div>
+                                <div><strong>6. DISTRITO:</strong> La Victoria</div>
+                                <div><strong>7. DEPARTAMENTO:</strong> Lima</div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-2">
+                                <div class="col-span-8"><strong>12. REPRESENTANTE LEGAL:</strong> Diego Castillo Flores</div>
+                                <div class="col-span-4"><strong>13. DNI:</strong> 76543210</div>
+                            </div>
+                        </div>
+
+                        <!-- PARTE II -->
+                        <div>
+                            <div class="bg-slate-200 p-1 font-bold mb-2">PARTE II. DEL TIPO DE CERTIFICACIÓN</div>
+                            <div class="flex gap-8 mb-3 font-mono text-xs">
+                                <div>[ &nbsp;] a. PLANTA DE TRATAMIENTO</div>
+                                <div class="font-bold text-brand-800">[ X ] b. PLANTA DE TRATAMIENTO Y EMPAQUE</div>
+                            </div>
+                        </div>
+
+                        <!-- PARTE III -->
+                        <div>
+                            <div class="bg-slate-200 p-1 font-bold mb-2">PARTE III. DE LA ESPECIE VEGETAL</div>
+                            <p><strong>16. ESPECIE:</strong> Quinua Orgánica (<em>Chenopodium quinoa</em>) &nbsp;&nbsp; <strong>17. PARTIDA:</strong> 1008.50.90.00</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-24 text-center w-64 mx-auto">
+                        <div class="border-t-2 border-black pt-2">
+                            <p class="font-bold text-sm">Firma y Sello</p>
+                            <p class="text-xs">Diego Castillo Flores</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DOC 7: SENASA CA-02-03 (RIV) -->
+            <section id="doc-ca0203" class="content-section hidden fade-in">
+                <div class="document-paper">
+                    <div class="text-right text-xs font-bold mb-4">(Formato cod.: CA-02-03)</div>
+                    <h1 class="text-lg font-bold text-center mb-6">SOLICITUD PARA REPORTE DE INSPECCIÓN Y VERIFICACIÓN (RIV)</h1>
+
+                    <div class="space-y-6 text-sm">
+                        <!-- PARTE I -->
+                        <div>
+                            <div class="bg-slate-200 p-1 font-bold mb-2">PARTE I. INFORMACIÓN DEL IMPORTADOR / SOLICITANTE</div>
+                            <div class="grid grid-cols-12 gap-2 mb-2">
+                                <div class="col-span-8"><strong>1. RAZÓN SOCIAL:</strong> Andean Pure Grains S.A.C.</div>
+                                <div class="col-span-4"><strong>2. RUC N°:</strong> 20123456789</div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-2 mb-2">
+                                <div class="col-span-8"><strong>3. DOMICILIO LEGAL:</strong> Av. Las Américas 123, Santa Catalina</div>
+                                <div class="col-span-4"><strong>5. DISTRITO:</strong> La Victoria</div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-2 mb-2">
+                                <div class="col-span-8"><strong>7. REGIÓN:</strong> Lima</div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-2">
+                                <div class="col-span-8"><strong>11. REPRESENTANTE LEGAL:</strong> Diego Castillo Flores</div>
+                                <div class="col-span-4"><strong>12. DNI:</strong> 76543210</div>
+                            </div>
+                        </div>
+
+                        <!-- PARTE V -->
+                        <div>
+                            <div class="bg-slate-200 p-1 font-bold mb-2">PARTE V. INFORMACIÓN DEL ENVÍO Y PROCEDENCIA (Tránsito/Emb)</div>
+                            <div class="grid grid-cols-2 gap-2 mb-2">
+                                <div><strong>38. PAÍS DE ORIGEN:</strong> Perú</div>
+                                <div><strong>39. PAÍS DESTINO:</strong> Estados Unidos</div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div><strong>40. PUNTO DE INGRESO/SALIDA:</strong> Pto Marítimo Callao</div>
+                                <div><strong>42. B/L:</strong> TBN-LAX-2026-001</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-24 text-center w-64 mx-auto">
+                        <div class="border-t-2 border-black pt-2">
+                            <p class="font-bold text-sm">Firma y Sello</p>
+                            <p class="text-xs">Diego Castillo Flores</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DOC 8: CERTIFICADO FITOSANITARIO -->
+            <section id="doc-fito" class="content-section hidden fade-in">
+                <div class="document-paper border-8 border-double border-green-800 p-10">
+                    <div class="text-center mb-8 border-b-2 border-green-800 pb-4">
+                        <h1 class="text-xl font-bold">REPÚBLICA DEL PERÚ - SENASA</h1>
+                        <h2 class="text-2xl font-bold mt-2 text-green-900">CERTIFICADO FITOSANITARIO</h2>
+                        <p class="text-sm italic">Phytosanitary Certificate</p>
+                    </div>
+
+                    <div class="space-y-4 text-sm">
+                        <div class="bg-green-50 p-2 font-bold border-b border-green-200">I. Organización de Protección Fitosanitaria de Perú a la Organización de EE.UU.</div>
+                        
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="col-span-1 font-bold">Nombre y Dirección del Exportador:</div>
+                            <div class="col-span-2">Andean Pure Grains S.A.C., Av. Las Américas 123, La Victoria, Lima - RUC 20123456789</div>
+                            
+                            <div class="col-span-1 font-bold">Nombre y Dirección del Destinatario:</div>
+                            <div class="col-span-2">UNFI (United Natural Foods, Inc.), Mira Loma, CA, USA</div>
+                            
+                            <div class="col-span-1 font-bold">Medios de Transporte:</div>
+                            <div class="col-span-2">Vía Marítima (Vessel: MSC NATALIA V.124)</div>
+                            
+                            <div class="col-span-1 font-bold">Cantidad y Descripción:</div>
+                            <div class="col-span-2">5,000 Doypacks - QUINUA EN GRANO (Chenopodium quinoa) - 2,270.00 KG Netos.</div>
+                        </div>
+
+                        <div class="bg-green-50 p-2 font-bold border-b border-green-200 mt-8">II. Declaración Adicional / Additional Declaration</div>
+                        <div class="p-4 border-2 border-red-500 text-red-800 font-bold bg-red-50 text-center uppercase tracking-wider rounded">
+                            SIN DECLARACIÓN ADICIONAL. No requiere tratamiento cuarentenario.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script>
+        function showSection(sectionId, element) {
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            element.classList.add('active');
+
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.add('hidden');
+                section.classList.remove('fade-in');
+            });
+
+            const target = document.getElementById(sectionId);
+            target.classList.remove('hidden');
+            void target.offsetWidth;
+            target.classList.add('fade-in');
+            
+            document.querySelector('main').scrollTo({ top: 0, behavior: 'smooth' });
         }
-    }
-</script>
-
+    </script>
 </body>
 </html>
