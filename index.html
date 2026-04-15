@@ -8,8 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts: Inter (UI), Courier Prime (Docs) -->
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Inter (UI), Courier Prime (Docs), Caveat (Signatures) -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -17,7 +17,8 @@
                 extend: {
                     fontFamily: { 
                         sans: ['Inter', 'sans-serif'],
-                        mono: ['Courier Prime', 'monospace']
+                        mono: ['Courier Prime', 'monospace'],
+                        signature: ['Caveat', 'cursive']
                     },
                     colors: {
                         brand: { 50: '#f4f1ea', 100: '#e9e2d5', 500: '#D4AF37', 600: '#b5952f', 800: '#3E2723', 900: '#271816' },
@@ -96,7 +97,7 @@
     <aside class="w-[300px] bg-white border-r border-slate-200 flex flex-col h-full shadow-sm z-20 shrink-0 overflow-hidden no-print">
         <div class="p-6 border-b border-slate-100 bg-brand-800 text-white relative overflow-hidden">
             <i class="fa-solid fa-ship absolute -right-4 -bottom-4 text-[80px] opacity-10"></i>
-            <h1 class="text-xl font-bold tracking-tight">ADEX <span class="text-brand-500">Escuela</span> <span class="text-[9px] font-mono bg-white/20 text-white px-1.5 py-0.5 rounded ml-1 align-text-top" title="Versión actual del portal">v2.0</span></h1>
+            <h1 class="text-xl font-bold tracking-tight">ADEX <span class="text-brand-500">Escuela</span> <span class="text-[9px] font-mono bg-white/20 text-white px-1.5 py-0.5 rounded ml-1 align-text-top" title="Versión actual del portal">v2.1</span></h1>
             <p class="text-[10px] text-brand-100 mt-1 uppercase tracking-widest opacity-80 italic">Proyecto Integrador II</p>
             <div class="mt-5 pt-5 border-t border-brand-600/30">
                 <p class="text-sm font-bold truncate uppercase text-brand-500">Andean Pure Grains S.A.C.</p>
@@ -108,10 +109,10 @@
             <div class="px-6 mb-2 mt-2">
                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Resumen Operativo</p>
             </div>
-            <a onclick="showSection('dashboard', this)" class="nav-link active flex items-center px-6 py-2.5 text-sm text-slate-600">
+            <a onclick="showSection('dashboard', this)" class="nav-link active flex items-center px-6 py-2.5 text-sm text-slate-600" data-target="dashboard">
                 <i class="fa-solid fa-chart-pie w-6 text-center"></i> Dashboard & Proceso
             </a>
-            <a onclick="showSection('senasa', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
+            <a onclick="showSection('senasa', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600" data-target="senasa">
                 <i class="fa-solid fa-microscope w-6 text-center"></i> Requisitos SENASA
             </a>
 
@@ -168,7 +169,7 @@
                 <p>• Tamia Obregón</p>
             </div>
             <div class="mt-4 text-center text-[8px] text-slate-400 font-mono tracking-widest">
-                VERSIÓN 2.0 - EXPEDIENTE DIGITAL
+                VERSIÓN 2.1 - EXPEDIENTE DIGITAL
             </div>
         </div>
     </aside>
@@ -231,8 +232,8 @@
                             <h4 class="font-bold text-slate-800 text-base mb-1">Negociación y Preparación de Carga</h4>
                             <p class="text-xs text-slate-500 mb-3">Emisión de los documentos comerciales base para la exportación.</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="doc-badge badge-comercial" onclick="showSection('doc-factura')"><i class="fa-solid fa-file-invoice"></i> Factura Comercial</span>
-                                <span class="doc-badge badge-comercial" onclick="showSection('doc-packing')"><i class="fa-solid fa-box"></i> Packing List</span>
+                                <span class="doc-badge badge-comercial" onclick="showSection('doc-factura', document.querySelector('.nav-link[data-target=\'doc-factura\']'))"><i class="fa-solid fa-file-invoice"></i> Factura Comercial</span>
+                                <span class="doc-badge badge-comercial" onclick="showSection('doc-packing', document.querySelector('.nav-link[data-target=\'doc-packing\']'))"><i class="fa-solid fa-box"></i> Packing List</span>
                             </div>
                         </div>
 
@@ -242,9 +243,9 @@
                             <h4 class="font-bold text-slate-800 text-base mb-1">Gestión y Autorización Sanitaria</h4>
                             <p class="text-xs text-slate-500 mb-3">Certificación de planta, inspección de lote y emisión del Fitosanitario por SENASA.</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="doc-badge badge-sanitario" onclick="showSection('doc-cve03')"><i class="fa-solid fa-building-circle-check"></i> Formato CVE-03</span>
-                                <span class="doc-badge badge-sanitario" onclick="showSection('doc-ca0203')"><i class="fa-solid fa-file-signature"></i> Formato RIV</span>
-                                <span class="doc-badge badge-sanitario" onclick="showSection('doc-fito')"><i class="fa-solid fa-certificate"></i> Cert. Fitosanitario</span>
+                                <span class="doc-badge badge-sanitario" onclick="showSection('doc-cve03', document.querySelector('.nav-link[data-target=\'doc-cve03\']'))"><i class="fa-solid fa-building-circle-check"></i> Formato CVE-03</span>
+                                <span class="doc-badge badge-sanitario" onclick="showSection('doc-ca0203', document.querySelector('.nav-link[data-target=\'doc-ca0203\']'))"><i class="fa-solid fa-file-signature"></i> Formato RIV</span>
+                                <span class="doc-badge badge-sanitario" onclick="showSection('doc-fito', document.querySelector('.nav-link[data-target=\'doc-fito\']'))"><i class="fa-solid fa-certificate"></i> Cert. Fitosanitario</span>
                             </div>
                         </div>
 
@@ -254,9 +255,9 @@
                             <h4 class="font-bold text-slate-800 text-base mb-1">Aduanas y Control Portuario</h4>
                             <p class="text-xs text-slate-500 mb-3">Numeración de la DUA/DAM y validación de seguridad antinarcóticos.</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="doc-badge badge-aduanas" onclick="showSection('doc-dam-a')"><i class="fa-solid fa-file-lines"></i> DAM Formato A</span>
-                                <span class="doc-badge badge-aduanas" onclick="showSection('doc-dam-b')"><i class="fa-solid fa-list-check"></i> DAM Formato B</span>
-                                <span class="doc-badge badge-aduanas" onclick="showSection('doc-carta')"><i class="fa-solid fa-shield-halved"></i> Carta Responsabilidad (DIRANDRO)</span>
+                                <span class="doc-badge badge-aduanas" onclick="showSection('doc-dam-a', document.querySelector('.nav-link[data-target=\'doc-dam-a\']'))"><i class="fa-solid fa-file-lines"></i> DAM Formato A</span>
+                                <span class="doc-badge badge-aduanas" onclick="showSection('doc-dam-b', document.querySelector('.nav-link[data-target=\'doc-dam-b\']'))"><i class="fa-solid fa-list-check"></i> DAM Formato B</span>
+                                <span class="doc-badge badge-aduanas" onclick="showSection('doc-carta', document.querySelector('.nav-link[data-target=\'doc-carta\']'))"><i class="fa-solid fa-shield-halved"></i> Carta Responsabilidad (DIRANDRO)</span>
                             </div>
                         </div>
 
@@ -266,8 +267,8 @@
                             <h4 class="font-bold text-slate-800 text-base mb-1">Embarque Internacional y Origen</h4>
                             <p class="text-xs text-slate-500 mb-3">Emisión del documento de transporte e ingreso al marco de preferencias arancelarias (PTPA).</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="doc-badge badge-logistica" onclick="showSection('doc-bl')"><i class="fa-solid fa-anchor"></i> Bill of Lading (B/L)</span>
-                                <span class="doc-badge badge-logistica" onclick="showSection('doc-origen')"><i class="fa-solid fa-globe"></i> Certificado de Origen</span>
+                                <span class="doc-badge badge-logistica" onclick="showSection('doc-bl', document.querySelector('.nav-link[data-target=\'doc-bl\']'))"><i class="fa-solid fa-anchor"></i> Bill of Lading (B/L)</span>
+                                <span class="doc-badge badge-logistica" onclick="showSection('doc-origen', document.querySelector('.nav-link[data-target=\'doc-origen\']'))"><i class="fa-solid fa-globe"></i> Certificado de Origen</span>
                             </div>
                         </div>
                     </div>
@@ -534,281 +535,583 @@
                 </div>
             </section>
 
-            <!-- DOCUMENT 03: DAM FORMATO A (Réplica SUNAT) -->
+            <!-- DOCUMENT 03: DAM FORMATO A (Réplica SUNAT ALTAMENTE DETALLADA) -->
             <section id="doc-dam-a" class="content-section hidden fade-in">
-                <div class="document-paper">
+                <div class="document-paper !p-10">
                     <!-- SUNAT Header -->
-                    <div class="flex justify-between items-center mb-4 border-b-2 border-black pb-2">
-                        <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Sunat-Logo-Vector.svg-.png" alt="SUNAT Logo" class="h-10 w-auto object-contain">
+                    <div class="flex justify-between items-start mb-2 border-b-[1.5px] border-black pb-2">
+                        <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Sunat-Logo-Vector.svg-.png" alt="SUNAT Logo" class="h-14 w-auto object-contain">
                         <div class="text-center flex-1">
-                            <h1 class="text-[16px] font-extrabold uppercase tracking-tight leading-tight">Declaración Única de Aduanas</h1>
-                            <div class="font-bold border-2 border-black px-6 py-0.5 inline-block mt-1 text-sm bg-white tracking-widest">FORMATO A</div>
+                            <h1 class="text-[16px] font-extrabold uppercase tracking-tight leading-none text-black mt-2">Declaración Única de Aduanas</h1>
+                            <div class="font-bold border-[1.5px] border-black px-6 py-0.5 inline-block mt-1 text-[11px] bg-white tracking-widest shadow-sm">FORMATO A</div>
                         </div>
-                        <div class="text-right flex flex-col justify-end">
-                            <p class="text-[8px] font-bold border border-black px-2 py-0.5 mb-1">DESTINACIÓN: <span class="text-sm">40</span></p>
-                            <p class="text-[8px] font-bold border border-black px-2 py-0.5">MODALIDAD: <span class="text-sm">00</span></p>
+                        <div class="text-right flex items-start gap-1">
+                            <div class="text-center">
+                                <p class="text-[6px] font-bold uppercase mb-0.5">N° Orden</p>
+                                <p class="text-[10px] font-bold border-[1.5px] border-black px-3 py-0.5 bg-white font-mono">001</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-[6px] font-bold uppercase mb-0.5">Destinación</p>
+                                <p class="text-[10px] font-bold border-[1.5px] border-black px-3 py-0.5 bg-white font-mono">40</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-[6px] font-bold uppercase mb-0.5">Modalidad</p>
+                                <p class="text-[10px] font-bold border-[1.5px] border-black px-3 py-0.5 bg-white font-mono">00</p>
+                            </div>
                         </div>
                     </div>
 
                     <!-- DAM Grid Base -->
-                    <div class="dam-container bg-white text-[10px] uppercase font-mono">
+                    <div class="border-[1.5px] border-black bg-white text-[7px] uppercase font-sans text-black leading-tight flex flex-col">
                         
                         <!-- Bloque 1 & 2 -->
-                        <div class="dam-row h-24">
-                            <div class="w-[70%] dam-cell border-b-0">
-                                <div class="dam-label">1. Identificación</div>
-                                <div class="grid grid-cols-12 gap-2 h-full mt-1">
-                                    <div class="col-span-8">
-                                        <p class="text-[7px] text-slate-500 font-sans">1.1 Importador/Exportador:</p>
-                                        <p class="dam-value text-[11px] font-bold leading-tight tracking-tight mt-1">ANDEAN PURE GRAINS S.A.C.</p>
-                                        <p class="text-[7px] text-slate-500 font-sans mt-2">1.3 Dirección del Importador/Exportador:</p>
-                                        <p class="text-[9px] font-bold mt-1">AV. LAS AMERICAS 123, LA VICTORIA, LIMA</p>
+                        <div class="flex w-full border-b border-black h-24">
+                            <div class="w-[70%] border-r border-black flex flex-col">
+                                <div class="font-bold text-[8px] bg-slate-200 border-b border-black p-1">1 IDENTIFICACION</div>
+                                <div class="flex h-full w-full">
+                                    <div class="w-[60%] border-r border-black p-1 flex flex-col justify-between">
+                                        <div>
+                                            <p class="text-[6px] text-slate-600">1.1 Importador/Exportador:</p>
+                                            <p class="font-extrabold text-[10px] mt-0.5 tracking-tight font-mono">ANDEAN PURE GRAINS S.A.C.</p>
+                                        </div>
+                                        <div class="border-t border-dotted border-slate-400 pt-1">
+                                            <p class="text-[6px] text-slate-600">1.3 Dirección del Importador/Exportador:</p>
+                                            <p class="font-bold text-[8px] mt-0.5">AV. LAS AMERICAS 123, LA VICTORIA, LIMA</p>
+                                        </div>
                                     </div>
-                                    <div class="col-span-4 border-l border-black pl-2 flex flex-col">
-                                        <p class="text-[7px] text-slate-500 font-sans">1.2 Código y Documento de Identificación:</p>
-                                        <p class="dam-value font-bold text-sm tracking-wider mt-2">4 / 20123456789</p>
-                                        <p class="text-[7px] text-slate-500 font-sans mt-auto">1.4 Cód. Ubi. Geo.:</p>
-                                        <p class="text-[9px] font-bold">150115</p>
+                                    <div class="w-[40%] p-1 flex flex-col justify-between">
+                                        <div>
+                                            <p class="text-[6px] text-slate-600">1.2 Código y Documento de Identificación:</p>
+                                            <p class="font-extrabold text-[10px] tracking-widest mt-0.5 font-mono">4 / 20123456789</p>
+                                        </div>
+                                        <div class="flex border-t border-dotted border-slate-400 pt-1 divide-x divide-slate-400">
+                                            <div class="w-1/2 pr-1">
+                                                <p class="text-[6px] text-slate-600">1.4 Cód. Ubi. Geo.:</p>
+                                                <p class="font-bold text-[9px] mt-0.5 font-mono">150115</p>
+                                            </div>
+                                            <div class="w-1/2 pl-1">
+                                                <p class="text-[6px] text-slate-600">Sujeto a:</p>
+                                                <p class="font-bold text-[9px] mt-0.5 font-mono">---</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="w-[30%] dam-cell bg-slate-100 border-b-0">
-                                <div class="dam-label">2. Registro de Aduana</div>
-                                <div class="mt-1 space-y-1 flex flex-col h-full">
-                                    <p class="text-[8px] font-bold flex justify-between"><span>Aduana:</span> <span class="text-sm">118</span></p>
-                                    <p class="text-[7px] text-right font-normal">(MARÍTIMA CALLAO)</p>
-                                    <p class="text-[8px] font-bold mt-2">N° Declaración:</p>
-                                    <p class="text-sm font-extrabold tracking-widest text-blue-900 bg-white border border-black px-1 text-center py-1 shadow-inner">118-2026-40-001234</p>
-                                    <p class="text-[8px] flex justify-between mt-auto font-bold border-t border-slate-300 pt-1"><span>Fecha Num.:</span><span>07/04/2026</span></p>
+                            <div class="w-[30%] flex flex-col bg-slate-100">
+                                <div class="font-bold text-[8px] bg-slate-200 border-b border-black p-1">2 REGISTRO DE ADUANA</div>
+                                <div class="p-1.5 flex flex-col h-full justify-between">
+                                    <div class="flex justify-between items-center border-b border-dotted border-slate-400 pb-1">
+                                        <span class="text-[7px] text-slate-600">Aduana:</span>
+                                        <span class="font-bold text-[9px] font-mono">118 (MARÍTIMA CALLAO)</span>
+                                    </div>
+                                    <div class="py-1">
+                                        <span class="block mb-0.5 text-[7px] text-slate-600">N° Declaración:</span>
+                                        <span class="font-extrabold text-[12px] tracking-widest text-blue-900 font-mono block text-center border-[1.5px] border-black bg-white py-0.5 shadow-inner">118-2026-40-001234</span>
+                                    </div>
+                                    <div class="flex justify-between items-center border-t border-dotted border-slate-400 pt-1">
+                                        <span class="text-[7px] text-slate-600">Fecha Numeración:</span>
+                                        <span class="font-extrabold text-[10px] font-mono">07/04/2026</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Bloque 3 -->
-                        <div class="dam-header-bg border-t border-black">3. Transporte</div>
-                        <div class="dam-row h-14">
-                            <div class="w-[35%] dam-cell">
-                                <div class="dam-label">3.1 Empresa Transporte</div>
-                                <p class="dam-value font-bold text-[11px] mt-1">MSC NATALIA V.124</p>
+                        <div class="font-bold text-[8px] bg-slate-200 border-b border-black p-1">3 TRANSPORTE</div>
+                        <div class="flex w-full border-b border-black h-16">
+                            <div class="w-[30%] border-r border-black p-1 flex flex-col justify-between">
+                                <div>
+                                    <p class="text-[6px] text-slate-600">3.1 Empresa Transporte:</p>
+                                    <p class="font-bold text-[9px] mt-0.5">MSC NATALIA V.124</p>
+                                </div>
+                                <div class="border-t border-dotted border-slate-400 pt-0.5">
+                                    <p class="text-[6px] text-slate-600">3.5 Emp. Transp. (Tránsito/Reembarque):</p>
+                                    <p class="font-bold text-[8px]">---</p>
+                                </div>
                             </div>
-                            <div class="w-[20%] dam-cell text-center">
-                                <div class="dam-label">3.2 N° Manifiesto</div>
-                                <p class="dam-value font-bold mt-1">2026-0458</p>
+                            <div class="w-[15%] border-r border-black p-1 text-center flex flex-col justify-center">
+                                <p class="text-[6px] text-slate-600">3.2 N° Manifiesto:</p>
+                                <p class="font-bold text-[10px] mt-0.5 font-mono">2026-0458</p>
                             </div>
-                            <div class="w-[15%] dam-cell text-center">
-                                <div class="dam-label">3.3 Vía</div>
-                                <p class="dam-value font-extrabold text-sm mt-1">1 <span class="text-[7px] font-normal">(MAR)</span></p>
+                            <div class="w-[10%] border-r border-black p-1 text-center flex flex-col justify-center">
+                                <p class="text-[6px] text-slate-600">3.3 Vía:</p>
+                                <p class="font-extrabold text-[10px] mt-0.5 font-mono">1 <span class="text-[6px] font-normal">(MAR)</span></p>
                             </div>
-                            <div class="w-[15%] dam-cell text-center">
-                                <div class="dam-label">3.4 Fecha</div>
-                                <p class="dam-value font-bold mt-1">07/04</p>
+                            <div class="w-[15%] border-r border-black p-1 text-center flex flex-col justify-center">
+                                <p class="text-[6px] text-slate-600">3.4 Fecha Término:</p>
+                                <p class="font-bold text-[9px] mt-0.5 font-mono">07/04/2026</p>
                             </div>
-                            <div class="w-[15%] dam-cell text-center">
-                                <div class="dam-label">3.6 Placa/Vuelo</div>
-                                <p class="dam-value font-bold mt-1">---</p>
+                            <div class="w-[15%] border-r border-black p-1 text-center flex flex-col justify-center">
+                                <p class="text-[6px] text-slate-600">3.6 Unidad Transp.:</p>
+                                <p class="font-bold text-[9px] mt-0.5">---</p>
+                            </div>
+                            <div class="w-[15%] p-1 text-center flex flex-col justify-center bg-slate-50">
+                                <p class="text-[6px] text-slate-600">Referencia Carga:</p>
+                                <p class="font-bold text-[8px] mt-0.5 font-mono">LOTE APG-04</p>
                             </div>
                         </div>
 
                         <!-- Bloque 4 & 5 -->
-                        <div class="dam-row h-14">
-                            <div class="w-1/2 flex flex-col border-r border-black">
-                                <div class="dam-header-bg border-b border-black">4. Almacén</div>
-                                <div class="flex flex-1">
-                                    <div class="w-2/3 dam-cell border-r border-black">
-                                        <div class="dam-label">4.1 Terminal de Almacenamiento</div>
-                                        <p class="dam-value text-[9px] mt-1">3100 - DP WORLD CALLAO</p>
+                        <div class="flex w-full border-b border-black">
+                            <div class="w-1/2 border-r border-black flex flex-col">
+                                <div class="font-bold text-[8px] bg-slate-200 border-b border-black p-1">4 ALMACEN</div>
+                                <div class="flex w-full h-10">
+                                    <div class="w-[65%] border-r border-black p-1 flex flex-col justify-center">
+                                        <p class="text-[6px] text-slate-600">4.1 Terminal de Almacenamiento:</p>
+                                        <p class="font-extrabold text-[9px] mt-0.5 font-mono">3100 - DP WORLD CALLAO</p>
                                     </div>
-                                    <div class="w-1/3 dam-cell">
-                                        <div class="dam-label">4.2 Depósito Aut.</div>
-                                        <p class="dam-value mt-1">---</p>
+                                    <div class="w-[35%] p-1 flex flex-col justify-center text-center">
+                                        <p class="text-[6px] text-slate-600">4.2 Depósito Aut.:</p>
+                                        <p class="font-bold text-[9px] mt-0.5">---</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="w-1/2 flex flex-col">
-                                <div class="dam-header-bg border-b border-black">5. Transacción</div>
-                                <div class="flex flex-1">
-                                    <div class="w-2/3 dam-cell border-r border-black">
-                                        <div class="dam-label">5.1 Entidad Financiera</div>
-                                        <p class="dam-value text-[9px] mt-1">00-NINGUNO / TRANSFERENCIA</p>
+                                <div class="font-bold text-[8px] bg-slate-200 border-b border-black p-1">5 TRANSACCION</div>
+                                <div class="flex w-full h-10">
+                                    <div class="w-[70%] border-r border-black p-1 flex flex-col justify-center">
+                                        <p class="text-[6px] text-slate-600">5.1 Entidad Financiera:</p>
+                                        <p class="font-bold text-[8px] mt-0.5">00-NINGUNO / TRANSFERENCIA DIRECTA</p>
                                     </div>
-                                    <div class="w-1/3 dam-cell text-center">
-                                        <div class="dam-label">5.2 Modalidad</div>
-                                        <p class="dam-value font-extrabold text-xs mt-1">02 <span class="text-[7px] font-normal">(T/T)</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Bloque 6 & 7 -->
-                        <div class="dam-row h-24">
-                            <div class="w-[55%] flex flex-col border-r border-black">
-                                <div class="dam-header-bg border-b border-black">6. Valor Aduana (US$)</div>
-                                <div class="flex flex-1">
-                                    <div class="w-1/4 dam-cell text-center justify-center border-r border-black bg-slate-50">
-                                        <div class="dam-label">6.1 FOB / Cláusula Venta</div>
-                                        <p class="dam-value text-sm font-extrabold">32,000.00</p>
-                                    </div>
-                                    <div class="w-1/4 dam-cell text-center justify-center border-r border-black">
-                                        <div class="dam-label">6.2 Flete / Comisión Exterior</div>
-                                        <p class="dam-value text-xs">2,500.00</p>
-                                    </div>
-                                    <div class="w-1/4 dam-cell text-center justify-center border-r border-black">
-                                        <div class="dam-label">6.3 Seguro / Otros</div>
-                                        <p class="dam-value text-xs">500.00</p>
-                                    </div>
-                                    <div class="w-1/4 dam-cell text-center justify-center bg-green-50 border-t-2 border-b-2 border-black border-l-2">
-                                        <div class="dam-label">6.4 Total (DDP)</div>
-                                        <p class="dam-value text-sm font-extrabold text-green-900">35,000.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-[45%] flex flex-col">
-                                <div class="dam-header-bg border-b border-black">7. Declaración de Mercancías</div>
-                                <div class="flex flex-col flex-1 divide-y divide-black">
-                                    <div class="flex flex-1 divide-x divide-black">
-                                        <div class="w-1/3 dam-cell justify-center"><span class="dam-label">7.6 Pto. Embarque</span><span class="dam-value text-[9px] font-bold">PE CLL</span></div>
-                                        <div class="w-1/3 dam-cell justify-center"><span class="dam-label">7.8 Doc. Transporte</span><span class="dam-value text-[9px] font-bold">BL-2026-001</span></div>
-                                        <div class="w-1/3 dam-cell justify-center"><span class="dam-label">7.12 Cantidad Bultos</span><span class="dam-value text-sm font-extrabold">5 PKG</span></div>
-                                    </div>
-                                    <div class="flex flex-1 divide-x divide-black bg-slate-50">
-                                        <div class="w-1/3 dam-cell justify-center"><span class="dam-label">7.13 Clase</span><span class="dam-value text-[9px] font-bold">PALLETS</span></div>
-                                        <div class="w-1/3 dam-cell justify-center"><span class="dam-label">7.14 Peso Neto (Kg)</span><span class="dam-value text-sm font-extrabold">2,270.00</span></div>
-                                        <div class="w-1/3 dam-cell justify-center"><span class="dam-label">7.15 Peso Bruto (Kg)</span><span class="dam-value text-sm font-extrabold">2,500.00</span></div>
+                                    <div class="w-[30%] p-1 text-center flex flex-col justify-center">
+                                        <p class="text-[6px] text-slate-600">5.2 Modalidad:</p>
+                                        <p class="font-extrabold text-[11px] mt-0.5 font-mono">02 <span class="text-[6px] font-normal">(T/T)</span></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Footer Info -->
-                        <div class="dam-row h-12 bg-slate-100">
-                            <div class="w-full dam-cell justify-center px-4">
-                                <p class="text-[7px] text-justify font-sans leading-tight text-slate-600 font-medium">
-                                    Con la suscripción de esta Declaración, me comprometo en cuanto a la exactitud y la integridad de la información suministrada en el presente formulario, en cualquiera de sus hojas suplementarias que se acompañan y a la autenticidad de todos los documentos presentados en su apoyo. También me responsabilizo de suministrar la información o la documentación adicional y necesaria para establecer el valor en aduana de las mercancías.
-                                </p>
+                        <!-- Bloque 6 & 7 (Mejorado hasta el punto 7.15) -->
+                        <div class="flex w-full border-b border-black">
+                            <!-- Bloque 6: Valor -->
+                            <div class="w-[35%] flex flex-col border-r border-black">
+                                <div class="font-bold text-[8px] bg-slate-200 border-b border-black p-1">6 VALOR ADUANA (US$)</div>
+                                <div class="flex flex-wrap h-full content-start">
+                                    <div class="w-1/2 border-r border-b border-black p-1.5 text-center bg-slate-50 flex flex-col justify-center">
+                                        <p class="text-[6px] text-slate-600 mb-1">6.1 FOB / Valor Cláusula venta</p>
+                                        <p class="font-extrabold text-[11px] font-mono">32,000.00</p>
+                                    </div>
+                                    <div class="w-1/2 border-b border-black p-1.5 text-center flex flex-col justify-center">
+                                        <p class="text-[6px] text-slate-600 mb-1">6.2 Flete Comisión Exterior</p>
+                                        <p class="font-bold text-[10px] font-mono mt-1">2,500.00</p>
+                                    </div>
+                                    <div class="w-1/2 border-r border-black p-1.5 text-center flex flex-col justify-center">
+                                        <p class="text-[6px] text-slate-600 mb-1">6.3 Seguro Otros Gastos</p>
+                                        <p class="font-bold text-[10px] font-mono mt-1">500.00</p>
+                                    </div>
+                                    <div class="w-1/2 p-1.5 text-center bg-green-50 shadow-inner flex flex-col justify-center">
+                                        <p class="text-[6px] text-slate-900 font-bold mb-1">6.4 Total Ajustes (DDP)</p>
+                                        <p class="font-extrabold text-[11px] text-brand-900 font-mono mt-1">35,000.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Bloque 7: Mercancias -->
+                            <div class="w-[65%] flex flex-col">
+                                <div class="font-bold text-[8px] bg-slate-200 border-b border-black p-1">7 DECLARACION DE MERCANCIAS</div>
+                                <div class="flex flex-col h-full divide-y divide-black">
+                                    <!-- 7.1 a 7.5 -->
+                                    <div class="flex divide-x divide-black h-1/4">
+                                        <div class="w-[15%] p-1 flex flex-col justify-center text-center"><span class="text-[6px] text-slate-600 mb-0.5">7.1 N° Serie/Total</span><span class="font-extrabold text-[10px] font-mono mt-0.5">3 / 3</span></div>
+                                        <div class="w-[20%] p-1 flex flex-col justify-center text-center"><span class="text-[6px] text-slate-600 mb-0.5">7.2 Bultos Ejemplar B</span><span class="font-bold text-[10px] font-mono mt-0.5">5</span></div>
+                                        <div class="w-[20%] p-1 flex flex-col justify-center text-center"><span class="text-[6px] text-slate-600 mb-0.5">7.3 N° Dec. Precedente</span><span class="font-bold text-[9px] mt-0.5">---</span></div>
+                                        <div class="w-[15%] p-1 flex flex-col justify-center text-center"><span class="text-[6px] text-slate-600 mb-0.5">7.4 Tipo Despacho</span><span class="font-bold text-[10px] font-mono mt-0.5">02</span></div>
+                                        <div class="w-[30%] p-1 flex flex-col justify-center text-center"><span class="text-[6px] text-slate-600 mb-0.5">7.5 N° Orden Embarque</span><span class="font-extrabold text-[10px] font-mono text-blue-900 tracking-widest mt-0.5">2026-001</span></div>
+                                    </div>
+
+                                    <!-- 7.6 a 7.8 -->
+                                    <div class="flex divide-x divide-black h-1/4">
+                                        <div class="w-[35%] p-1 flex flex-col justify-center text-center"><span class="text-[6px] text-slate-600 mb-0.5">7.6 Puerto Embarque / Código</span><span class="font-bold text-[9px] font-mono mt-0.5">CALLAO / PE CLL</span></div>
+                                        <div class="w-[25%] p-1 flex flex-col justify-center text-center"><span class="text-[6px] text-slate-600 mb-0.5">7.7 Fecha Emb</span><span class="font-bold text-[9px] font-mono mt-0.5">07/04/2026</span></div>
+                                        <div class="w-[40%] p-1 flex flex-col justify-center text-center bg-slate-50"><span class="text-[6px] text-slate-600 mb-0.5">7.8 Documento Transporte / Detalle</span><span class="font-extrabold text-[10px] font-mono tracking-widest mt-0.5">BL-2026-001 / 00</span></div>
+                                    </div>
+
+                                    <!-- 7.9 a 7.11 -->
+                                    <div class="flex divide-x divide-black h-1/4">
+                                        <div class="w-[25%] p-1 flex flex-col justify-center text-center"><span class="text-[6px] text-slate-600">7.9 Detalle Doc.</span><span class="font-bold text-[9px] font-mono mt-0.5">00</span></div>
+                                        <div class="w-[25%] p-1 flex flex-col justify-center text-center"><span class="text-[6px] text-slate-600">7.10 Vía Transporte</span><span class="font-bold text-[9px] font-mono mt-0.5">1 (MAR)</span></div>
+                                        <div class="w-[50%] p-1 flex flex-col justify-center text-center"><span class="text-[6px] text-slate-600">7.11 Empresa de Transporte</span><span class="font-bold text-[8px] mt-0.5 truncate">MSC NATALIA V.124</span></div>
+                                    </div>
+
+                                    <!-- 7.12 a 7.15 -->
+                                    <div class="flex divide-x divide-black h-1/4 bg-white">
+                                        <div class="w-1/4 p-1 flex flex-col justify-center text-center bg-slate-50"><span class="text-[6px] text-slate-600">7.12 Cant. Bultos</span><span class="font-extrabold text-[11px] font-mono mt-0.5">5</span></div>
+                                        <div class="w-1/4 p-1 flex flex-col justify-center text-center"><span class="text-[6px] text-slate-600">7.13 Clase Bultos</span><span class="font-bold text-[8px] mt-0.5">PX (PALLETS)</span></div>
+                                        <div class="w-1/4 p-1 flex flex-col justify-center text-center bg-white"><span class="text-[6px] text-slate-600">7.14 Peso Neto (Kg)</span><span class="font-extrabold text-[11px] font-mono mt-0.5">2,270.00</span></div>
+                                        <div class="w-1/4 p-1 flex flex-col justify-center text-center bg-white"><span class="text-[6px] text-slate-600">7.15 Peso Bruto (Kg)</span><span class="font-extrabold text-[11px] font-mono mt-0.5">2,500.00</span></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
+                        <!-- Bloque 8: Liquidacion Tributaria -->
+                        <div class="flex w-full border-b border-black">
+                            <div class="w-full flex flex-col">
+                                <div class="font-bold text-[8px] bg-slate-200 border-b border-black p-1">8 LIQUIDACIÓN DE LA DEUDA TRIBUTARIA ADUANERA (US$)</div>
+                                <div class="flex w-full divide-x divide-black h-12">
+                                    <div class="w-1/6 p-1 text-center flex flex-col justify-center"><span class="text-[6px] font-bold text-slate-600">Ad Valorem / Arancel</span><span class="font-mono mt-1 text-[10px]">0.00</span></div>
+                                    <div class="w-1/6 p-1 text-center flex flex-col justify-center"><span class="text-[6px] font-bold text-slate-600">ISC</span><span class="font-mono mt-1 text-[10px]">0.00</span></div>
+                                    <div class="w-1/6 p-1 text-center flex flex-col justify-center"><span class="text-[6px] font-bold text-slate-600">IGV</span><span class="font-mono mt-1 text-[10px]">0.00</span></div>
+                                    <div class="w-1/6 p-1 text-center flex flex-col justify-center"><span class="text-[6px] font-bold text-slate-600">IPM</span><span class="font-mono mt-1 text-[10px]">0.00</span></div>
+                                    <div class="w-1/6 p-1 text-center flex flex-col justify-center"><span class="text-[6px] font-bold text-slate-600">Tasa Despacho</span><span class="font-mono mt-1 text-[10px]">0.00</span></div>
+                                    <div class="w-1/6 p-1 text-center flex flex-col justify-center bg-slate-100"><span class="text-[8px] text-black font-extrabold">Total a Pagar</span><span class="font-extrabold font-mono mt-1 text-[12px] border-t border-slate-300 pt-0.5">0.00</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer / Legal Text -->
+                        <div class="p-2 bg-slate-50 text-center text-slate-500">
+                            <p class="text-[6px] normal-case text-justify font-sans leading-tight">
+                                Con la suscripción de esta Declaración, me comprometo en cuanto a la exactitud y la integridad de la información suministrada en el presente formulario, en cualquiera de sus hojas suplementarias que se acompañan y a la autenticidad de todos los documentos presentados en su apoyo. También me responsabilizo de suministrar la información o la documentación adicional y necesaria para establecer el valor en aduana de las mercancías.
+                            </p>
+                        </div>
                     </div>
                     
-                    <div class="mt-12 flex justify-between px-10">
-                        <div class="w-64 text-center relative border border-black p-4 pt-12 h-32">
-                            <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Firma_Castillo.png" alt="Firma" class="h-16 absolute top-0 left-1/2 transform -translate-x-1/2 mix-blend-multiply opacity-90 grayscale">
+                    <!-- Firmas Section -->
+                    <div class="mt-8 flex justify-between px-10">
+                        <div class="w-56 text-center relative border border-slate-300 p-2 pt-10 rounded-sm">
+                            <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Firma_Castillo.png" alt="Firma" class="h-14 absolute top-0 left-1/2 transform -translate-x-1/2 mix-blend-multiply opacity-80 grayscale">
                             <div class="border-t border-black pt-1 w-full mt-2">
-                                <p class="font-bold text-[9px] uppercase font-sans">Nombre del Declarante / Agente</p>
-                                <p class="text-[8px] font-sans text-slate-500">Documento de Identificación y Firma</p>
+                                <p class="font-bold text-[7px] uppercase font-sans">Nombre del Declarante / Agente</p>
+                                <p class="text-[6px] font-sans text-slate-500">Documento de Identificación y Firma</p>
                             </div>
                         </div>
-                        <div class="w-64 text-center relative border border-black p-4 pt-12 h-32">
-                            <div class="border-[3px] border-rose-600 rounded-full w-20 h-20 absolute -top-4 left-1/2 transform -translate-x-1/2 opacity-60 flex items-center justify-center rotate-[-15deg]">
-                                <span class="text-[9px] font-bold text-rose-600 leading-tight">ADUANA<br>MARÍTIMA<br>CONFORME</span>
+                        <div class="w-56 text-center relative border border-slate-300 p-2 pt-10 rounded-sm">
+                            <div class="border-[2px] border-rose-600 rounded-full w-16 h-16 absolute -top-3 left-1/2 transform -translate-x-1/2 opacity-70 flex items-center justify-center rotate-[-15deg] shadow-sm">
+                                <span class="text-[7px] font-bold text-rose-600 leading-tight tracking-widest text-center">ADUANA<br>MARÍTIMA<br>CALLAO<br><span class="text-[5px]">CONFORME</span></span>
                             </div>
                             <div class="border-t border-black pt-1 w-full mt-2">
-                                <p class="font-bold text-[9px] uppercase font-sans">Autoridad Aduanera</p>
-                                <p class="text-[8px] font-sans text-slate-500">Firma y Sello</p>
+                                <p class="font-bold text-[7px] uppercase font-sans">Autoridad Aduanera</p>
+                                <p class="text-[6px] font-sans text-slate-500">Firma y Sello</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- DOCUMENT 04: DAM FORMATO B (Réplica SUNAT) -->
+            <!-- DOCUMENT 04: DAM FORMATO B (Réplica SUNAT ALTAMENTE DETALLADA) -->
             <section id="doc-dam-b" class="content-section hidden fade-in">
-                <div class="document-paper">
+                <div class="document-paper !p-10 !pt-6">
                     <!-- SUNAT Header -->
-                    <div class="flex justify-between items-center mb-4 border-b-2 border-black pb-2">
+                    <div class="flex justify-between items-start mb-2 border-b-[1.5px] border-black pb-2">
                         <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Sunat-Logo-Vector.svg-.png" alt="SUNAT Logo" class="h-10 w-auto object-contain">
                         <div class="text-center flex-1">
-                            <h1 class="text-[16px] font-extrabold uppercase tracking-tight leading-tight">Declaración Única de Aduanas</h1>
-                            <div class="font-bold border-2 border-black px-6 py-0.5 inline-block mt-1 text-sm bg-white tracking-widest">FORMATO B <span class="text-[10px] font-normal">(Detalle de Ítems)</span></div>
+                            <h1 class="text-[14px] font-extrabold uppercase tracking-tight leading-none text-black mt-2">Declaración Única de Aduanas</h1>
+                            <div class="font-bold border-[1.5px] border-black px-6 py-0.5 inline-block mt-1 text-[11px] bg-white tracking-widest shadow-sm">FORMATO B <span class="text-[9px] font-normal">(Detalle de Ítems)</span></div>
+                        </div>
+                        <div class="text-right flex items-start gap-1">
+                            <div class="text-center">
+                                <p class="text-[6px] font-bold uppercase mb-0.5">N° Orden</p>
+                                <p class="text-[10px] font-bold border-[1.5px] border-black px-4 py-0.5 bg-white font-mono">001</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="dam-container bg-white text-[10px] uppercase font-mono">
+                    <!-- DAM B Grid Base -->
+                    <div class="border-[1.5px] border-black bg-white text-[7px] uppercase font-sans text-black leading-tight flex flex-col">
                         
                         <!-- Reference Header -->
-                        <div class="dam-row h-12 bg-slate-100 font-bold border-b-2 border-black">
-                            <div class="w-[15%] dam-cell justify-center">
-                                <span class="dam-label">Aduana</span> <span class="text-sm">118</span>
+                        <div class="flex w-full border-b border-black bg-slate-100 h-8">
+                            <div class="w-[20%] border-r border-black p-1.5 flex items-center justify-between">
+                                <span class="text-[7px] font-bold text-slate-600">Aduana:</span> 
+                                <span class="text-[10px] font-bold font-mono">118</span>
                             </div>
-                            <div class="w-[85%] dam-cell justify-center">
-                                <span class="dam-label">N° Declaración</span> <span class="text-base tracking-widest text-blue-900 font-extrabold">118-2026-40-001234</span>
-                            </div>
-                        </div>
-
-                        <div class="dam-header-bg">5. Descripción de la Mercancía</div>
-                        
-                        <!-- Item Row 1 -->
-                        <div class="dam-row h-32">
-                            <div class="w-[8%] dam-cell text-center justify-center bg-slate-50">
-                                <div class="dam-label">Ítem</div>
-                                <p class="text-3xl font-extrabold">1</p>
-                            </div>
-                            <div class="w-[20%] dam-cell justify-center text-center border-r border-black bg-white">
-                                <div class="dam-label">Subpartida Nacional</div>
-                                <p class="text-base font-extrabold tracking-wider">1008.50.90.00</p>
-                                <div class="dam-label mt-4">Cod. Producto</div>
-                                <p class="font-bold text-xs mt-1">QUIN-ORG-TRI</p>
-                            </div>
-                            <div class="w-[72%] flex flex-col border-l-0">
-                                <div class="flex border-b border-black h-[40%]">
-                                    <div class="w-1/3 dam-cell border-r border-black justify-center bg-white">
-                                        <div class="dam-label">N° Factura / Boleta</div>
-                                        <p class="font-bold text-xs mt-1">INV-2026-001</p>
-                                    </div>
-                                    <div class="w-1/3 dam-cell justify-center border-r border-black bg-white">
-                                        <div class="dam-label">País de Origen</div>
-                                        <p class="font-bold text-xs mt-1">PE (PERÚ)</p>
-                                    </div>
-                                    <div class="w-1/3 dam-cell justify-center bg-white">
-                                        <div class="dam-label">País Adquisición</div>
-                                        <p class="font-bold text-xs mt-1">PE (PERÚ)</p>
-                                    </div>
-                                </div>
-                                <div class="flex h-[60%]">
-                                    <div class="w-full dam-cell justify-start pt-2 bg-white">
-                                        <div class="dam-label">Descripción Detallada (Nombre Comercial, Características, Marcas, Modelos)</div>
-                                        <p class="font-bold text-[10px] leading-snug mt-1 font-sans text-justify pr-2">
-                                            QUINUA PERUANA ORGÁNICA EN GRANO TRICOLOR (CHENOPODIUM QUINOA). APTA PARA CONSUMO HUMANO. ACONDICIONADA EN 5,000 POUCHES RETAIL DE 1 LB (454 G). LOTE DE PRODUCCIÓN: APG-2026-04. MARCA: ANDEAN PURE GRAINS.
-                                        </p>
-                                    </div>
-                                </div>
+                            <div class="w-[80%] p-1.5 flex items-center justify-between">
+                                <span class="text-[7px] font-bold text-slate-600">N° Declaración:</span> 
+                                <span class="text-[12px] tracking-widest text-blue-900 font-extrabold font-mono bg-white px-2 border border-slate-300 py-0.5 shadow-inner">118-2026-40-001234</span>
                             </div>
                         </div>
 
-                        <!-- Item Quantities Row -->
-                        <div class="dam-row h-16 divide-x divide-black bg-slate-50 border-b-2 border-black">
-                            <div class="w-[15%] dam-cell text-center justify-center">
-                                <div class="dam-label">Unidad Física</div>
-                                <p class="font-extrabold text-sm mt-1">U <span class="text-[8px] font-normal">(UNIDADES)</span></p>
-                            </div>
-                            <div class="w-[15%] dam-cell text-center justify-center">
-                                <div class="dam-label">Cant. Comercial</div>
-                                <p class="font-extrabold text-sm mt-1">5,000.00</p>
-                            </div>
-                            <div class="w-[20%] dam-cell text-center justify-center">
-                                <div class="dam-label">Peso Neto Ítem (Kg)</div>
-                                <p class="font-extrabold text-sm mt-1">2,270.00</p>
-                            </div>
-                            <div class="w-[20%] dam-cell text-center justify-center">
-                                <div class="dam-label">Peso Bruto Ítem (Kg)</div>
-                                <p class="font-extrabold text-sm mt-1">2,500.00</p>
-                            </div>
-                            <div class="w-[30%] dam-cell text-center justify-center bg-white border-l-2 border-black">
-                                <div class="dam-label text-blue-900">Valor FOB del Ítem (US$)</div>
-                                <p class="font-extrabold text-xl mt-1 tracking-wider text-blue-900">32,000.00</p>
-                            </div>
-                        </div>
+                        <div class="font-bold text-[8px] bg-slate-200 border-b border-black p-1 text-center tracking-widest">5. DESCRIPCIÓN DE LA MERCANCÍA (DETALLE DE ÍTEMS)</div>
                         
-                        <!-- Empty Item Row filler to simulate full page form -->
-                        <div class="dam-row h-12 bg-white">
-                            <div class="w-[8%] dam-cell text-center justify-center border-r border-black"><p class="text-slate-300">2</p></div>
-                            <div class="w-full dam-cell"></div>
+                        <!-- ITEM 1: QUINUA TRICOLOR -->
+                        <div class="flex flex-col border-b-[3px] border-double border-black bg-white">
+                            <!-- R1: Base Item Info -->
+                            <div class="flex border-b border-black h-9 divide-x divide-black">
+                                <div class="w-[5%] flex flex-col items-center justify-center bg-slate-100">
+                                    <span class="text-[5px] text-slate-600">Ítem</span>
+                                    <span class="text-xl font-extrabold">1</span>
+                                </div>
+                                <div class="w-[20%] p-1 flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.1 Subpartida Nacional</span>
+                                    <span class="text-[10px] font-bold tracking-widest text-center mt-0.5 font-mono">1008.50.90.00</span>
+                                </div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.2 Trat. Preferencial</span>
+                                    <span class="font-bold text-[8px] mt-0.5">802 (TPI USA)</span>
+                                </div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.3 TPI / Liberación</span>
+                                    <span class="font-bold text-[8px] mt-0.5">100%</span>
+                                </div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.4 N° Factura</span>
+                                    <span class="font-bold mt-0.5 text-[8px] font-mono">INV-2026-001</span>
+                                </div>
+                                <div class="w-[30%] p-1 text-center bg-slate-50 flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.5 Documento de Transporte</span>
+                                    <span class="font-extrabold mt-0.5 text-[10px] tracking-wider text-blue-900 font-mono">BL-2026-001</span>
+                                </div>
+                            </div>
+                            <!-- R2: Characteristics -->
+                            <div class="flex border-b border-black h-8 divide-x divide-black bg-white">
+                                <div class="w-[25%] p-1 flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.6 Marca Comercial</span>
+                                    <span class="font-bold text-[8px] mt-0.5">ANDEAN PURE GRAINS</span>
+                                </div>
+                                <div class="w-[25%] p-1 flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.7 Lote de Producción</span>
+                                    <span class="font-bold text-[8px] mt-0.5 font-mono">LOTE: APG-2026-04-T</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.8 Año / Cosecha</span>
+                                    <span class="font-bold text-[8px] mt-0.5 font-mono">2026</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.9 Estado Mercancía</span>
+                                    <span class="font-bold text-[8px] mt-0.5">1 (NUEVO)</span>
+                                </div>
+                            </div>
+                            <!-- R3: Description -->
+                            <div class="flex border-b border-black min-h-[44px] bg-yellow-50/20 p-1.5">
+                                <div class="w-full">
+                                    <span class="text-[6px] text-slate-600 mb-0.5 block uppercase font-bold tracking-wider">5.10 Descripción Detallada (Nombre Comercial, Uso, Material, Características)</span>
+                                    <span class="font-bold text-[8px] leading-snug block text-justify pr-2">
+                                        QUINUA PERUANA ORGÁNICA EN GRANO TRICOLOR (CHENOPODIUM QUINOA). PRODUCTO VEGETAL APTO PARA CONSUMO HUMANO. ACONDICIONADO EN 2,500 POUCHES RETAIL DE 1 LB (454 G). EMPACADO EN CAJAS DE CARTÓN CORRUGADO SOBRE PALLETS DE MADERA TRATADA. CERTIFICACIÓN ORGÁNICA USDA. FITOSANITARIO SENASA N° 118-2026-FITO-045.
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- R4: Origins & Quantities -->
+                            <div class="flex border-b border-black h-8 divide-x divide-black bg-white">
+                                <div class="w-[10%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.11 Origen</span><span class="font-bold mt-0.5">PE</span></div>
+                                <div class="w-[10%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.12 Adq.</span><span class="font-bold mt-0.5">PE</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.13 U. Física</span><span class="font-bold mt-0.5">U</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.14 Cant. Física</span><span class="font-extrabold text-[9px] mt-0.5 font-mono">2,500.00</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.15 U. Comer.</span><span class="font-bold mt-0.5">U</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.16 Cant. Comer.</span><span class="font-extrabold text-[9px] mt-0.5 font-mono">2,500.00</span></div>
+                                <div class="w-[20%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.17 Cod. VCT</span><span class="font-bold mt-0.5">---</span></div>
+                            </div>
+                            <!-- R5: Weights & Dimensions -->
+                            <div class="flex border-b border-black h-8 divide-x divide-black bg-white">
+                                <div class="w-[20%] p-1 text-center bg-slate-50 flex flex-col justify-center"><span class="text-[6px] text-slate-600 font-bold">5.18 Peso Neto (KG)</span><span class="font-extrabold mt-0.5 text-[10px] font-mono">1,135.00</span></div>
+                                <div class="w-[20%] p-1 text-center bg-slate-50 flex flex-col justify-center"><span class="text-[6px] text-slate-600 font-bold">5.19 Peso Bruto (KG)</span><span class="font-extrabold mt-0.5 text-[10px] font-mono">1,250.00</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[6px] text-slate-600">5.20 N° Bultos</span><span class="font-extrabold text-[9px] mt-0.5 font-mono">2.5</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[6px] text-slate-600">5.21 Tipo Bulto</span><span class="font-bold mt-0.5 text-[7px]">PX (PALLETS)</span></div>
+                                <div class="w-[30%] p-1 text-center flex flex-col justify-center"><span class="text-[6px] text-slate-600">5.22 Observaciones</span><span class="font-bold mt-0.5 text-[7px]">P.U: $7.00 / 454g</span></div>
+                            </div>
+                            <!-- R6: Values -->
+                            <div class="flex h-10 divide-x divide-black bg-slate-100">
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center border-l-[3px] border-l-blue-900 bg-white">
+                                    <span class="text-[6px] font-bold text-blue-900 uppercase">5.23 Valor FOB Ítem (US$)</span>
+                                    <span class="font-extrabold mt-0.5 text-[12px] tracking-wider text-blue-900 font-mono">16,000.00</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.24 Flete Prorrateado (US$)</span>
+                                    <span class="font-bold mt-0.5 text-[9px] font-mono">1,250.00</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.25 Seguro Prorrateado</span>
+                                    <span class="font-bold mt-0.5 text-[9px] font-mono">250.00</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center bg-white shadow-inner">
+                                    <span class="text-[6px] font-bold text-black uppercase">5.26 Valor Aduana Ítem (DDP)</span>
+                                    <span class="font-extrabold mt-0.5 text-[12px] tracking-wider text-black font-mono">17,500.00</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="dam-row h-12 bg-white">
-                            <div class="w-[8%] dam-cell text-center justify-center border-r border-black"><p class="text-slate-300">3</p></div>
-                            <div class="w-full dam-cell"></div>
+
+                        <!-- ITEM 2: QUINUA BLANCA -->
+                        <div class="flex flex-col border-b-[3px] border-double border-black bg-white">
+                            <!-- R1: Base Item Info -->
+                            <div class="flex border-b border-black h-9 divide-x divide-black">
+                                <div class="w-[5%] flex flex-col items-center justify-center bg-slate-100">
+                                    <span class="text-[5px] text-slate-600">Ítem</span>
+                                    <span class="text-xl font-extrabold">2</span>
+                                </div>
+                                <div class="w-[20%] p-1 flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.1 Subpartida Nacional</span>
+                                    <span class="text-[10px] font-bold tracking-widest text-center mt-0.5 font-mono">1008.50.90.00</span>
+                                </div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.2 Trat. Preferencial</span>
+                                    <span class="font-bold text-[8px] mt-0.5">802 (TPI USA)</span>
+                                </div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.3 TPI / Liberación</span>
+                                    <span class="font-bold text-[8px] mt-0.5">100%</span>
+                                </div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.4 N° Factura</span>
+                                    <span class="font-bold mt-0.5 text-[8px] font-mono">INV-2026-001</span>
+                                </div>
+                                <div class="w-[30%] p-1 text-center bg-slate-50 flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.5 Documento de Transporte</span>
+                                    <span class="font-extrabold mt-0.5 text-[10px] tracking-wider text-blue-900 font-mono">BL-2026-001</span>
+                                </div>
+                            </div>
+                            <!-- R2: Characteristics -->
+                            <div class="flex border-b border-black h-8 divide-x divide-black bg-white">
+                                <div class="w-[25%] p-1 flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.6 Marca Comercial</span>
+                                    <span class="font-bold text-[8px] mt-0.5">ANDEAN PURE GRAINS</span>
+                                </div>
+                                <div class="w-[25%] p-1 flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.7 Lote de Producción</span>
+                                    <span class="font-bold text-[8px] mt-0.5 font-mono">LOTE: APG-2026-04-B</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.8 Año / Cosecha</span>
+                                    <span class="font-bold text-[8px] mt-0.5 font-mono">2026</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.9 Estado Mercancía</span>
+                                    <span class="font-bold text-[8px] mt-0.5">1 (NUEVO)</span>
+                                </div>
+                            </div>
+                            <!-- R3: Description -->
+                            <div class="flex border-b border-black min-h-[44px] bg-yellow-50/20 p-1.5">
+                                <div class="w-full">
+                                    <span class="text-[6px] text-slate-600 mb-0.5 block uppercase font-bold tracking-wider">5.10 Descripción Detallada (Nombre Comercial, Uso, Material, Características)</span>
+                                    <span class="font-bold text-[8px] leading-snug block text-justify pr-2">
+                                        QUINUA PERUANA ORGÁNICA EN GRANO BLANCA (CHENOPODIUM QUINOA). PRODUCTO VEGETAL APTO PARA CONSUMO HUMANO. ACONDICIONADO EN 1,500 POUCHES RETAIL DE 1 LB (454 G). EMPACADO EN CAJAS DE CARTÓN CORRUGADO SOBRE PALLETS DE MADERA TRATADA. CERTIFICACIÓN ORGÁNICA USDA. FITOSANITARIO SENASA N° 118-2026-FITO-045.
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- R4: Origins & Quantities -->
+                            <div class="flex border-b border-black h-8 divide-x divide-black bg-white">
+                                <div class="w-[10%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.11 Origen</span><span class="font-bold mt-0.5">PE</span></div>
+                                <div class="w-[10%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.12 Adq.</span><span class="font-bold mt-0.5">PE</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.13 U. Física</span><span class="font-bold mt-0.5">U</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.14 Cant. Física</span><span class="font-extrabold text-[9px] mt-0.5 font-mono">1,500.00</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.15 U. Comer.</span><span class="font-bold mt-0.5">U</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.16 Cant. Comer.</span><span class="font-extrabold text-[9px] mt-0.5 font-mono">1,500.00</span></div>
+                                <div class="w-[20%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.17 Cod. VCT</span><span class="font-bold mt-0.5">---</span></div>
+                            </div>
+                            <!-- R5: Weights & Dimensions -->
+                            <div class="flex border-b border-black h-8 divide-x divide-black bg-white">
+                                <div class="w-[20%] p-1 text-center bg-slate-50 flex flex-col justify-center"><span class="text-[6px] text-slate-600 font-bold">5.18 Peso Neto (KG)</span><span class="font-extrabold mt-0.5 text-[10px] font-mono">681.00</span></div>
+                                <div class="w-[20%] p-1 text-center bg-slate-50 flex flex-col justify-center"><span class="text-[6px] text-slate-600 font-bold">5.19 Peso Bruto (KG)</span><span class="font-extrabold mt-0.5 text-[10px] font-mono">750.00</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[6px] text-slate-600">5.20 N° Bultos</span><span class="font-extrabold text-[9px] mt-0.5 font-mono">1.5</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[6px] text-slate-600">5.21 Tipo Bulto</span><span class="font-bold mt-0.5 text-[7px]">PX (PALLETS)</span></div>
+                                <div class="w-[30%] p-1 text-center flex flex-col justify-center"><span class="text-[6px] text-slate-600">5.22 Observaciones</span><span class="font-bold mt-0.5 text-[7px]">P.U: $7.00 / 454g</span></div>
+                            </div>
+                            <!-- R6: Values -->
+                            <div class="flex h-10 divide-x divide-black bg-slate-100">
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center border-l-[3px] border-l-blue-900 bg-white">
+                                    <span class="text-[6px] font-bold text-blue-900 uppercase">5.23 Valor FOB Ítem (US$)</span>
+                                    <span class="font-extrabold mt-0.5 text-[12px] tracking-wider text-blue-900 font-mono">9,600.00</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.24 Flete Prorrateado (US$)</span>
+                                    <span class="font-bold mt-0.5 text-[9px] font-mono">750.00</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.25 Seguro Prorrateado</span>
+                                    <span class="font-bold mt-0.5 text-[9px] font-mono">150.00</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center bg-white shadow-inner">
+                                    <span class="text-[6px] font-bold text-black uppercase">5.26 Valor Aduana Ítem (DDP)</span>
+                                    <span class="font-extrabold mt-0.5 text-[12px] tracking-wider text-black font-mono">10,500.00</span>
+                                </div>
+                            </div>
                         </div>
-                        
+
+                        <!-- ITEM 3: QUINUA ROJA -->
+                        <div class="flex flex-col border-b-[3px] border-double border-black bg-white">
+                            <!-- R1: Base Item Info -->
+                            <div class="flex border-b border-black h-9 divide-x divide-black">
+                                <div class="w-[5%] flex flex-col items-center justify-center bg-slate-100">
+                                    <span class="text-[5px] text-slate-600">Ítem</span>
+                                    <span class="text-xl font-extrabold">3</span>
+                                </div>
+                                <div class="w-[20%] p-1 flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.1 Subpartida Nacional</span>
+                                    <span class="text-[10px] font-bold tracking-widest text-center mt-0.5 font-mono">1008.50.90.00</span>
+                                </div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.2 Trat. Preferencial</span>
+                                    <span class="font-bold text-[8px] mt-0.5">802 (TPI USA)</span>
+                                </div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.3 TPI / Liberación</span>
+                                    <span class="font-bold text-[8px] mt-0.5">100%</span>
+                                </div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.4 N° Factura</span>
+                                    <span class="font-bold mt-0.5 text-[8px] font-mono">INV-2026-001</span>
+                                </div>
+                                <div class="w-[30%] p-1 text-center bg-slate-50 flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.5 Documento de Transporte</span>
+                                    <span class="font-extrabold mt-0.5 text-[10px] tracking-wider text-blue-900 font-mono">BL-2026-001</span>
+                                </div>
+                            </div>
+                            <!-- R2: Characteristics -->
+                            <div class="flex border-b border-black h-8 divide-x divide-black bg-white">
+                                <div class="w-[25%] p-1 flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.6 Marca Comercial</span>
+                                    <span class="font-bold text-[8px] mt-0.5">ANDEAN PURE GRAINS</span>
+                                </div>
+                                <div class="w-[25%] p-1 flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.7 Lote de Producción</span>
+                                    <span class="font-bold text-[8px] mt-0.5 font-mono">LOTE: APG-2026-04-R</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.8 Año / Cosecha</span>
+                                    <span class="font-bold text-[8px] mt-0.5 font-mono">2026</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.9 Estado Mercancía</span>
+                                    <span class="font-bold text-[8px] mt-0.5">1 (NUEVO)</span>
+                                </div>
+                            </div>
+                            <!-- R3: Description -->
+                            <div class="flex border-b border-black min-h-[44px] bg-yellow-50/20 p-1.5">
+                                <div class="w-full">
+                                    <span class="text-[6px] text-slate-600 mb-0.5 block uppercase font-bold tracking-wider">5.10 Descripción Detallada (Nombre Comercial, Uso, Material, Características)</span>
+                                    <span class="font-bold text-[8px] leading-snug block text-justify pr-2">
+                                        QUINUA PERUANA ORGÁNICA EN GRANO ROJA (CHENOPODIUM QUINOA). PRODUCTO VEGETAL APTO PARA CONSUMO HUMANO. ACONDICIONADO EN 1,000 POUCHES RETAIL DE 1 LB (454 G). EMPACADO EN CAJAS DE CARTÓN CORRUGADO SOBRE PALLETS DE MADERA TRATADA. CERTIFICACIÓN ORGÁNICA USDA. FITOSANITARIO SENASA N° 118-2026-FITO-045.
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- R4: Origins & Quantities -->
+                            <div class="flex border-b border-black h-8 divide-x divide-black bg-white">
+                                <div class="w-[10%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.11 Origen</span><span class="font-bold mt-0.5">PE</span></div>
+                                <div class="w-[10%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.12 Adq.</span><span class="font-bold mt-0.5">PE</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.13 U. Física</span><span class="font-bold mt-0.5">U</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.14 Cant. Física</span><span class="font-extrabold text-[9px] mt-0.5 font-mono">1,000.00</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.15 U. Comer.</span><span class="font-bold mt-0.5">U</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.16 Cant. Comer.</span><span class="font-extrabold text-[9px] mt-0.5 font-mono">1,000.00</span></div>
+                                <div class="w-[20%] p-1 text-center flex flex-col justify-center"><span class="text-[5px] text-slate-600">5.17 Cod. VCT</span><span class="font-bold mt-0.5">---</span></div>
+                            </div>
+                            <!-- R5: Weights & Dimensions -->
+                            <div class="flex border-b border-black h-8 divide-x divide-black bg-white">
+                                <div class="w-[20%] p-1 text-center bg-slate-50 flex flex-col justify-center"><span class="text-[6px] text-slate-600 font-bold">5.18 Peso Neto (KG)</span><span class="font-extrabold mt-0.5 text-[10px] font-mono">454.00</span></div>
+                                <div class="w-[20%] p-1 text-center bg-slate-50 flex flex-col justify-center"><span class="text-[6px] text-slate-600 font-bold">5.19 Peso Bruto (KG)</span><span class="font-extrabold mt-0.5 text-[10px] font-mono">500.00</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[6px] text-slate-600">5.20 N° Bultos</span><span class="font-extrabold text-[9px] mt-0.5 font-mono">1</span></div>
+                                <div class="w-[15%] p-1 text-center flex flex-col justify-center"><span class="text-[6px] text-slate-600">5.21 Tipo Bulto</span><span class="font-bold mt-0.5 text-[7px]">PX (PALLETS)</span></div>
+                                <div class="w-[30%] p-1 text-center flex flex-col justify-center"><span class="text-[6px] text-slate-600">5.22 Observaciones</span><span class="font-bold mt-0.5 text-[7px]">P.U: $7.00 / 454g</span></div>
+                            </div>
+                            <!-- R6: Values -->
+                            <div class="flex h-10 divide-x divide-black bg-slate-100">
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center border-l-[3px] border-l-blue-900 bg-white">
+                                    <span class="text-[6px] font-bold text-blue-900 uppercase">5.23 Valor FOB Ítem (US$)</span>
+                                    <span class="font-extrabold mt-0.5 text-[12px] tracking-wider text-blue-900 font-mono">6,400.00</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.24 Flete Prorrateado (US$)</span>
+                                    <span class="font-bold mt-0.5 text-[9px] font-mono">500.00</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center">
+                                    <span class="text-[6px] text-slate-600">5.25 Seguro Prorrateado</span>
+                                    <span class="font-bold mt-0.5 text-[9px] font-mono">100.00</span>
+                                </div>
+                                <div class="w-[25%] p-1 text-center flex flex-col justify-center bg-white shadow-inner">
+                                    <span class="text-[6px] font-bold text-black uppercase">5.26 Valor Aduana Ítem (DDP)</span>
+                                    <span class="font-extrabold mt-0.5 text-[12px] tracking-wider text-black font-mono">7,000.00</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </section>
@@ -1330,6 +1633,13 @@
             </section>
 
         </div>
+        
+        <!-- Botón Flotante para Volver al Dashboard -->
+        <button onclick="showSection('dashboard', document.querySelector('.nav-link[data-target=\'dashboard\']') || document.querySelector('a[onclick*=\'dashboard\']'))" 
+                class="fixed bottom-8 right-8 bg-brand-800 text-brand-500 border-[3px] border-brand-500 w-16 h-16 rounded-full shadow-[0_0_20px_rgba(0,0,0,0.3)] flex items-center justify-center hover:bg-brand-900 transition-all transform hover:scale-110 z-50 no-print group" title="Volver al Dashboard Operativo">
+            <i class="fa-solid fa-arrow-up text-2xl group-hover:-translate-y-1 transition-transform"></i>
+            <span class="absolute -top-10 bg-brand-900 text-white text-[10px] font-bold px-3 py-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md">Dashboard y procesos</span>
+        </button>
     </main>
 
     <!-- SCRIPTS -->
