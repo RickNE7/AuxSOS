@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Exportación | Andean Pure Grains</title>
+    <title>Expediente Completo | Andean Pure Grains</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Inter (UI), Courier Prime (Docs), Caveat (Signatures) -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -17,892 +17,1229 @@
                 extend: {
                     fontFamily: { 
                         sans: ['Inter', 'sans-serif'],
-                        mono: ['Courier Prime', 'monospace']
+                        mono: ['Courier Prime', 'monospace'],
+                        signature: ['Caveat', 'cursive']
                     },
                     colors: {
                         brand: { 50: '#f4f1ea', 100: '#e9e2d5', 500: '#D4AF37', 600: '#b5952f', 800: '#3E2723', 900: '#271816' },
-                        adex: { green: '#2E7D32', dark: '#1B5E20' }
                     }
                 }
             }
         }
     </script>
     <style>
-        body { background-color: #f8fafc; }
-        /* Scrollbar personalizado */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        body { background-color: #f1f5f9; font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
-        .nav-link { transition: all 0.2s ease-in-out; }
+        .nav-link { transition: all 0.2s ease; cursor: pointer; }
         .nav-link.active { background-color: #3E2723; color: #D4AF37; font-weight: 600; border-left: 4px solid #D4AF37; }
-        .nav-link:not(.active):hover { background-color: #f1f5f9; color: #3E2723; }
+        .nav-link:not(.active):hover { background-color: #f8fafc; color: #3E2723; }
 
-        /* Estilo tipo "Papel A4" para los documentos */
+        /* Document Paper Base */
         .document-paper {
             background: white;
             width: 100%;
-            max-width: 900px;
-            min-height: 1100px;
-            margin: 0 auto 30px auto;
-            padding: 40px 50px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 950px;
+            min-height: 1200px;
+            margin: 0 auto 40px auto;
+            padding: 50px 60px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
             border: 1px solid #e2e8f0;
-            font-family: 'Inter', sans-serif;
-            color: #333;
+            position: relative;
         }
 
-        .document-paper-dam {
-            background: white;
-            width: 100%;
-            max-width: 900px;
-            margin: 0 auto 30px auto;
-            padding: 40px 50px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border: 1px solid #e2e8f0;
-            font-family: 'Courier Prime', monospace;
-            color: #333;
-        }
+        /* SUNAT DAM Styles */
+        .dam-container { border: 2px solid #000; font-family: 'Inter', sans-serif; }
+        .dam-row { display: flex; border-bottom: 1px solid #000; }
+        .dam-row:last-child { border-bottom: none; }
+        .dam-cell { border-right: 1px solid #000; padding: 4px 6px; display: flex; flex-direction: column; justify-content: flex-start; }
+        .dam-cell:last-child { border-right: none; }
+        .dam-label { font-size: 7px; font-weight: 700; color: #333; text-transform: uppercase; line-height: 1; margin-bottom: 2px; }
+        .dam-value { font-size: 10px; font-weight: 600; color: #000; font-family: 'Courier Prime', monospace; text-transform: uppercase; }
+        .dam-header-bg { background-color: #e5e7eb; font-weight: 800; font-size: 9px; padding: 4px 6px; border-bottom: 1px solid #000; text-transform: uppercase; }
 
-        .doc-header { border-bottom: 2px solid #3E2723; padding-bottom: 15px; margin-bottom: 20px; }
-        .doc-title { font-size: 24px; font-weight: 700; color: #3E2723; text-align: center; letter-spacing: 1px; }
-        .doc-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
-        .doc-table th, .doc-table td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; }
-        .doc-table th { background-color: #f8fafc; font-weight: 600; color: #3E2723; }
+        /* Generic Tables */
+        .doc-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 11px; }
+        .doc-table th, .doc-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+        .doc-table th { background-color: #f8fafc; font-weight: 700; color: #3E2723; text-transform: uppercase; font-size: 10px; }
         
-        .fade-in { animation: fadeIn 0.3s ease-in-out forwards; }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Estilos específicos DAM */
-        .dam-box { border: 1px solid #000; padding: 6px; font-size: 12px; }
-        .dam-header-box { background-color: #f1f5f9; font-weight: bold; border-bottom: 1px solid #000; padding-bottom: 2px; margin-bottom: 4px; }
+        /* Signatures */
+        .sig-blue { color: #1e3a8a; transform: rotate(-2deg); }
+        .sig-black { color: #0f172a; transform: rotate(1deg); }
+
+        @media print {
+            aside, header, .no-print { display: none !important; }
+            main { overflow: visible !important; height: auto !important; width: 100% !important; padding: 0 !important; background: white !important; }
+            .content-section { display: block !important; page-break-after: always; opacity: 1 !important; transform: none !important; }
+            .document-paper { box-shadow: none !important; border: none !important; margin: 0 !important; padding: 15px !important; width: 100% !important; min-height: 100vh !important; }
+            .hidden { display: none !important; }
+        }
     </style>
 </head>
 <body class="h-screen flex overflow-hidden text-slate-800">
 
-    <!-- SIDEBAR NAVIGATION -->
-    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col h-full shadow-sm z-20 shrink-0">
-        <!-- Brand / Header -->
-        <div class="p-6 border-b border-slate-100 bg-brand-800 text-white">
+    <!-- SIDEBAR -->
+    <aside class="w-[300px] bg-white border-r border-slate-200 flex flex-col h-full shadow-sm z-20 shrink-0 overflow-hidden no-print">
+        <div class="p-6 border-b border-slate-100 bg-brand-800 text-white relative overflow-hidden">
+            <i class="fa-solid fa-ship absolute -right-4 -bottom-4 text-[80px] opacity-10"></i>
             <h1 class="text-xl font-bold tracking-tight">ADEX <span class="text-brand-500">Escuela</span></h1>
-            <p class="text-xs text-brand-100 mt-1 opacity-80">Recta Final - Ciclo 2026-I</p>
-            <div class="mt-4 pt-4 border-t border-brand-600/30">
-                <p class="text-sm font-semibold">Andean Pure Grains</p>
-                <p class="text-[11px] text-brand-100 mt-1"><i class="fa-solid fa-user-tie mr-1"></i> Prof. José Darío Dueñas</p>
+            <p class="text-[10px] text-brand-100 mt-1 uppercase tracking-widest opacity-80 italic">Proyecto Integrador II</p>
+            <div class="mt-5 pt-5 border-t border-brand-600/30">
+                <p class="text-sm font-bold truncate uppercase text-brand-500">Andean Pure Grains S.A.C.</p>
+                <p class="text-[11px] text-brand-100 mt-1"><i class="fa-solid fa-user-tie mr-1 text-brand-500"></i> Prof. José Darío Dueñas</p>
             </div>
         </div>
 
-        <!-- Menú -->
-        <nav class="flex-1 overflow-y-auto py-4">
-            <div class="px-4 mb-2">
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Lineamientos del Docente</p>
+        <nav class="flex-1 overflow-y-auto py-4 scrollbar-hide">
+            <div class="px-6 mb-2 mt-2">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Resumen Operativo</p>
             </div>
-            <a href="#" onclick="showSection('instrucciones', this)" class="nav-link active flex items-center px-6 py-3 text-sm text-slate-600">
-                <i class="fa-solid fa-chalkboard-user w-6 text-center"></i> Cronograma y Regla de Oro
+            <a onclick="showSection('dashboard', this)" class="nav-link active flex items-center px-6 py-2.5 text-sm text-slate-600">
+                <i class="fa-solid fa-chart-pie w-6 text-center"></i> Dashboard
             </a>
-            <a href="#" onclick="showSection('senasa', this)" class="nav-link flex items-center px-6 py-3 text-sm text-slate-600">
-                <i class="fa-solid fa-seedling w-6 text-center"></i> Requisitos SENASA
+            <a onclick="showSection('senasa', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
+                <i class="fa-solid fa-microscope w-6 text-center"></i> Requisitos SENASA
             </a>
 
-            <div class="px-4 mt-6 mb-2 border-t border-slate-100 pt-4">
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Expediente de Exportación</p>
+            <div class="px-6 mt-6 mb-2 border-t border-slate-100 pt-4">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Expediente Aduanero</p>
             </div>
-            <a href="#" onclick="showSection('doc-factura', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
-                <i class="fa-solid fa-file-invoice-dollar w-6 text-center"></i> 1. Factura Comercial
+            <a onclick="showSection('doc-factura', this)" class="nav-link flex items-center px-6 py-2 text-sm text-slate-600">
+                <span class="w-6 text-center font-bold text-[10px] bg-slate-100 rounded text-slate-400 mr-2">01</span> Factura Comercial
             </a>
-            <a href="#" onclick="showSection('doc-packing', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
-                <i class="fa-solid fa-boxes-packing w-6 text-center"></i> 2. Packing List
+            <a onclick="showSection('doc-packing', this)" class="nav-link flex items-center px-6 py-2 text-sm text-slate-600">
+                <span class="w-6 text-center font-bold text-[10px] bg-slate-100 rounded text-slate-400 mr-2">02</span> Packing List
             </a>
-            <a href="#" onclick="showSection('doc-dam', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
-                <i class="fa-solid fa-file-signature w-6 text-center"></i> 3. DAM Proyectada (A y B)
+            <a onclick="showSection('doc-dam-a', this)" class="nav-link flex items-center px-6 py-2 text-sm text-slate-600">
+                <span class="w-6 text-center font-bold text-[10px] bg-slate-100 rounded text-slate-400 mr-2">03</span> DAM (Formato A)
             </a>
-            <a href="#" onclick="showSection('doc-bl', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
-                <i class="fa-solid fa-ship w-6 text-center"></i> 4. Bill of Lading (B/L)
+            <a onclick="showSection('doc-dam-b', this)" class="nav-link flex items-center px-6 py-2 text-sm text-slate-600">
+                <span class="w-6 text-center font-bold text-[10px] bg-slate-100 rounded text-slate-400 mr-2">04</span> DAM (Formato B)
             </a>
-            <a href="#" onclick="showSection('doc-origen', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
-                <i class="fa-solid fa-globe w-6 text-center"></i> 5. Certificado de Origen
+            <a onclick="showSection('doc-bl', this)" class="nav-link flex items-center px-6 py-2 text-sm text-slate-600">
+                <span class="w-6 text-center font-bold text-[10px] bg-slate-100 rounded text-slate-400 mr-2">05</span> Bill of Lading (B/L)
             </a>
-            <a href="#" onclick="showSection('doc-cve03', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
-                <i class="fa-solid fa-industry w-6 text-center"></i> 6. Formato SENASA (CVE-03)
+            <a onclick="showSection('doc-origen', this)" class="nav-link flex items-center px-6 py-2 text-sm text-slate-600">
+                <span class="w-6 text-center font-bold text-[10px] bg-slate-100 rounded text-slate-400 mr-2">06</span> Cert. Origen (PTPA)
             </a>
-            <a href="#" onclick="showSection('doc-ca0203', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
-                <i class="fa-solid fa-file-contract w-6 text-center"></i> 7. Formato SENASA (RIV)
+            <a onclick="showSection('doc-carta', this)" class="nav-link flex items-center px-6 py-2 text-sm text-slate-600">
+                <span class="w-6 text-center font-bold text-[10px] bg-slate-100 rounded text-slate-400 mr-2">07</span> Carta Responsabilidad
             </a>
-            <a href="#" onclick="showSection('doc-fito', this)" class="nav-link flex items-center px-6 py-2.5 text-sm text-slate-600">
-                <i class="fa-solid fa-leaf w-6 text-center"></i> 8. Cert. Fitosanitario
+            
+            <div class="px-6 mt-6 mb-2 border-t border-slate-100 pt-4">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Aprobaciones Sanitarias</p>
+            </div>
+            <a onclick="showSection('doc-cve03', this)" class="nav-link flex items-center px-6 py-2 text-sm text-slate-600">
+                <i class="fa-solid fa-file-contract w-6 text-center text-green-600"></i> Formato CVE-03
+            </a>
+            <a onclick="showSection('doc-ca0203', this)" class="nav-link flex items-center px-6 py-2 text-sm text-slate-600">
+                <i class="fa-solid fa-file-signature w-6 text-center text-green-600"></i> Formato RIV
+            </a>
+            <a onclick="showSection('doc-fito', this)" class="nav-link flex items-center px-6 py-2 text-sm text-slate-600">
+                <i class="fa-solid fa-certificate w-6 text-center text-green-600"></i> Cert. Fitosanitario
             </a>
         </nav>
 
-        <!-- Footer Sidebar -->
-        <div class="p-4 border-t border-slate-200 bg-slate-50 text-[10px] text-slate-500 text-center">
-            Equipo: Diego C., Gianella A., Marilin M., Rosamía C., Paola M., Tamia O.
+        <div class="p-5 border-t border-slate-100 bg-slate-50">
+            <div class="flex items-center gap-3 mb-2">
+                <i class="fa-solid fa-users text-slate-400"></i>
+                <p class="font-bold text-slate-600 text-xs uppercase tracking-wider">Equipo Exportador</p>
+            </div>
+            <div class="grid grid-cols-2 gap-1 text-[9px] text-slate-500 font-bold uppercase">
+                <p>• Gianella Armas</p>
+                <p>• Marilin Medina</p>
+                <p>• Rosamía Céspedes</p>
+                <p>• Eric Mozombite</p>
+                <p>• Paola Mamani</p>
+                <p>• Tamia Obregón</p>
+            </div>
         </div>
     </aside>
 
-    <!-- MAIN CONTENT AREA -->
-    <main class="flex-1 bg-slate-50 overflow-y-auto relative">
-        <div class="max-w-5xl mx-auto p-8 pb-20" id="content-container">
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 bg-slate-100 overflow-y-auto relative scroll-smooth">
+        <!-- HEADER -->
+        <header class="no-print sticky top-0 bg-white/90 backdrop-blur-md border-b border-slate-200 px-10 py-5 z-10 flex justify-between items-center shadow-sm">
+            <div>
+                <h2 id="section-title" class="text-xl font-extrabold text-slate-800 uppercase tracking-wide">Dashboard Operativo</h2>
+                <p class="text-sm text-slate-500 font-medium mt-1">Expediente Oficial: <span class="font-mono bg-slate-100 px-2 py-0.5 rounded text-brand-800">INV-2026-001</span></p>
+            </div>
+            <button onclick="window.print()" class="px-5 py-2.5 bg-brand-800 text-white rounded-lg text-sm font-bold shadow-lg shadow-brand-800/30 hover:bg-brand-900 transition-all flex items-center gap-2 transform active:scale-95">
+                <i class="fa-solid fa-print"></i> Imprimir Expediente
+            </button>
+        </header>
+
+        <div class="max-w-5xl mx-auto p-10 pb-32" id="content-container">
             
-            <!-- SECCIÓN: INSTRUCCIONES Y REGLA DE ORO -->
-            <section id="instrucciones" class="content-section block fade-in">
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
-                    <div class="bg-brand-800 px-8 py-6 text-white flex justify-between items-center">
-                        <div>
-                            <h2 class="text-2xl font-bold">Instrucciones: Recta Final</h2>
-                            <p class="text-brand-100 text-sm mt-1">Apuntes de la clase del 01 de abril de 2026</p>
+            <!-- SECCIÓN 0: DASHBOARD -->
+            <section id="dashboard" class="content-section block fade-in">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-3 bg-blue-50 text-blue-600 rounded-xl"><i class="fa-solid fa-ship text-2xl"></i></div>
+                            <span class="text-[10px] font-bold bg-blue-100 text-blue-800 px-3 py-1 rounded-full uppercase tracking-widest">Régimen 40</span>
                         </div>
-                        <i class="fa-solid fa-bullhorn text-4xl text-brand-500 opacity-80"></i>
+                        <h4 class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">B/L Confirmado</h4>
+                        <p class="text-2xl font-bold text-slate-800 mt-1">BL-2026-001</p>
+                        <p class="text-xs font-bold text-blue-600 mt-2 bg-blue-50 inline-block px-2 py-1 rounded">MSC NATALIA V.124</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-3 bg-green-50 text-green-600 rounded-xl"><i class="fa-solid fa-money-bill-trend-up text-2xl"></i></div>
+                            <span class="text-[10px] font-bold bg-green-100 text-green-800 px-3 py-1 rounded-full uppercase tracking-widest">DDP (2020)</span>
+                        </div>
+                        <h4 class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Valor Aduana DDP</h4>
+                        <p class="text-2xl font-bold text-slate-800 mt-1">USD 35,000.00</p>
+                        <p class="text-xs font-bold text-green-600 mt-2 bg-green-50 inline-block px-2 py-1 rounded">FOB $32K + Flete/Seg</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="p-3 bg-amber-50 text-amber-600 rounded-xl"><i class="fa-solid fa-box-open text-2xl"></i></div>
+                            <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full uppercase tracking-widest">5 Pallets</span>
+                        </div>
+                        <h4 class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Pesos Oficiales</h4>
+                        <p class="text-2xl font-bold text-slate-800 mt-1">2,500.00 KGS</p>
+                        <p class="text-xs font-bold text-amber-600 mt-2 bg-amber-50 inline-block px-2 py-1 rounded">Peso Neto: 2,270.00 KGS</p>
+                    </div>
+                </div>
+
+                <div class="bg-brand-900 text-white p-8 rounded-3xl shadow-xl relative overflow-hidden mb-8">
+                    <i class="fa-solid fa-earth-americas absolute -right-10 -bottom-10 text-white/5 text-[250px]"></i>
+                    <h3 class="text-2xl font-extrabold mb-6 relative z-1 flex items-center gap-3"><i class="fa-solid fa-clipboard-check text-brand-500"></i> Matriz de Trazabilidad Comercial</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-1">
+                        <div>
+                            <div class="mb-4">
+                                <p class="text-[10px] font-bold text-brand-500 uppercase tracking-widest mb-1">Exportador (Shipper)</p>
+                                <p class="font-bold text-lg">ANDEAN PURE GRAINS S.A.C.</p>
+                                <p class="text-sm text-brand-100 font-mono">RUC: 20123456789</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-bold text-brand-500 uppercase tracking-widest mb-1">Importador (Consignee)</p>
+                                <p class="font-bold text-lg">UNFI (United Natural Foods, Inc.)</p>
+                                <p class="text-sm text-brand-100">Mira Loma, CA 91752, USA</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="mb-4">
+                                <p class="text-[10px] font-bold text-brand-500 uppercase tracking-widest mb-1">Mercancía Exportada</p>
+                                <p class="font-bold text-lg">Quinua Orgánica Tricolor</p>
+                                <p class="text-sm text-brand-100 font-mono">Partida: 1008.50.90.00 | 5,000 Uds</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-bold text-brand-500 uppercase tracking-widest mb-1">Ruta Logística</p>
+                                <p class="font-bold text-lg">PE CLL <i class="fa-solid fa-arrow-right-long text-brand-500 mx-2"></i> US LAX</p>
+                                <p class="text-sm text-brand-100">Zarpe: Callao | Arribo: Los Ángeles</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECCIÓN: SENASA (Requisitos PDF) -->
+            <section id="senasa" class="content-section hidden fade-in">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-green-800 px-10 py-8 text-white flex justify-between items-center relative overflow-hidden">
+                        <i class="fa-solid fa-microscope absolute right-10 top-1/2 -translate-y-1/2 text-[100px] text-green-600 opacity-30"></i>
+                        <div class="relative z-10">
+                            <h2 class="text-3xl font-extrabold">Consulta SENASA (EE.UU.)</h2>
+                            <p class="text-green-200 text-sm mt-2 font-mono">Fecha de Consulta: 04 de Abril de 2026</p>
+                        </div>
                     </div>
                     
-                    <div class="p-8">
-                        <h3 class="text-lg font-bold text-brand-800 border-b-2 border-brand-500 pb-2 inline-block mb-6">1. Nuevo Cronograma Oficial</h3>
-                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg mb-6 flex gap-4 items-start">
-                            <i class="fa-solid fa-circle-info text-blue-500 mt-1"></i>
-                            <p class="text-sm text-blue-800"><strong>¡Prórroga!</strong> El avance original del martes 7 se extendió hasta el próximo viernes por Semana Santa. "Para que puedan relajarse un rato", indicó el profesor.</p>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
-                            <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm">
-                                <div class="text-xs font-bold text-brand-500 uppercase tracking-wider mb-1">Semana 11</div>
-                                <h4 class="font-bold text-slate-800">Revisión de Avance</h4>
-                                <p class="text-sm text-slate-600 mt-2">Paso de grupo por grupo verificando discrepancias. Aún no hay exposición.</p>
-                            </div>
-                            <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm border-l-4 border-l-brand-800">
-                                <div class="text-xs font-bold text-brand-500 uppercase tracking-wider mb-1">Semana 12</div>
-                                <h4 class="font-bold text-slate-800">Exposición Oficial</h4>
-                                <p class="text-sm text-slate-600 mt-2">Máximo 10 minutos para sustentar los datos y el mercado elegido.</p>
-                            </div>
-                            <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm">
-                                <div class="text-xs font-bold text-brand-500 uppercase tracking-wider mb-1">Semana 13</div>
-                                <h4 class="font-bold text-slate-800">Informe Final</h4>
-                                <p class="text-sm text-slate-600 mt-2">Subida en PDF a Canvas de todo lo trabajado. Ya no se expone.</p>
-                            </div>
-                            <div class="border border-slate-200 rounded-xl p-4 bg-white shadow-sm">
-                                <div class="text-xs font-bold text-brand-500 uppercase tracking-wider mb-1">Semana 14</div>
-                                <h4 class="font-bold text-slate-800">Cierre de Sistema</h4>
-                                <p class="text-sm text-slate-600 mt-2">Entrega del documento final en la plataforma de la institución.</p>
-                            </div>
-                        </div>
-
-                        <h3 class="text-lg font-bold text-brand-800 border-b-2 border-brand-500 pb-2 inline-block mb-6">2. La "Regla de Oro"</h3>
-                        <div class="bg-rose-50 border border-rose-200 rounded-xl p-6 mb-4">
-                            <h4 class="text-rose-800 font-bold text-lg mb-2"><i class="fa-solid fa-triangle-exclamation mr-2"></i> Congruencia y Datos Verificables</h4>
-                            <p class="text-slate-700 text-sm mb-4">El profesor enfatizó que <strong>todos los documentos deben "conversar" entre sí</strong>. Se ha realizado la unificación técnica del equipo:</p>
-                            <ul class="space-y-3 text-sm text-slate-700">
-                                <li class="flex gap-3"><i class="fa-solid fa-check text-green-600 mt-0.5"></i> <span><strong>Pesos idénticos:</strong> 2,270 KG Netos y 2,500 KG Brutos en Packing List, BL y DAM.</span></li>
-                                <li class="flex gap-3"><i class="fa-solid fa-check text-green-600 mt-0.5"></i> <span><strong>RUC y B/L Unificado:</strong> RUC 20123456789 y B/L oficial: BL-2026-001 (aporte de Gianella).</span></li>
-                                <li class="flex gap-3"><i class="fa-solid fa-check text-green-600 mt-0.5"></i> <span><strong>Consignatario Único:</strong> Operación DDP dirigida íntegramente a UNFI (United Natural Foods, Inc).</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECCIÓN: REQUISITOS SENASA -->
-            <section id="senasa" class="content-section hidden fade-in">
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                    <div class="bg-green-800 px-8 py-6 text-white flex justify-between items-center">
-                        <div>
-                            <h2 class="text-2xl font-bold">Requisitos Fitosanitarios (EE.UU.)</h2>
-                            <p class="text-green-100 text-sm mt-1">Autoridad Competente: SENASA</p>
-                        </div>
-                        <i class="fa-solid fa-microscope text-4xl text-green-400 opacity-80"></i>
-                    </div>
-                    <div class="p-8">
-                        <div class="flex flex-col md:flex-row gap-8 mb-8">
-                            <div class="flex-1 bg-slate-50 p-6 rounded-xl border border-slate-200">
-                                <p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-2">Partida Arancelaria Exacta</p>
-                                <p class="text-3xl font-mono font-bold text-brand-800">1008.50.90.00</p>
-                                <p class="text-sm text-slate-600 mt-2">Quinua (*Chenopodium quinoa*) - Las demás.</p>
-                            </div>
-                            <div class="flex-1 bg-slate-50 p-6 rounded-xl border border-slate-200">
-                                <p class="text-xs text-slate-500 font-bold uppercase tracking-wider mb-2">Protocolo APHIS-USA</p>
-                                <p class="text-lg font-bold text-slate-800"><i class="fa-solid fa-circle-check text-green-600 mr-2"></i> Sin declaración adicional</p>
-                                <p class="text-sm text-slate-600 mt-2">No requiere tratamiento cuarentenario (fumigación). Solo inspección y Certificado Fitosanitario.</p>
-                            </div>
-                        </div>
-
-                        <h3 class="text-lg font-bold text-brand-800 mb-4">Los 3 Formatos Obligatorios de SENASA</h3>
-                        <div class="space-y-4">
-                            <div class="flex items-start gap-4 p-4 border border-brand-500 bg-brand-50 rounded-lg">
-                                <div class="w-10 h-10 rounded-full bg-brand-500 flex items-center justify-center text-white font-bold shrink-0">1</div>
-                                <div>
-                                    <h4 class="font-bold text-brand-800">Certificación de Planta de Tratamiento/Empaque (CVE-03)</h4>
-                                    <p class="text-sm text-slate-700 mt-1">Aval de que la planta procesadora en Lima cumple con normas de inocuidad. <a href="#" onclick="showSection('doc-cve03', document.querySelectorAll('.nav-link')[7])" class="text-blue-600 hover:underline font-semibold">Ver formato lleno aquí.</a></p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4 p-4 border border-slate-200 rounded-lg">
-                                <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-700 font-bold shrink-0">+</div>
-                                <div>
-                                    <h4 class="font-bold text-slate-800">Reporte de Inspección (CA-02-03)</h4>
-                                    <p class="text-sm text-slate-600 mt-1">Formato de tránsito/inspección en el Callao. <a href="#" onclick="showSection('doc-ca0203', document.querySelectorAll('.nav-link')[8])" class="text-blue-600 hover:underline font-semibold">Ver documento aquí.</a></p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4 p-4 border border-slate-200 rounded-lg">
-                                <div class="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-800 font-bold shrink-0">2</div>
-                                <div>
-                                    <h4 class="font-bold text-slate-800">Certificado Fitosanitario de Exportación</h4>
-                                    <p class="text-sm text-slate-600 mt-1">Documento final emitido en el puerto del Callao tras inspeccionar el contenedor. <a href="#" onclick="showSection('doc-fito', document.querySelectorAll('.nav-link')[9])" class="text-blue-600 hover:underline font-semibold">Ver documento aquí.</a></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Anexo Informativo -->
-                        <div class="mt-12 border-t border-slate-200 pt-8">
-                            <h3 class="text-xl font-bold text-brand-800 mb-2"><i class="fa-solid fa-microscope mr-2"></i> Anexo Informativo: Control de Inocuidad (SENASA / FDA)</h3>
-                            <p class="text-sm text-slate-600 mb-6">El ingreso de la quinua a Los Ángeles está condicionado a la estricta auditoría de Límites Máximos de Residuos (LMR).</p>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="bg-white border border-slate-200 rounded-lg p-4 text-xs">
-                                    <p class="font-bold text-slate-800 mb-2">Contaminantes Críticos (LMR)</p>
-                                    <ul class="space-y-1 text-slate-600">
-                                        <li>Glifosato: Max 5 ppm</li>
-                                        <li>Spinosad: Max 0.02 ppm</li>
-                                        <li>Plomo (Pb): 0.20 mg/kg</li>
-                                        <li>Aflatoxinas: 20.0 µg/kg</li>
-                                    </ul>
-                                </div>
-                                <div class="bg-white border border-slate-200 rounded-lg p-4 text-xs">
-                                    <p class="font-bold text-slate-800 mb-2">Control Microbiológico</p>
-                                    <ul class="space-y-1 text-slate-600">
-                                        <li>Salmonella sp.: Ausencia en 25g</li>
-                                        <li>Escherichia coli: &lt; 10 UFC/g</li>
-                                        <li>Bacillus cereus: &lt; 10^3 UFC/g</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ============================================================== -->
-            <!-- EXPEDIENTE DE EXPORTACIÓN UNIFICADO -->
-            <!-- ============================================================== -->
-
-            <!-- DOC 1: FACTURA COMERCIAL -->
-            <section id="doc-factura" class="content-section hidden fade-in">
-                <div class="document-paper">
-                    <div class="doc-header flex justify-between items-end">
-                        <div>
-                            <h2 class="text-2xl font-bold text-brand-800">ANDEAN PURE GRAINS S.A.C.</h2>
-                            <p class="text-sm">Av. Las Américas 123, La Victoria, Lima - Perú</p>
-                            <p class="text-sm">RUC: 20123456789 | Tel: +51 1 710-2030</p>
-                            <p class="text-sm text-blue-600">Andeanpure@gmail.com</p>
-                        </div>
-                        <div class="text-right">
-                            <h1 class="text-3xl font-bold text-slate-400">COMMERCIAL INVOICE</h1>
-                            <p class="font-bold mt-2">N°: INV-2026-001</p>
-                            <p class="text-sm">Date: 07-Abr-2026</p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-8 mb-8 text-sm">
-                        <div class="bg-slate-50 p-4 border border-slate-200 rounded">
-                            <p class="font-bold text-brand-800 border-b border-slate-300 pb-1 mb-2">CONSIGNEE (BUYER):</p>
-                            <p class="font-bold">UNFI (United Natural Foods, Inc.)</p>
-                            <p>11905 Riverside Dr</p>
-                            <p>Mira Loma, CA 91752, USA.</p>
-                            <p>Tax ID: 12-3456789</p>
-                            <p class="mt-2 text-slate-500">Contact: Operations Dept.</p>
-                        </div>
-                        <div class="p-4">
-                            <p><strong>Incoterm:</strong> DDP LOS ÁNGELES (INCOTERMS ® 2020)</p>
-                            <p><strong>Port of Loading:</strong> CALLAO, PERU</p>
-                            <p><strong>Port of Discharge:</strong> Port of Los Angeles, CA, USA</p>
-                            <p class="mt-2"><strong>Payment Terms:</strong> T/T 30% Adv, 70% vs B/L Copy</p>
-                        </div>
-                    </div>
-
-                    <table class="doc-table">
-                        <thead>
-                            <tr>
-                                <th>ITEM</th>
-                                <th>DESCRIPTION OF GOODS</th>
-                                <th>HS CODE</th>
-                                <th class="text-center">QTY</th>
-                                <th class="text-center">UNIT</th>
-                                <th class="text-right">U. PRICE</th>
-                                <th class="text-right">TOTAL USD</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-center font-mono text-xs">1</td>
-                                <td>Organic Peruvian Tricolor Quinoa - Retail Pouch 1 lb (454g)</td>
-                                <td class="font-mono text-xs text-center">1008.50.90.00</td>
-                                <td class="text-center">5000</td>
-                                <td class="text-center">Units</td>
-                                <td class="text-right">$6.40</td>
-                                <td class="text-right">$32,000.00</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="6" class="text-right font-bold p-2 text-slate-600">TOTAL EXW / FOB VALUE:</td>
-                                <td class="text-right font-bold p-2 text-slate-600">$32,000.00</td>
-                            </tr>
-                            <tr>
-                                <td colspan="6" class="text-right font-bold p-2 text-slate-600">INTL. FREIGHT:</td>
-                                <td class="text-right font-bold p-2 text-slate-600">$2,500.00</td>
-                            </tr>
-                            <tr>
-                                <td colspan="6" class="text-right font-bold p-2 text-slate-600">INSURANCE:</td>
-                                <td class="text-right font-bold p-2 text-slate-600">$500.00</td>
-                            </tr>
-                            <tr>
-                                <td colspan="6" class="text-right font-bold text-lg p-3">TOTAL DDP VALUE:</td>
-                                <td class="text-right font-bold text-lg p-3 bg-brand-50">$35,000.00</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-
-                    <div class="mt-24 w-64 text-center">
-                        <div class="border-t border-slate-400 pt-2">
-                            <p class="font-bold">Diego Castillo Flores</p>
-                            <p class="text-xs text-slate-500">Representante Legal</p>
-                            <p class="text-xs text-slate-500">Andean Pure Grains S.A.C.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- DOC 2: PACKING LIST -->
-            <section id="doc-packing" class="content-section hidden fade-in">
-                <div class="document-paper">
-                    <div class="text-center mb-10">
-                        <h1 class="text-3xl font-bold text-brand-800">PACKING LIST</h1>
-                        <p class="text-slate-500 mt-2 font-mono">Ref. INV-2026-001</p>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-6 mb-8 text-sm bg-slate-50 p-6 border border-slate-200 rounded">
-                        <div>
-                            <p><strong class="text-brand-800">EXPORTER (SHIPPER):</strong></p>
-                            <p>ANDEAN PURE GRAINS S.A.C.</p>
-                            <p>RUC: 20123456789</p>
-                            <p>Av. Las Américas 123, La Victoria, Lima - Perú</p>
-                            <p class="mt-4"><strong class="text-brand-800">CONSIGNEE (BUYER):</strong></p>
-                            <p>UNFI (United Natural Foods, Inc.)</p>
-                            <p>11905 Riverside Dr, Mira Loma, CA 91752, USA</p>
-                        </div>
-                        <div>
-                            <p><strong class="text-brand-800">DATE:</strong> 07-Abr-2026</p>
-                            <p><strong class="text-brand-800">INCOTERM:</strong> DDP LOS ÁNGELES</p>
-                            <p class="mt-4"><strong class="text-brand-800">SHIPPING MARKS:</strong></p>
-                            <p>ANDEAN-UNFI / LAX / 1-5</p>
-                            <p class="mt-2"><strong class="text-brand-800">CONTAINER/SEAL:</strong></p>
-                            <p>BL-2026-001 / PE-987654</p>
-                        </div>
-                    </div>
-
-                    <table class="doc-table">
-                        <thead>
-                            <tr>
-                                <th>PKG NO</th>
-                                <th>DESCRIPTION OF GOODS</th>
-                                <th class="text-center">QTY</th>
-                                <th class="text-center">UNIT</th>
-                                <th class="text-right">NET WT (KG)</th>
-                                <th class="text-right">GROSS WT (KG)</th>
-                                <th class="text-right">DIMENSIONS (CM)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1/5 to 5/5<br>(Pallets)</td>
-                                <td>250 Cartons containing 5000 units x 1 lb (454g) Organic Peruvian Tricolor Quinoa</td>
-                                <td class="text-center">5000</td>
-                                <td class="text-center">Pouches</td>
-                                <td class="text-right">2,270.00</td>
-                                <td class="text-right">2,500.00</td>
-                                <td class="text-right">120x100x120</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr class="bg-brand-50 font-bold">
-                                <td colspan="2" class="text-right p-3">TOTAL QUANTITY:</td>
-                                <td class="text-center p-3">5,000</td>
-                                <td></td>
-                                <td class="text-right p-3 text-green-700">2,270.00 KGS</td>
-                                <td class="text-right p-3 text-red-700">2,500.00 KGS</td>
-                                <td class="text-right p-3">7.50 CBM</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </section>
-
-            <!-- DOC 3: DAM (FORMATOS A Y B) -->
-            <section id="doc-dam" class="content-section hidden fade-in">
-                
-                <!-- FORMATO A -->
-                <div class="document-paper-dam">
-                    <div class="border-b-2 border-black pb-2 mb-4 flex justify-between items-center">
-                        <img src="https://www.sunat.gob.pe/cl-ti-itmenu/images/logo_sunat.gif" alt="SUNAT" class="h-10 opacity-50 grayscale">
-                        <div class="text-center w-full">
-                            <h1 class="text-xl font-bold">DECLARACIÓN ADUANERA DE MERCANCÍAS</h1>
-                            <p class="font-bold border border-black inline-block px-4 py-1 mt-1">FORMATO A</p>
-                        </div>
-                    </div>
-
-                    <div class="border border-black text-xs mb-4">
-                        <div class="grid grid-cols-12 border-b border-black">
-                            <div class="col-span-8 p-2 border-r border-black">
-                                <div class="dam-header-box">1. IDENTIFICACIÓN</div>
-                                <div class="grid grid-cols-2 gap-2 mt-2">
-                                    <div>
-                                        <p>1.1 Importador/Exportador</p>
-                                        <p class="font-bold">ANDEAN PURE GRAINS S.A.C.</p>
-                                    </div>
-                                    <div>
-                                        <p>1.2 Código y Documento de Identidad</p>
-                                        <p class="font-bold">4 / 20123456789</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-span-4 p-2">
-                                <div class="dam-header-box">2. REGISTRO DE ADUANAS</div>
-                                <p class="mt-2">Aduana de Despacho: <strong>118 (Marítima Callao)</strong></p>
-                                <p>Régimen: <strong>40 (Exportación Definitiva)</strong></p>
-                                <p>N° Declaración: <strong>118-2026-40-123456</strong></p>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-12 border-b border-black">
-                            <div class="col-span-8 p-2 border-r border-black">
-                                <div class="dam-header-box">3. TRANSPORTE</div>
-                                <div class="grid grid-cols-2 gap-2 mt-2">
-                                    <div>
-                                        <p>3.1 Vía Transporte / Código</p>
-                                        <p class="font-bold">MARÍTIMO / 1</p>
-                                    </div>
-                                    <div>
-                                        <p>3.2 Empresa de Transporte</p>
-                                        <p class="font-bold">MSC NATALIA V.124</p>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2 mt-2">
-                                    <div>
-                                        <p>3.3 Puerto de Embarque</p>
-                                        <p class="font-bold">PE CLL - CALLAO</p>
-                                    </div>
-                                    <div>
-                                        <p>3.4 Puerto de Desembarque</p>
-                                        <p class="font-bold">US LAX - LOS ANGELES</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-span-4 p-2">
-                                <div class="dam-header-box">4. ALMACÉN</div>
-                                <p class="mt-2">4.1 Depósito Temporal</p>
-                                <p class="font-bold">DP WORLD CALLAO S.R.L.</p>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-12 border-b border-black">
-                            <div class="col-span-12 p-2">
-                                <div class="dam-header-box">5. TRANSACCIÓN</div>
-                                <div class="grid grid-cols-4 gap-4 mt-2 text-center">
-                                    <div>
-                                        <p>5.1 Moneda</p>
-                                        <p class="font-bold">USD</p>
-                                    </div>
-                                    <div>
-                                        <p>5.2 Naturaleza Transacción</p>
-                                        <p class="font-bold">11</p>
-                                    </div>
-                                    <div>
-                                        <p>5.3 Incoterm</p>
-                                        <p class="font-bold">DDP</p>
-                                    </div>
-                                    <div>
-                                        <p>5.4 País de Destino</p>
-                                        <p class="font-bold">ESTADOS UNIDOS (US)</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-12">
-                            <div class="col-span-8 p-2 border-r border-black">
-                                <div class="dam-header-box">6. VALOR ADUANA (Expresado en US$)</div>
-                                <div class="grid grid-cols-4 gap-2 mt-2 text-right">
-                                    <div>
-                                        <p>6.1 FOB</p>
-                                        <p class="font-bold">32,000.00</p>
-                                    </div>
-                                    <div>
-                                        <p>6.2 Flete</p>
-                                        <p class="font-bold">2,500.00</p>
-                                    </div>
-                                    <div>
-                                        <p>6.3 Seguro</p>
-                                        <p class="font-bold">500.00</p>
-                                    </div>
-                                    <div class="bg-gray-100 p-1 border border-black">
-                                        <p>6.4 TOTAL DDP</p>
-                                        <p class="font-bold">35,000.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-span-4 p-2">
-                                <div class="dam-header-box">7. TOTALES (Peso y Bultos)</div>
-                                <p class="mt-2 flex justify-between"><span>7.1 Peso Neto (Kg):</span> <strong class="text-right">2,270.00</strong></p>
-                                <p class="flex justify-between"><span>7.2 Peso Bruto (Kg):</span> <strong class="text-right">2,500.00</strong></p>
-                                <p class="flex justify-between"><span>7.3 Total Bultos:</span> <strong class="text-right">5 PALLETS</strong></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- FORMATO B -->
-                <div class="document-paper-dam">
-                    <div class="border-b-2 border-black pb-2 mb-4 flex justify-between items-center">
-                        <img src="https://www.sunat.gob.pe/cl-ti-itmenu/images/logo_sunat.gif" alt="SUNAT" class="h-10 opacity-50 grayscale">
-                        <div class="text-center w-full">
-                            <h1 class="text-xl font-bold">DECLARACIÓN ADUANERA DE MERCANCÍAS</h1>
-                            <p class="font-bold border border-black inline-block px-4 py-1 mt-1">FORMATO B (DETALLE DE ÍTEMS)</p>
-                        </div>
-                    </div>
-
-                    <div class="border border-black text-xs mb-4">
-                        <div class="p-2 border-b border-black bg-slate-50">
-                            <div class="grid grid-cols-2 gap-4">
-                                <p>Declaración N°: <strong>118-2026-40-123456</strong></p>
-                                <p class="text-right">Importador/Exportador: <strong>ANDEAN PURE GRAINS S.A.C.</strong></p>
-                            </div>
-                        </div>
-
-                        <div class="p-2 border-b border-black">
-                            <div class="dam-header-box">5. DESCRIPCIÓN DE LA MERCANCÍA</div>
-                            <div class="grid grid-cols-12 gap-2 mt-2">
-                                <div class="col-span-1">
-                                    <p class="text-gray-500">5.1 Ítem</p>
-                                    <p class="font-bold text-center">1</p>
-                                </div>
-                                <div class="col-span-3">
-                                    <p class="text-gray-500">5.2 Subpartida Nacional</p>
-                                    <p class="font-bold">1008.50.90.00</p>
-                                </div>
-                                <div class="col-span-3">
-                                    <p class="text-gray-500">5.3 N° Factura Comercial</p>
-                                    <p class="font-bold">INV-2026-001</p>
-                                </div>
-                                <div class="col-span-2">
-                                    <p class="text-gray-500">5.4 Cód. Moneda</p>
-                                    <p class="font-bold text-center">USD</p>
-                                </div>
-                                <div class="col-span-3 text-right">
-                                    <p class="text-gray-500">5.5 FOB Unitario</p>
-                                    <p class="font-bold">$6.40</p>
-                                </div>
+                    <div class="p-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                            <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-2">Producto Consultado</p>
+                                <p class="text-xl font-extrabold text-green-900">QUINUA, grano</p>
+                                <p class="text-sm italic text-slate-600 mb-4">Chenopodium quinoa</p>
+                                <p class="font-mono font-bold text-lg bg-white px-3 py-2 rounded border border-slate-200 inline-block">1008.50.90.00</p>
+                                <p class="text-xs text-slate-500 font-bold uppercase mt-4">Estado: <span class="text-green-600">AUTORIZADO</span></p>
                             </div>
                             
-                            <div class="mt-4 p-2 bg-gray-50 border border-dashed border-gray-400">
-                                <p class="text-gray-500 mb-1">5.6 Características, Tipo/Clase, Uso, Presentación, Material</p>
-                                <p class="font-bold uppercase tracking-wide">Quinua Peruana Orgánica En Grano Tricolor, Retail Pouch 1lb (454g). Apta para consumo humano.</p>
+                            <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-4">Requisitos Fitosanitarios</p>
+                                <ul class="space-y-4 text-sm font-medium">
+                                    <li class="flex items-start gap-3">
+                                        <i class="fa-solid fa-certificate text-green-600 mt-1"></i>
+                                        <div>
+                                            <span class="block font-bold text-slate-800">Certificado Fitosanitario</span>
+                                            <span class="text-slate-500 text-xs">Obligatorio para el mercado destino.</span>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <i class="fa-solid fa-file-circle-xmark text-blue-600 mt-1"></i>
+                                        <div>
+                                            <span class="block font-bold text-slate-800">Sin Declaración Adicional</span>
+                                            <span class="text-slate-500 text-xs">No se requieren cláusulas extra en el certificado.</span>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <i class="fa-solid fa-bug-slash text-rose-600 mt-1"></i>
+                                        <div>
+                                            <span class="block font-bold text-slate-800">Tratamiento Cuarentenario</span>
+                                            <span class="text-slate-500 text-xs">No requiere tratamiento (Libre de fumigación).</span>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
+                        </div>
 
-                            <div class="grid grid-cols-12 gap-2 mt-4">
-                                <div class="col-span-3">
-                                    <p class="text-gray-500">5.7 Cantidad Unidad Física</p>
-                                    <p class="font-bold">2,270.00</p>
-                                </div>
-                                <div class="col-span-3">
-                                    <p class="text-gray-500">5.8 Unidad Física</p>
-                                    <p class="font-bold">KG</p>
-                                </div>
-                                <div class="col-span-3">
-                                    <p class="text-gray-500">5.9 Cantidad Unid. Comerc.</p>
-                                    <p class="font-bold">5,000.00</p>
-                                </div>
-                                <div class="col-span-3">
-                                    <p class="text-gray-500">5.10 Unidad Comercial</p>
-                                    <p class="font-bold">U (Unidades)</p>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-12 gap-2 mt-4 border-t border-gray-200 pt-2">
-                                <div class="col-span-4">
-                                    <p class="text-gray-500">5.11 Marca Comercial</p>
-                                    <p class="font-bold">ANDEAN PURE GRAINS</p>
-                                </div>
-                                <div class="col-span-4">
-                                    <p class="text-gray-500">5.12 País de Origen</p>
-                                    <p class="font-bold">PE (PERÚ)</p>
-                                </div>
-                                <div class="col-span-4 text-right">
-                                    <p class="text-gray-500">5.13 Total FOB Ítem (US$)</p>
-                                    <p class="font-bold">32,000.00</p>
-                                </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-flask-vial text-brand-500"></i> Tabla LMR (Límites Máximos de Residuos)
+                            </h3>
+                            <div class="border border-slate-200 rounded-xl overflow-hidden">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="bg-slate-100 text-[10px] uppercase font-bold text-slate-600">
+                                        <tr>
+                                            <th class="p-3 border-b">Ingrediente Activo</th>
+                                            <th class="p-3 border-b text-center">LMR Aprobado</th>
+                                            <th class="p-3 border-b">Unidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 font-medium text-slate-700">
+                                        <tr class="hover:bg-slate-50"><td class="p-3">Glifosato (Glyphosate)</td><td class="p-3 text-center font-mono font-bold text-brand-600">5.0</td><td class="p-3 text-xs">ppm</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="p-3">Azoxystrobin</td><td class="p-3 text-center font-mono font-bold text-brand-600">3.0</td><td class="p-3 text-xs">ppm</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="p-3">Chlorantraniliprole</td><td class="p-3 text-center font-mono font-bold text-brand-600">6.0</td><td class="p-3 text-xs">ppm</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="p-3">Etofenprox</td><td class="p-3 text-center font-mono font-bold text-brand-600">5.0</td><td class="p-3 text-xs">ppm</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="p-3">Flupyradifurone</td><td class="p-3 text-center font-mono font-bold text-brand-600">3.0</td><td class="p-3 text-xs">ppm</td></tr>
+                                        <tr class="hover:bg-slate-50"><td class="p-3">Carfentrazone-ethyl</td><td class="p-3 text-center font-mono font-bold text-brand-600">0.1</td><td class="p-3 text-xs">ppm</td></tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </section>
 
-            <!-- DOC 4: B/L -->
-            <section id="doc-bl" class="content-section hidden fade-in">
-                <div class="document-paper relative">
-                    <div class="absolute inset-0 opacity-[0.03] flex items-center justify-center pointer-events-none">
-                        <i class="fa-solid fa-ship text-[400px]"></i>
-                    </div>
-                    <div class="flex justify-between items-center border-b-4 border-blue-900 pb-4 mb-6">
-                        <h1 class="text-3xl font-bold text-blue-900">OCEAN BILL OF LADING</h1>
-                        <p class="text-xl font-mono text-red-600 font-bold">B/L: BL-2026-001</p>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-0 border-2 border-black text-sm">
-                        <div class="border-r-2 border-b-2 border-black p-3 h-32">
-                            <p class="font-bold text-xs text-slate-500">1. SHIPPER / EXPORTER</p>
-                            <p class="font-bold mt-1">ANDEAN PURE GRAINS S.A.C.</p>
-                            <p>Av. Las Américas 123, La Victoria, Lima - Perú</p>
-                            <p>RUC: 20123456789</p>
-                        </div>
-                        <div class="border-b-2 border-black p-3 h-32">
-                            <p class="font-bold text-xs text-slate-500">B/L NO.</p>
-                            <p class="font-mono mt-1">BL-2026-001</p>
-                        </div>
-                        
-                        <div class="border-r-2 border-b-2 border-black p-3 h-32">
-                            <p class="font-bold text-xs text-slate-500">2. CONSIGNEE</p>
-                            <p class="font-bold mt-1">UNFI (United Natural Foods, Inc.)</p>
-                            <p>11905 Riverside Dr, Mira Loma, CA 91752, USA</p>
-                        </div>
-                        <div class="border-b-2 border-black p-3 h-32 bg-slate-50">
-                            <p class="font-bold text-xs text-slate-500">NOTIFY PARTY</p>
-                            <p class="mt-1">SAME AS CONSIGNEE</p>
-                        </div>
-
-                        <div class="col-span-2 grid grid-cols-4 border-b-2 border-black">
-                            <div class="p-3 border-r border-black">
-                                <p class="font-bold text-xs text-slate-500">OCEAN VESSEL</p>
-                                <p class="font-bold mt-1">MSC NATALIA V.124</p>
+            <!-- DOCUMENT 01: FACTURA COMERCIAL -->
+            <section id="doc-factura" class="content-section hidden fade-in">
+                <div class="document-paper">
+                    <!-- Factura Header -->
+                    <div class="flex justify-between items-start border-b-2 border-brand-800 pb-6 mb-8">
+                        <div class="flex items-center gap-5">
+                            <div class="w-20 h-20 bg-brand-800 flex items-center justify-center text-white font-extrabold text-2xl rounded-xl shadow-md">APG</div>
+                            <div>
+                                <h2 class="text-3xl font-extrabold text-brand-800 uppercase tracking-tighter">Andean Pure Grains S.A.C.</h2>
+                                <p class="text-xs font-bold text-slate-500 mt-1">RUC: 20123456789</p>
+                                <p class="text-[11px] text-slate-500">Av. Las Américas 123, La Victoria, Lima - Perú</p>
+                                <p class="text-[11px] text-slate-500">Email: Andeanpure@gmail.com | Telf: +51 1 710-2030</p>
                             </div>
-                            <div class="p-3 border-r border-black">
-                                <p class="font-bold text-xs text-slate-500">PORT OF LOADING</p>
-                                <p class="font-bold mt-1">CALLAO, PERU</p>
-                            </div>
-                            <div class="p-3 border-r border-black col-span-2">
-                                <p class="font-bold text-xs text-slate-500">PORT OF DISCHARGE</p>
-                                <p class="font-bold mt-1">LOS ANGELES, USA</p>
+                        </div>
+                        <div class="text-right">
+                            <h1 class="text-3xl font-extrabold text-slate-300 uppercase tracking-widest mb-2">Invoice</h1>
+                            <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg inline-block text-left min-w-[200px]">
+                                <p class="text-[10px] font-bold text-slate-400 uppercase">Invoice Number</p>
+                                <p class="font-mono text-lg font-bold text-brand-800">INV-2026-001</p>
+                                <div class="border-t border-slate-200 my-2"></div>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase">Date of Issue</p>
+                                <p class="font-mono text-sm font-bold">April 07, 2026</p>
                             </div>
                         </div>
                     </div>
 
-                    <table class="w-full border-x-2 border-b-2 border-black mt-0 text-sm">
-                        <thead class="border-b-2 border-black bg-slate-100">
+                    <!-- Bill To & Logistics -->
+                    <div class="grid grid-cols-2 gap-8 mb-8 text-xs">
+                        <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+                            <p class="font-bold text-brand-800 border-b border-slate-200 mb-3 pb-1 uppercase tracking-widest text-[10px]">Billed To / Consignee:</p>
+                            <p class="font-bold text-base text-slate-900 uppercase">UNFI (United Natural Foods, Inc.)</p>
+                            <p class="mt-1 text-slate-700">11905 Riverside Dr</p>
+                            <p class="text-slate-700">Mira Loma, CA 91752</p>
+                            <p class="text-slate-700">United States of America</p>
+                            <p class="mt-3 font-mono font-bold">Tax ID: 12-3456789</p>
+                        </div>
+                        <div class="p-5 border border-slate-200 rounded-xl flex flex-col justify-center space-y-2">
+                            <div class="flex justify-between border-b border-slate-100 pb-1"><span class="font-bold text-slate-500">Incoterm:</span> <span class="font-bold text-brand-800">DDP LOS ANGELES (2020)</span></div>
+                            <div class="flex justify-between border-b border-slate-100 pb-1"><span class="font-bold text-slate-500">Port of Loading:</span> <span class="font-bold">CALLAO, PERU</span></div>
+                            <div class="flex justify-between border-b border-slate-100 pb-1"><span class="font-bold text-slate-500">Port of Discharge:</span> <span class="font-bold">LOS ANGELES, CA, USA</span></div>
+                            <div class="flex justify-between border-b border-slate-100 pb-1"><span class="font-bold text-slate-500">Vessel:</span> <span class="font-bold">MSC NATALIA V.124</span></div>
+                            <div class="flex justify-between"><span class="font-bold text-slate-500">Payment:</span> <span class="font-bold">T/T 30% ADV / 70% B/L</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Items Table -->
+                    <table class="w-full text-xs border-collapse">
+                        <thead class="bg-brand-800 text-white text-[10px] uppercase">
                             <tr>
-                                <th class="p-2 border-r border-black text-left">MARKS & NOS.</th>
-                                <th class="p-2 border-r border-black text-center">NO. OF PKGS</th>
-                                <th class="p-2 border-r border-black text-left">DESCRIPTION OF GOODS</th>
-                                <th class="p-2 text-right">GROSS WT</th>
+                                <th class="p-3 text-center rounded-tl-lg">Item</th>
+                                <th class="p-3 text-left">Description of Goods</th>
+                                <th class="p-3 text-center">HS Code</th>
+                                <th class="p-3 text-center">Qty</th>
+                                <th class="p-3 text-right">Unit Price</th>
+                                <th class="p-3 text-right rounded-tr-lg">Total Amount (USD)</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="h-48 align-top">
-                                <td class="p-3 border-r border-black font-mono text-xs">
-                                    ANDEAN-UNFI<br>
-                                    LAX<br>
-                                    1-5<br><br>
-                                    SEAL:<br>PE-987654
+                        <tbody class="border-b-2 border-slate-200">
+                            <tr class="border-b border-slate-100">
+                                <td class="p-4 text-center font-bold text-slate-400">01</td>
+                                <td class="p-4">
+                                    <p class="font-bold text-sm text-slate-800">Organic Peruvian Tricolor Quinoa</p>
+                                    <p class="text-[10px] text-slate-500 mt-1 uppercase">Retail Ready Pouch 1 lb (454g). Premium Grade.</p>
+                                    <p class="text-[10px] text-slate-500 uppercase">Crop Year: 2026 | Lot: APG-2026-04</p>
                                 </td>
-                                <td class="p-3 border-r border-black text-center font-bold">5 PALLETS<br>(250 BOXES)</td>
-                                <td class="p-3 border-r border-black">
-                                    <strong>SAID TO CONTAIN: ORGANIC TRICOLOR QUINOA</strong><br>
-                                    HS CODE: 1008.50.90.00<br><br>
-                                    <span class="text-xs italic text-blue-800">Incoterm DDP Los Angeles (Incoterms 2020), freight prepaid; Organic Peruvian Tricolor Quinoa, food grade for human consumption, packed in 1 lb (454 g) pouches, in cartons and ISPM 15 pallets; complies with export and food safety standards; country of origin: Peru; delivery within 25-30 days after shipment; inspection allowed; payment as agreed.</span><br><br>
-                                    <span class="text-xs font-bold">CLEAN ON BOARD</span>
-                                </td>
-                                <td class="p-3 text-right font-bold">2,500.00 KGS<br><br>7.50 CBM</td>
+                                <td class="p-4 text-center font-mono font-bold text-slate-600">1008.50.90.00</td>
+                                <td class="p-4 text-center font-bold">5,000<br><span class="text-[9px] font-normal text-slate-400 uppercase">Pouches</span></td>
+                                <td class="p-4 text-right font-mono">$7.00</td>
+                                <td class="p-4 text-right font-mono font-bold text-sm">$35,000.00</td>
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" rowspan="3" class="p-4 align-top">
+                                    <p class="text-[9px] text-slate-400 italic text-justify pr-10">
+                                        Declaration: We certify that the products covered by this invoice are of Peruvian origin and that all prices and descriptions are true and correct. Goods are suitable for human consumption and comply with FDA/USDA regulations.
+                                    </p>
+                                </td>
+                                <td class="p-3 text-right font-bold text-slate-500 uppercase text-[10px] border-b border-slate-100">Total EXW/FOB Value:</td>
+                                <td class="p-3 text-right font-mono font-bold border-b border-slate-100">$32,000.00</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 text-right font-bold text-slate-500 uppercase text-[10px] border-b border-slate-100">Intl. Freight & Customs Fees:</td>
+                                <td class="p-3 text-right font-mono font-bold border-b border-slate-100">$3,000.00</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-right font-extrabold text-brand-800 uppercase text-xs bg-brand-50 rounded-bl-lg">Total DDP Value:</td>
+                                <td class="p-4 text-right font-mono font-extrabold text-brand-800 text-lg bg-brand-50 rounded-br-lg underline decoration-double">$35,000.00</td>
+                            </tr>
+                        </tfoot>
                     </table>
+
+                    <div class="mt-24 flex justify-end">
+                        <div class="text-center w-64">
+                            <div class="font-signature sig-blue text-3xl mb-1">Diego Castillo F.</div>
+                            <div class="border-t-2 border-brand-800 pt-2">
+                                <p class="font-bold text-xs uppercase text-slate-800">Diego Castillo Flores</p>
+                                <p class="text-[9px] text-slate-500 uppercase tracking-widest mt-1">Export Manager</p>
+                                <p class="text-[9px] font-bold text-brand-600 uppercase mt-1">Andean Pure Grains S.A.C.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <!-- DOC 5: CERTIFICADO DE ORIGEN -->
-            <section id="doc-origen" class="content-section hidden fade-in">
+            <!-- DOCUMENT 02: PACKING LIST -->
+            <section id="doc-packing" class="content-section hidden fade-in">
                 <div class="document-paper">
-                    <h1 class="text-xl font-bold text-center mb-6">CERTIFICATE OF ORIGIN<br><span class="text-sm font-normal">US-Peru Trade Promotion Agreement (PTPA)</span></h1>
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-extrabold uppercase tracking-[0.3em] text-brand-800">Packing List</h1>
+                        <p class="text-sm font-mono text-slate-500 mt-2 font-bold">Rel. Invoice: INV-2026-001 | Date: April 07, 2026</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6 text-xs mb-10">
+                        <div class="border-2 border-slate-200 p-5 rounded-xl bg-white shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-2 h-full bg-brand-800"></div>
+                            <p class="font-bold text-[10px] text-slate-400 uppercase tracking-widest mb-2">Shipper / Exporter</p>
+                            <p class="font-extrabold text-base uppercase mb-1">Andean Pure Grains S.A.C.</p>
+                            <p class="font-mono text-slate-600 mb-1">RUC: 20123456789</p>
+                            <p class="text-slate-600">Av. Las Américas 123, La Victoria, Lima - Perú</p>
+                        </div>
+                        <div class="border-2 border-slate-200 p-5 rounded-xl bg-white shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-2 h-full bg-slate-400"></div>
+                            <p class="font-bold text-[10px] text-slate-400 uppercase tracking-widest mb-2">Consignee / Buyer</p>
+                            <p class="font-extrabold text-base uppercase mb-1">UNFI (United Natural Foods, Inc.)</p>
+                            <p class="text-slate-600">11905 Riverside Dr, Mira Loma</p>
+                            <p class="text-slate-600">CA 91752, USA</p>
+                        </div>
+                    </div>
+
+                    <table class="w-full text-xs border-collapse">
+                        <thead class="bg-slate-100 text-[10px] uppercase font-bold text-slate-600 border-y-2 border-slate-300">
+                            <tr>
+                                <th class="p-4 text-center">Pkg No.</th>
+                                <th class="p-4 text-left">Detailed Description</th>
+                                <th class="p-4 text-center">Quantity</th>
+                                <th class="p-4 text-right">Net Wt (Kg)</th>
+                                <th class="p-4 text-right">Gross Wt (Kg)</th>
+                                <th class="p-4 text-center">Dimensions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="border-b-2 border-slate-300">
+                            <tr>
+                                <td class="p-5 text-center">
+                                    <p class="font-extrabold text-lg">1 - 5</p>
+                                    <p class="text-[9px] uppercase font-bold text-slate-400 mt-1">(Pallets)</p>
+                                </td>
+                                <td class="p-5 leading-relaxed">
+                                    <p class="font-bold text-sm text-slate-800">Organic Peruvian Tricolor Quinoa</p>
+                                    <p class="text-slate-600 mt-1">250 Cartons containing 5,000 units x 1 lb (454g) Retail Pouches.</p>
+                                    <p class="text-[10px] text-slate-400 italic mt-1">ISPM-15 compliant wooden pallets. Shrink-wrapped.</p>
+                                </td>
+                                <td class="p-5 text-center font-bold text-base">5,000<br><span class="text-[9px] font-normal uppercase text-slate-500">Pouches</span></td>
+                                <td class="p-5 text-right font-mono font-bold text-sm text-slate-700">2,270.00</td>
+                                <td class="p-5 text-right font-mono font-bold text-sm text-slate-900">2,500.00</td>
+                                <td class="p-5 text-center text-[10px] italic text-slate-500">120 x 100 x 120 cm<br>(Per Pallet)</td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="bg-brand-50">
+                            <tr>
+                                <td colspan="2" class="p-4 text-right font-extrabold uppercase text-brand-800 text-[11px] tracking-widest">Grand Totals:</td>
+                                <td class="p-4 text-center font-extrabold text-brand-800 text-lg">5,000</td>
+                                <td class="p-4 text-right font-mono font-extrabold text-brand-800 text-base underline">2,270.00</td>
+                                <td class="p-4 text-right font-mono font-extrabold text-brand-800 text-base underline decoration-double">2,500.00</td>
+                                <td class="p-4 text-center font-bold text-brand-800 text-xs">7.50 CBM</td>
+                            </tr>
+                        </tfoot>
+                    </table>
                     
-                    <div class="border border-black text-sm">
-                        <div class="grid grid-cols-2 border-b border-black">
-                            <div class="p-3 border-r border-black">
-                                <p class="text-xs font-bold mb-1">1. EXPORTER NAME AND ADDRESS:</p>
-                                <p>ANDEAN PURE GRAINS S.A.C.</p>
-                                <p>Av. Las Américas 123, La Victoria, Lima - Perú</p>
-                                <p>RUC: 20123456789</p>
+                    <div class="mt-12 grid grid-cols-2 gap-6">
+                        <div class="border border-dashed border-slate-300 p-4 bg-slate-50">
+                            <p class="font-bold text-[10px] text-slate-400 uppercase tracking-widest mb-1">Shipping Marks</p>
+                            <p class="font-mono font-bold text-sm text-slate-800">ANDEAN-UNFI / LAX / 1-5</p>
+                        </div>
+                        <div class="border border-dashed border-slate-300 p-4 bg-slate-50">
+                            <p class="font-bold text-[10px] text-slate-400 uppercase tracking-widest mb-1">Container & Seal Number</p>
+                            <p class="font-mono font-bold text-sm text-slate-800">TBN-LAX-2026-001 / PE-987654</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DOCUMENT 03: DAM FORMATO A -->
+            <section id="doc-dam-a" class="content-section hidden fade-in">
+                <div class="document-paper">
+                    <!-- SUNAT Header -->
+                    <div class="flex justify-between items-center mb-4">
+                        <img src="https://vectorseek.com/wp-content/uploads/2023/09/Sunat-Logo-Vector.svg-.png" alt="SUNAT Logo" class="h-12 w-auto object-contain">
+                        <div class="text-center flex-1">
+                            <h1 class="text-[16px] font-extrabold uppercase tracking-tight leading-tight">Declaración Aduanera de Mercancías</h1>
+                            <div class="font-bold border-2 border-black px-6 py-0.5 inline-block mt-1 text-sm bg-white tracking-widest">FORMATO A</div>
+                        </div>
+                        <div class="text-right flex flex-col justify-end">
+                            <p class="text-[8px] font-bold border border-black px-2 py-0.5 mb-1">DESTINACIÓN: 40</p>
+                            <p class="text-[8px] font-bold border border-black px-2 py-0.5">MODALIDAD: 00</p>
+                        </div>
+                    </div>
+
+                    <!-- DAM Grid Base -->
+                    <div class="dam-container bg-white text-[10px] uppercase font-mono">
+                        
+                        <!-- Bloque 1 & 2 -->
+                        <div class="dam-row h-24">
+                            <div class="w-2/3 dam-cell">
+                                <div class="dam-label">1. Identificación</div>
+                                <div class="grid grid-cols-2 gap-2 h-full mt-1">
+                                    <div>
+                                        <p class="text-[6px] text-slate-500 font-sans">1.1 Exportador:</p>
+                                        <p class="dam-value text-xs font-bold leading-tight">ANDEAN PURE GRAINS S.A.C.</p>
+                                        <p class="text-[8px] mt-1">AV. LAS AMERICAS 123, LA VICTORIA</p>
+                                    </div>
+                                    <div class="border-l border-black pl-2">
+                                        <p class="text-[6px] text-slate-500 font-sans">1.2 Tipo y Doc. Identidad:</p>
+                                        <p class="dam-value font-bold text-sm tracking-wider">4 / 20123456789</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="p-3">
-                                <p class="text-xs font-bold mb-1">2. PRODUCER NAME AND ADDRESS:</p>
-                                <p>SAME AS EXPORTER</p>
+                            <div class="w-1/3 dam-cell bg-slate-100">
+                                <div class="dam-label">2. Registro de Aduanas</div>
+                                <div class="mt-1 space-y-1">
+                                    <p class="text-[8px] font-bold">Aduana: <span class="text-sm">118</span> <span class="text-[8px] font-normal">(MARÍTIMA CALLAO)</span></p>
+                                    <p class="text-[8px] font-bold">N° Declaración:</p>
+                                    <p class="text-sm font-extrabold tracking-widest text-blue-900 bg-white border border-black px-1 text-center">118-2026-40-001234</p>
+                                    <p class="text-[8px] text-right mt-1">Fecha: 07/04/2026</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="border-b border-black p-3">
-                            <p class="text-xs font-bold mb-1">3. IMPORTER NAME AND ADDRESS:</p>
-                            <p>UNFI (United Natural Foods, Inc.)</p>
-                            <p>11905 Riverside Dr, Mira Loma, CA 91752, USA</p>
+
+                        <!-- Bloque 3 -->
+                        <div class="dam-header-bg">3. Transporte y Carga</div>
+                        <div class="dam-row h-14">
+                            <div class="w-1/4 dam-cell">
+                                <div class="dam-label">3.1 Empresa Transporte</div>
+                                <p class="dam-value font-bold text-[11px] mt-1">MSC NATALIA V.124</p>
+                            </div>
+                            <div class="w-1/4 dam-cell text-center">
+                                <div class="dam-label">3.2 Vía Transp.</div>
+                                <p class="dam-value font-extrabold text-sm mt-1">1 <span class="text-[8px] font-normal">(MARITIMO)</span></p>
+                            </div>
+                            <div class="w-1/4 dam-cell text-center">
+                                <div class="dam-label">3.3 Pto. Embarque</div>
+                                <p class="dam-value font-bold mt-1">PE CLL</p>
+                            </div>
+                            <div class="w-1/4 dam-cell text-center">
+                                <div class="dam-label">3.4 Pto. Destino</div>
+                                <p class="dam-value font-bold mt-1">US LAX</p>
+                            </div>
+                        </div>
+
+                        <!-- Bloque 5 -->
+                        <div class="dam-header-bg">5. Transacción</div>
+                        <div class="dam-row h-12">
+                            <div class="w-1/3 dam-cell">
+                                <div class="dam-label">5.1 Entidad Financiera</div>
+                                <p class="dam-value text-[9px] mt-1">00-NINGUNO / TRF. DIRECTA</p>
+                            </div>
+                            <div class="w-1/3 dam-cell text-center">
+                                <div class="dam-label">5.2 Incoterm</div>
+                                <p class="dam-value font-extrabold text-sm mt-1">DDP</p>
+                            </div>
+                            <div class="w-1/3 dam-cell text-center">
+                                <div class="dam-label">5.3 Doc. Transporte</div>
+                                <p class="dam-value font-bold mt-1">BL-2026-001</p>
+                            </div>
+                        </div>
+
+                        <!-- Bloque 6 & 7 -->
+                        <div class="dam-row">
+                            <div class="w-2/3 flex flex-col border-r border-black">
+                                <div class="dam-header-bg border-b border-black">6. Valor Aduana (US$)</div>
+                                <div class="flex h-20">
+                                    <div class="w-1/4 dam-cell text-center justify-center border-r border-black bg-slate-50">
+                                        <div class="dam-label">6.1 FOB Total</div>
+                                        <p class="dam-value text-sm font-extrabold">32,000.00</p>
+                                    </div>
+                                    <div class="w-1/4 dam-cell text-center justify-center border-r border-black">
+                                        <div class="dam-label">6.2 Flete</div>
+                                        <p class="dam-value text-xs">2,500.00</p>
+                                    </div>
+                                    <div class="w-1/4 dam-cell text-center justify-center border-r border-black">
+                                        <div class="dam-label">6.3 Seguro</div>
+                                        <p class="dam-value text-xs">500.00</p>
+                                    </div>
+                                    <div class="w-1/4 dam-cell text-center justify-center bg-green-50">
+                                        <div class="dam-label">6.4 Total DDP</div>
+                                        <p class="dam-value text-sm font-extrabold">35,000.00</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-1/3 flex flex-col">
+                                <div class="dam-header-bg border-b border-black">7. Totales Carga</div>
+                                <div class="flex flex-col h-20 divide-y divide-black">
+                                    <div class="flex justify-between items-center px-3 py-1 flex-1">
+                                        <span class="dam-label !mb-0">7.1 Peso Neto (Kg)</span>
+                                        <span class="dam-value text-xs font-extrabold">2,270.00</span>
+                                    </div>
+                                    <div class="flex justify-between items-center px-3 py-1 flex-1">
+                                        <span class="dam-label !mb-0">7.2 Peso Bruto (Kg)</span>
+                                        <span class="dam-value text-xs font-extrabold">2,500.00</span>
+                                    </div>
+                                    <div class="flex justify-between items-center px-3 py-1 flex-1 bg-slate-50">
+                                        <span class="dam-label !mb-0">7.3 Bultos</span>
+                                        <span class="dam-value text-xs font-extrabold">5 PKG</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Info -->
+                        <div class="dam-row h-10 bg-slate-100">
+                            <div class="w-full dam-cell justify-center">
+                                <p class="text-[7px] text-justify font-sans leading-tight text-slate-500">
+                                    Con la suscripción de esta Declaración, me comprometo en cuanto a la exactitud y la integridad de la información suministrada en el presente formulario, en cualquiera de sus hojas suplementarias que se acompañan y a la autenticidad de todos los documentos presentados en su apoyo.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="mt-16 grid grid-cols-2 gap-16 px-10">
+                        <div class="text-center relative">
+                            <div class="font-signature sig-black text-3xl absolute -top-10 left-1/2 transform -translate-x-1/2">Diego Castillo F.</div>
+                            <div class="border-t border-black pt-2">
+                                <p class="font-bold text-[10px] uppercase font-sans">Declarante / Agente de Aduana</p>
+                                <p class="text-[8px] font-sans">Firma y Sello</p>
+                            </div>
+                        </div>
+                        <div class="text-center relative">
+                            <div class="border-2 border-rose-600 rounded-full w-16 h-16 absolute -top-12 left-1/2 transform -translate-x-1/2 opacity-50 flex items-center justify-center rotate-[-15deg]">
+                                <span class="text-[8px] font-bold text-rose-600 leading-tight">SUNAT<br>CONFORME</span>
+                            </div>
+                            <div class="border-t border-black pt-2">
+                                <p class="font-bold text-[10px] uppercase font-sans">Autoridad Aduanera</p>
+                                <p class="text-[8px] font-sans">Firma y Sello</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DOCUMENT 04: DAM FORMATO B -->
+            <section id="doc-dam-b" class="content-section hidden fade-in">
+                <div class="document-paper">
+                    <!-- SUNAT Header -->
+                    <div class="flex justify-between items-center mb-4">
+                        <img src="https://vectorseek.com/wp-content/uploads/2023/09/Sunat-Logo-Vector.svg-.png" alt="SUNAT Logo" class="h-10 w-auto object-contain">
+                        <div class="text-center flex-1">
+                            <h1 class="text-[16px] font-extrabold uppercase tracking-tight">Declaración Aduanera de Mercancías</h1>
+                            <div class="font-bold border-2 border-black px-6 py-0.5 inline-block mt-1 text-sm bg-white tracking-widest">FORMATO B <span class="text-[10px]">(Detalle de Ítems)</span></div>
+                        </div>
+                    </div>
+
+                    <div class="dam-container bg-white text-[10px] uppercase font-mono">
+                        
+                        <!-- Reference Header -->
+                        <div class="dam-row h-10 bg-slate-100 font-bold border-b-2 border-black">
+                            <div class="w-1/2 dam-cell flex flex-row items-center gap-2">
+                                <span class="dam-label !mb-0">Aduana:</span> <span class="text-sm">118 (CALLAO)</span>
+                            </div>
+                            <div class="w-1/2 dam-cell flex flex-row items-center gap-2">
+                                <span class="dam-label !mb-0">N° Declaración:</span> <span class="text-sm tracking-widest text-blue-900">118-2026-40-001234</span>
+                            </div>
+                        </div>
+
+                        <div class="dam-header-bg">5. Descripción de la Mercancía</div>
+                        
+                        <!-- Item Row 1 -->
+                        <div class="dam-row h-24">
+                            <div class="w-[8%] dam-cell text-center justify-center bg-slate-50">
+                                <div class="dam-label">Ítem</div>
+                                <p class="text-xl font-extrabold">1</p>
+                            </div>
+                            <div class="w-[22%] dam-cell justify-center text-center border-r border-black">
+                                <div class="dam-label">Subpartida Nacional</div>
+                                <p class="text-base font-extrabold tracking-wider">1008.50.90.00</p>
+                            </div>
+                            <div class="w-[70%] flex flex-col border-l-0">
+                                <div class="flex border-b border-black h-1/2">
+                                    <div class="w-1/2 dam-cell border-r border-black justify-center">
+                                        <div class="dam-label">N° Factura / Boleta</div>
+                                        <p class="font-bold">INV-2026-001</p>
+                                    </div>
+                                    <div class="w-1/2 dam-cell justify-center">
+                                        <div class="dam-label">País de Origen</div>
+                                        <p class="font-bold">PE (PERÚ)</p>
+                                    </div>
+                                </div>
+                                <div class="flex h-1/2">
+                                    <div class="w-full dam-cell justify-center">
+                                        <div class="dam-label">Nombre Comercial y Características Técnicas</div>
+                                        <p class="font-bold text-[9px] leading-tight">QUINUA PERUANA ORGÁNICA EN GRANO TRICOLOR. APTO CONSUMO HUMANO. 5,000 POUCHES X 1 LB. LOTE: APG-2026-04. MARCA: ANDEAN PURE GRAINS.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Item Quantities Row -->
+                        <div class="dam-row h-14">
+                            <div class="w-[20%] dam-cell text-center justify-center">
+                                <div class="dam-label">Estado</div>
+                                <p class="font-bold">NUEVO</p>
+                            </div>
+                            <div class="w-[20%] dam-cell text-center justify-center">
+                                <div class="dam-label">Cant. Comercial</div>
+                                <p class="font-bold text-sm">5,000 U</p>
+                            </div>
+                            <div class="w-[20%] dam-cell text-center justify-center">
+                                <div class="dam-label">Peso Neto Ítem (Kg)</div>
+                                <p class="font-bold text-sm">2,270.00</p>
+                            </div>
+                            <div class="w-[40%] dam-cell text-center justify-center bg-slate-100 border-l-2 border-black">
+                                <div class="dam-label">Valor FOB del Ítem (US$)</div>
+                                <p class="font-extrabold text-base">32,000.00</p>
+                            </div>
                         </div>
                         
-                        <table class="w-full text-xs text-center border-collapse">
-                            <thead class="bg-slate-100">
+                    </div>
+                </div>
+            </section>
+
+            <!-- DOCUMENT 05: BILL OF LADING -->
+            <section id="doc-bl" class="content-section hidden fade-in">
+                <div class="document-paper border-t-[16px] border-blue-900 relative">
+                    <div class="absolute top-10 right-10 text-right opacity-20 no-print">
+                        <i class="fa-solid fa-anchor text-[120px]"></i>
+                    </div>
+                    
+                    <div class="flex justify-between items-end mb-8 relative z-10">
+                        <div class="flex items-end gap-4">
+                            <div class="bg-blue-900 text-white p-3 rounded-md">
+                                <i class="fa-solid fa-ship text-3xl"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-3xl font-extrabold text-blue-900 uppercase tracking-tighter leading-none">Ocean Bill of Lading</h1>
+                                <p class="text-xs font-bold text-slate-500 uppercase mt-1 tracking-widest">Original - Negotiable</p>
+                            </div>
+                        </div>
+                        <div class="text-right border-l-4 border-rose-600 pl-4">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">B/L Document Number</p>
+                            <p class="text-2xl font-mono text-rose-600 font-extrabold">BL-2026-001</p>
+                        </div>
+                    </div>
+
+                    <div class="border-2 border-slate-800 flex flex-col font-mono text-[10px] relative z-10">
+                        <!-- Top Boxes -->
+                        <div class="flex border-b-2 border-slate-800 h-32">
+                            <div class="w-1/2 border-r-2 border-slate-800 p-4 flex flex-col">
+                                <span class="font-bold text-slate-500 text-[8px] uppercase font-sans tracking-widest mb-1">1. Shipper / Exporter</span>
+                                <span class="font-extrabold text-sm uppercase text-slate-900">ANDEAN PURE GRAINS S.A.C.</span>
+                                <span>Av. Las Américas 123, La Victoria, Lima - Perú</span>
+                                <span>RUC: 20123456789</span>
+                            </div>
+                            <div class="w-1/2 p-4 flex flex-col bg-slate-50">
+                                <span class="font-bold text-slate-500 text-[8px] uppercase font-sans tracking-widest mb-1">2. Consignee (Order Of)</span>
+                                <span class="font-extrabold text-sm uppercase text-slate-900">UNFI (United Natural Foods, Inc.)</span>
+                                <span>11905 Riverside Dr</span>
+                                <span>Mira Loma, CA 91752, USA</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Mid Boxes -->
+                        <div class="flex border-b-2 border-slate-800 h-20">
+                            <div class="w-1/2 border-r-2 border-slate-800 p-4 flex flex-col">
+                                <span class="font-bold text-slate-500 text-[8px] uppercase font-sans tracking-widest mb-1">3. Notify Party</span>
+                                <span class="font-bold uppercase text-slate-800">SAME AS CONSIGNEE</span>
+                            </div>
+                            <div class="w-1/2 flex divide-x-2 divide-slate-800">
+                                <div class="w-1/2 p-4 flex flex-col">
+                                    <span class="font-bold text-slate-500 text-[8px] uppercase font-sans tracking-widest mb-1">Vessel / Voyage</span>
+                                    <span class="font-extrabold text-sm">MSC NATALIA V.124</span>
+                                </div>
+                                <div class="w-1/2 p-4 flex flex-col">
+                                    <span class="font-bold text-slate-500 text-[8px] uppercase font-sans tracking-widest mb-1">Port of Loading</span>
+                                    <span class="font-bold text-sm">CALLAO, PERU</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main Table -->
+                        <table class="w-full text-left border-collapse">
+                            <thead class="border-b-2 border-slate-800 bg-slate-100 font-sans text-[9px] uppercase text-slate-600">
                                 <tr>
-                                    <th class="border-b border-r border-black p-2 w-1/3 text-left">4. DESCRIPTION OF GOODS</th>
-                                    <th class="border-b border-r border-black p-2">5. HS CODE</th>
-                                    <th class="border-b border-r border-black p-2">6. CRITERION</th>
-                                    <th class="border-b border-r border-black p-2">7. GROSS WT</th>
-                                    <th class="border-b border-black p-2">8. INVOICE</th>
+                                    <th class="p-3 border-r-2 border-slate-800 w-[20%]">Marks & Nos.</th>
+                                    <th class="p-3 border-r-2 border-slate-800 w-[15%] text-center">No. of Pkgs</th>
+                                    <th class="p-3 border-r-2 border-slate-800 w-[45%]">Description of Packages and Goods</th>
+                                    <th class="p-3 text-right">Gross Weight</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class="h-24 align-top">
-                                    <td class="border-r border-black p-2 text-left">Organic Peruvian Tricolor Quinoa</td>
-                                    <td class="border-r border-black p-2">1008.50.90.00</td>
-                                    <td class="border-r border-black p-2 font-bold">WO</td>
-                                    <td class="border-r border-black p-2">2,500.00 KGS</td>
-                                    <td class="p-2">INV-2026-001</td>
+                            <tbody class="align-top">
+                                <tr class="h-[280px]">
+                                    <td class="p-4 border-r-2 border-slate-800">
+                                        <p class="font-bold">ANDEAN-UNFI</p>
+                                        <p class="font-bold">LAX</p>
+                                        <p class="font-bold">1-5</p>
+                                        <p class="mt-4 text-[9px]">SEAL: PE-987654</p>
+                                        <p class="text-[9px]">CONT: TBN-LAX-001</p>
+                                    </td>
+                                    <td class="p-4 border-r-2 border-slate-800 text-center">
+                                        <p class="font-extrabold text-base">5</p>
+                                        <p class="text-[9px]">PALLETS</p>
+                                        <p class="text-[8px] mt-1">(250 CTNS)</p>
+                                    </td>
+                                    <td class="p-4 border-r-2 border-slate-800">
+                                        <p class="font-extrabold text-sm uppercase mb-2">Said to Contain: Organic Tricolor Quinoa</p>
+                                        <p class="text-[10px] leading-relaxed italic text-slate-700">
+                                            Incoterm DDP Los Angeles (Incoterms 2020), freight prepaid; Organic Peruvian Tricolor Quinoa, food grade for human consumption, packed in 1 lb (454 g) pouches, in cartons and ISPM 15 pallets; complies with export and food safety standards; country of origin: Peru.
+                                        </p>
+                                        <p class="mt-4 font-bold">HS CODE: 1008.50.90.00</p>
+                                        <p class="mt-8 font-extrabold text-lg uppercase underline decoration-2 underline-offset-4 text-center">Clean On Board</p>
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <p class="font-extrabold text-sm">2,500.00 KGS</p>
+                                        <p class="mt-4 font-bold">7.50 CBM</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Footer -->
+                        <div class="border-t-2 border-slate-800 bg-slate-50 flex">
+                            <div class="w-2/3 p-4 border-r-2 border-slate-800 font-sans text-[8px] text-slate-500 text-justify italic leading-tight">
+                                RECEIVED by the Carrier in apparent good order and condition (unless otherwise stated herein) the total number or quantity of Containers or other packages or units indicated in the box entitled "Total No. of Packages Received by the Carrier" for Carriage from the Port of Loading to the Port of Discharge.
+                            </div>
+                            <div class="w-1/3 p-4 flex flex-col justify-end items-center pb-2">
+                                <div class="font-signature sig-black text-2xl mb-1">MSC Line Agt.</div>
+                                <p class="font-sans font-bold text-[8px] uppercase border-t border-slate-400 pt-1 w-full text-center">As Agent for the Carrier</p>
+                                <p class="font-sans text-[7px] uppercase mt-1">Lima, Peru / Apr 07, 2026</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DOCUMENT 06: CERTIFICADO DE ORIGEN -->
+            <section id="doc-origen" class="content-section hidden fade-in">
+                <div class="document-paper">
+                    <div class="text-center border-b-4 border-double border-slate-800 pb-6 mb-8">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Escudo_nacional_del_Per%C3%BA.svg/800px-Escudo_nacional_del_Per%C3%BA.svg.png" alt="Escudo Perú" class="h-16 mx-auto mb-4 opacity-80 grayscale">
+                        <h1 class="text-3xl font-extrabold uppercase tracking-widest text-slate-900">Certificate of Origin</h1>
+                        <p class="text-sm font-bold uppercase tracking-wider text-slate-600 mt-2">United States - Peru Trade Promotion Agreement (PTPA)</p>
+                    </div>
+                    
+                    <div class="border-2 border-black font-sans text-[11px]">
+                        <div class="grid grid-cols-2 divide-x-2 divide-black border-b-2 border-black">
+                            <div class="p-5 flex flex-col justify-between">
+                                <div>
+                                    <p class="font-bold text-[9px] uppercase text-slate-500 mb-2">1. Exporter Name, Address and Tax ID:</p>
+                                    <p class="font-extrabold text-sm uppercase">Andean Pure Grains S.A.C.</p>
+                                    <p class="mt-1">Av. Las Américas 123, La Victoria, Lima - Perú</p>
+                                    <p class="font-mono mt-1">Tax ID / RUC: 20123456789</p>
+                                </div>
+                            </div>
+                            <div class="p-5 flex flex-col justify-between">
+                                <div>
+                                    <p class="font-bold text-[9px] uppercase text-slate-500 mb-2">2. Producer Name, Address and Tax ID:</p>
+                                    <p class="font-bold italic uppercase text-slate-700">Same as Exporter</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-5 border-b-2 border-black">
+                            <p class="font-bold text-[9px] uppercase text-slate-500 mb-2">3. Importer Name, Address and Tax ID:</p>
+                            <p class="font-extrabold text-sm uppercase underline">UNFI (United Natural Foods, Inc.)</p>
+                            <p class="mt-1">11905 Riverside Dr, Mira Loma, CA 91752, USA.</p>
+                            <p class="font-mono mt-1">Tax ID: 12-3456789</p>
+                        </div>
+
+                        <table class="w-full text-center divide-y-2 divide-black border-collapse">
+                            <thead class="bg-slate-100 uppercase text-[9px] font-bold h-12 align-middle text-slate-700">
+                                <tr>
+                                    <th class="p-3 border-r-2 border-black text-left w-[40%]">4. Description of Goods</th>
+                                    <th class="p-3 border-r-2 border-black w-[15%]">5. HS Tariff Class</th>
+                                    <th class="p-3 border-r-2 border-black w-[15%]">6. Preference Criterion</th>
+                                    <th class="p-3 border-r-2 border-black w-[15%]">7. Gross Weight</th>
+                                    <th class="p-3 w-[15%]">8. Invoice No.</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-black">
+                                <tr class="h-24 align-middle">
+                                    <td class="p-4 border-r-2 border-black text-left font-bold text-sm">Organic Peruvian Tricolor Quinoa<br><span class="text-[10px] font-normal italic text-slate-600 mt-1 block">Chenopodium quinoa - 5,000 Retail Pouches.</span></td>
+                                    <td class="p-4 border-r-2 border-black font-mono font-bold">1008.50.90.00</td>
+                                    <td class="p-4 border-r-2 border-black font-extrabold text-xl text-blue-800">WO</td>
+                                    <td class="p-4 border-r-2 border-black font-mono font-bold">2,500.00 KG</td>
+                                    <td class="p-4 font-mono font-bold text-slate-700">INV-2026-001</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="mt-10 p-6 bg-slate-50 border border-slate-200 text-justify text-[11px] leading-relaxed italic text-slate-700 rounded-lg">
+                        <strong>9. Declaration:</strong> I certify that: the information on this document is true and accurate and I assume the responsibility for proving such representations. I understand that I am liable for any false statements or material omissions made on or in connection with this document. I agree to maintain and present upon request, documentation necessary to support this certification. The goods described above originate in the territory of one or both of the Parties (Peru/USA), and comply with the origin requirements specified for those goods in the United States - Peru Trade Promotion Agreement.
+                    </div>
+                        
+                    <div class="grid grid-cols-2 gap-x-20 pt-20 px-10">
+                        <div class="text-center relative">
+                            <div class="font-signature sig-blue text-4xl absolute -top-12 left-1/2 transform -translate-x-1/2">Diego Castillo F.</div>
+                            <div class="border-t-2 border-black pt-3">
+                                <p class="font-extrabold text-xs">Diego Castillo Flores</p>
+                                <p class="text-[9px] uppercase text-slate-500 mt-1">Authorized Signature & Title</p>
+                                <p class="text-[10px] font-bold text-slate-700 mt-2">Date: 07-Abr-2026</p>
+                            </div>
+                        </div>
+                        <div class="text-center relative">
+                            <div class="w-16 h-16 border-4 border-brand-800 rounded-full absolute -top-10 left-1/2 transform -translate-x-1/2 opacity-20 flex items-center justify-center -rotate-12">
+                                <span class="text-[8px] font-bold text-brand-800 leading-none">APG<br>EXPORT<br>SEAL</span>
+                            </div>
+                            <div class="border-t-2 border-black pt-3">
+                                <p class="font-extrabold text-xs uppercase">Andean Pure Grains S.A.C.</p>
+                                <p class="text-[9px] uppercase text-slate-500 mt-1">Company Name</p>
+                                <p class="text-[10px] font-bold text-slate-700 mt-2">Place: Lima, Perú</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <!-- DOC 6: SENASA CVE-03 -->
+            <!-- DOCUMENT 07: CARTA DE RESPONSABILIDAD DIRANDRO -->
+            <section id="doc-carta" class="content-section hidden fade-in">
+                <div class="document-paper">
+                    <div class="flex items-center justify-center flex-col mb-12 border-b-2 border-slate-200 pb-8">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Escudo_nacional_del_Per%C3%BA.svg/800px-Escudo_nacional_del_Per%C3%BA.svg.png" alt="Escudo Perú" class="h-16 mb-4 grayscale">
+                        <h1 class="text-2xl font-extrabold uppercase tracking-widest text-center">Carta de Responsabilidad</h1>
+                        <p class="text-xs font-bold text-slate-500 mt-2 uppercase tracking-widest bg-slate-100 px-4 py-1 rounded-full">Control Antinarcóticos - DIRANDRO PNP</p>
+                    </div>
+
+                    <div class="text-sm text-justify leading-loose space-y-6 text-slate-800 px-8">
+                        <p class="font-bold text-right">Lima, 07 de Abril de 2026</p>
+                        
+                        <div>
+                            <p>Señores:</p>
+                            <p class="font-extrabold uppercase text-base">Dirección Ejecutiva Antidrogas (DIRANDRO - PNP)</p>
+                            <p class="font-bold">Autoridad Portuaria Nacional / DP WORLD Callao</p>
+                            <p>Presente.-</p>
+                        </div>
+
+                        <p>De nuestra mayor consideración:</p>
+
+                        <p>Por la presente, la empresa <strong>ANDEAN PURE GRAINS S.A.C.</strong>, debidamente identificada con <strong>R.U.C. 20123456789</strong>, con domicilio legal en Av. Las Américas 123, distrito de La Victoria, provincia y departamento de Lima, debidamente representada por su Gerente de Exportaciones, el Sr. <strong>Diego Castillo Flores</strong>, identificado con D.N.I. N° 76543210.</p>
+
+                        <p>Declaramos bajo juramento que la mercancía de exportación que se detalla a continuación y que ha sido entregada para su embarque internacional con destino final a <strong>LOS ANGELES, CA, USA</strong>, contiene estricta y únicamente los bienes declarados en nuestros documentos comerciales y aduaneros.</p>
+
+                        <div class="bg-slate-50 p-6 border border-slate-200 rounded-xl my-8">
+                            <p class="font-bold mb-4 uppercase text-brand-800 text-xs tracking-widest border-b border-brand-200 pb-2">Detalle de la Carga de Exportación:</p>
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-y-4 text-xs font-medium">
+                                <li><span class="text-slate-500">Factura Comercial:</span> <span class="font-bold text-slate-900 font-mono">INV-2026-001</span></li>
+                                <li><span class="text-slate-500">Doc. Transporte (B/L):</span> <span class="font-bold text-slate-900 font-mono">BL-2026-001</span></li>
+                                <li><span class="text-slate-500">Mercancía:</span> <span class="font-bold text-slate-900">Quinua Orgánica Tricolor</span></li>
+                                <li><span class="text-slate-500">Cantidad:</span> <span class="font-bold text-slate-900">5,000 Unidades (5 Pallets)</span></li>
+                                <li><span class="text-slate-500">Precinto de Seguridad:</span> <span class="font-bold text-slate-900 font-mono">PE-987654</span></li>
+                                <li><span class="text-slate-500">Incoterm:</span> <span class="font-bold text-slate-900">DDP LOS ANGELES</span></li>
+                            </ul>
+                        </div>
+
+                        <p>Garantizamos de manera fehaciente que dicho embarque ha sido preparado, empacado, inspeccionado y sellado en un entorno seguro dentro de nuestras instalaciones, y certificamos que se encuentra <strong>totalmente libre de sustancias ilícitas, drogas, estupefacientes, precursores químicos o cualquier otro artículo no declarado</strong> o prohibido por las leyes peruanas e internacionales.</p>
+
+                        <p>En caso de hallarse alguna discrepancia, adulteración o contenido ilícito en el interior de nuestra carga durante los aforos, inspecciones policiales o controles aduaneros, ya sea en el puerto de origen o en el destino, <strong>asumimos plena responsabilidad administrativa, civil y penal</strong>, sometiéndonos a las investigaciones e intervenciones de las autoridades competentes.</p>
+
+                        <p>Expedimos este documento con carácter de Declaración Jurada para los fines de seguridad y control que las autoridades determinen.</p>
+                    </div>
+
+                    <div class="mt-24 text-center w-80 mx-auto relative">
+                        <div class="font-signature sig-blue text-4xl absolute -top-12 left-1/2 transform -translate-x-1/2">Diego Castillo F.</div>
+                        <div class="border-t-2 border-black pt-3">
+                            <p class="font-extrabold text-sm uppercase">Diego Castillo Flores</p>
+                            <p class="text-xs text-slate-600 font-bold mt-1">Gerente de Exportaciones</p>
+                            <p class="text-xs text-slate-600">ANDEAN PURE GRAINS S.A.C.</p>
+                            <p class="text-xs text-slate-500 mt-1 font-mono">DNI: 76543210</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DOCUMENT 08: CVE-03 (SENASA Planta) -->
             <section id="doc-cve03" class="content-section hidden fade-in">
                 <div class="document-paper">
-                    <div class="text-right text-xs font-bold mb-4">(Formato cod.: CVE-03)</div>
-                    <h1 class="text-lg font-bold text-center mb-8">SOLICITUD PARA LA CERTIFICACIÓN DE PLANTAS DE TRATAMIENTO Y/O EMPAQUE</h1>
-                    
-                    <div class="space-y-6 text-sm">
+                    <div class="text-right text-[10px] font-bold mb-4 font-mono text-slate-500">(Formato cod.: CVE-03)</div>
+                    <div class="flex items-center gap-5 mb-10 border-b-2 border-green-800 pb-6">
+                        <div class="bg-green-800 p-4 rounded-xl shadow-md flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-leaf text-white text-4xl"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h1 class="text-xl font-extrabold leading-tight uppercase text-green-900">Solicitud para la Certificación de Plantas de Tratamiento y/o Empaque</h1>
+                            <p class="text-xs font-bold text-green-700 mt-1 uppercase tracking-widest">Servicio Nacional de Sanidad Agraria - SENASA</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6 text-[11px] font-medium text-slate-800">
                         <!-- PARTE I -->
-                        <div>
-                            <div class="bg-slate-200 p-1 font-bold mb-2">PARTE I. INFORMACIÓN DE LA EMPRESA SOLICITANTE</div>
-                            <div class="grid grid-cols-12 gap-2 mb-2">
-                                <div class="col-span-8"><strong>1. NOMBRE O RAZÓN SOCIAL:</strong> Andean Pure Grains S.A.C.</div>
-                                <div class="col-span-4"><strong>2. R.U.C. N°:</strong> 20123456789</div>
-                            </div>
-                            <div class="grid grid-cols-12 gap-2 mb-2">
-                                <div class="col-span-8"><strong>3. DOMICILIO LEGAL:</strong> Av. Las Américas</div>
-                                <div class="col-span-4"><strong>4. N°:</strong> 123</div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-2 mb-2">
-                                <div><strong>5. URBANIZACIÓN:</strong> Sta. Catalina</div>
-                                <div><strong>6. DISTRITO:</strong> La Victoria</div>
-                                <div><strong>7. DEPARTAMENTO:</strong> Lima</div>
-                            </div>
-                            <div class="grid grid-cols-12 gap-2">
-                                <div class="col-span-8"><strong>12. REPRESENTANTE LEGAL:</strong> Diego Castillo Flores</div>
-                                <div class="col-span-4"><strong>13. DNI:</strong> 76543210</div>
+                        <div class="border border-black">
+                            <div class="bg-slate-100 p-2 font-bold uppercase border-b border-black text-xs tracking-wider">Parte I. Información de la Empresa Solicitante</div>
+                            <div class="p-5 grid gap-4 bg-white">
+                                <div class="grid grid-cols-12 gap-4 border-b border-dashed border-slate-300 pb-3">
+                                    <div class="col-span-8"><span class="text-slate-500 text-[9px] uppercase block mb-1">1. Nombre o Razón Social:</span><span class="font-bold text-sm">Andean Pure Grains S.A.C.</span></div>
+                                    <div class="col-span-4"><span class="text-slate-500 text-[9px] uppercase block mb-1">2. R.U.C. N°:</span><span class="font-bold font-mono text-sm">20123456789</span></div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-4 border-b border-dashed border-slate-300 pb-3">
+                                    <div class="col-span-6"><span class="text-slate-500 text-[9px] uppercase block mb-1">3. Domicilio Legal (Av./Calle/Jr.):</span><span class="font-bold">Av. Las Américas 123</span></div>
+                                    <div class="col-span-3"><span class="text-slate-500 text-[9px] uppercase block mb-1">4. N°:</span><span class="font-bold">-</span></div>
+                                    <div class="col-span-3"><span class="text-slate-500 text-[9px] uppercase block mb-1">5. Urbanización:</span><span class="font-bold">Santa Catalina</span></div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-4 border-b border-dashed border-slate-300 pb-3">
+                                    <div class="col-span-4"><span class="text-slate-500 text-[9px] uppercase block mb-1">6. Distrito:</span><span class="font-bold">La Victoria</span></div>
+                                    <div class="col-span-4"><span class="text-slate-500 text-[9px] uppercase block mb-1">7. Provincia:</span><span class="font-bold">Lima</span></div>
+                                    <div class="col-span-4"><span class="text-slate-500 text-[9px] uppercase block mb-1">8. Departamento:</span><span class="font-bold">Lima</span></div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-4 border-b border-dashed border-slate-300 pb-3">
+                                    <div class="col-span-4"><span class="text-slate-500 text-[9px] uppercase block mb-1">9. Teléfono:</span><span class="font-bold">+51 1 710-2030</span></div>
+                                    <div class="col-span-4"><span class="text-slate-500 text-[9px] uppercase block mb-1">10. Fax:</span><span class="font-bold">-</span></div>
+                                    <div class="col-span-4"><span class="text-slate-500 text-[9px] uppercase block mb-1">11. Email:</span><span class="font-bold">Andeanpure@gmail.com</span></div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-4">
+                                    <div class="col-span-8"><span class="text-slate-500 text-[9px] uppercase block mb-1">12. Nombre del Representante Legal:</span><span class="font-bold">Diego Castillo Flores</span></div>
+                                    <div class="col-span-4"><span class="text-slate-500 text-[9px] uppercase block mb-1">13. N° DNI:</span><span class="font-bold font-mono">76543210</span></div>
+                                </div>
                             </div>
                         </div>
 
                         <!-- PARTE II -->
-                        <div>
-                            <div class="bg-slate-200 p-1 font-bold mb-2">PARTE II. DEL TIPO DE CERTIFICACIÓN</div>
-                            <div class="flex gap-8 mb-3 font-mono text-xs">
-                                <div>[ &nbsp;] a. PLANTA DE TRATAMIENTO</div>
-                                <div class="font-bold text-brand-800">[ X ] b. PLANTA DE TRATAMIENTO Y EMPAQUE</div>
+                        <div class="border border-black">
+                            <div class="bg-slate-100 p-2 font-bold uppercase border-b border-black text-xs tracking-wider">Parte II. Del Tipo de Certificación</div>
+                            <div class="p-5 bg-white grid grid-cols-3 gap-4">
+                                <div class="flex items-center gap-2"><div class="w-4 h-4 border border-black flex items-center justify-center"></div> <span>a. Planta de Tratamiento</span></div>
+                                <div class="flex items-center gap-2 font-bold text-green-800"><div class="w-4 h-4 border-2 border-green-800 flex items-center justify-center bg-green-100"><i class="fa-solid fa-check text-xs"></i></div> <span>b. Planta de Tratamiento y Empaque</span></div>
+                                <div class="flex items-center gap-2"><div class="w-4 h-4 border border-black flex items-center justify-center"></div> <span>c. Plantas de Empaque</span></div>
                             </div>
                         </div>
 
                         <!-- PARTE III -->
-                        <div>
-                            <div class="bg-slate-200 p-1 font-bold mb-2">PARTE III. DE LA ESPECIE VEGETAL</div>
-                            <p><strong>16. ESPECIE:</strong> Quinua Orgánica (<em>Chenopodium quinoa</em>) &nbsp;&nbsp; <strong>17. PARTIDA:</strong> 1008.50.90.00</p>
+                        <div class="border border-black">
+                            <div class="bg-slate-100 p-2 font-bold uppercase border-b border-black text-xs tracking-wider">Parte III. De la Especie Vegetal</div>
+                            <div class="p-5 bg-white grid grid-cols-12 gap-4">
+                                <div class="col-span-8"><span class="text-slate-500 text-[9px] uppercase block mb-1">16. Especie(s) a tratar, empacar o inspeccionar:</span><span class="font-bold text-sm">Quinua Orgánica en grano (Chenopodium quinoa)</span></div>
+                                <div class="col-span-4"><span class="text-slate-500 text-[9px] uppercase block mb-1">17. Partida Arancelaria:</span><span class="font-bold font-mono text-sm">1008.50.90.00</span></div>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="mt-24 text-center w-64 mx-auto">
+                    <div class="mt-20 text-center w-72 mx-auto relative">
+                        <div class="font-signature sig-black text-3xl absolute -top-10 left-1/2 transform -translate-x-1/2">Diego Castillo F.</div>
                         <div class="border-t-2 border-black pt-2">
-                            <p class="font-bold text-sm">Firma y Sello</p>
-                            <p class="text-xs">Diego Castillo Flores</p>
+                            <p class="font-bold text-xs uppercase text-slate-800">Diego Castillo Flores</p>
+                            <p class="text-[9px] text-slate-500 font-bold mt-1 uppercase tracking-widest">Firma del Solicitante / Representante</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- DOC 7: SENASA CA-02-03 (RIV) -->
+            <!-- DOCUMENT 09: CA-02-03 (SENASA RIV) -->
             <section id="doc-ca0203" class="content-section hidden fade-in">
                 <div class="document-paper">
-                    <div class="text-right text-xs font-bold mb-4">(Formato cod.: CA-02-03)</div>
-                    <h1 class="text-lg font-bold text-center mb-6">SOLICITUD PARA REPORTE DE INSPECCIÓN Y VERIFICACIÓN (RIV)</h1>
+                    <div class="text-right text-[10px] font-bold mb-4 font-mono text-slate-500">(Formato cod.: CA-02-03)</div>
+                    <div class="text-center mb-10 border-b-2 border-black pb-6">
+                        <h1 class="text-xl font-extrabold uppercase text-slate-900 leading-tight">Solicitud para Reporte de Inspección y Verificación (RIV)</h1>
+                        <p class="text-xs font-bold text-green-800 uppercase mt-2 tracking-widest">Para la exportación de productos de origen vegetal</p>
+                    </div>
 
-                    <div class="space-y-6 text-sm">
+                    <div class="space-y-6 text-[11px] font-medium text-slate-800">
                         <!-- PARTE I -->
-                        <div>
-                            <div class="bg-slate-200 p-1 font-bold mb-2">PARTE I. INFORMACIÓN DEL EXPORTADOR / SOLICITANTE</div>
-                            <div class="grid grid-cols-12 gap-2 mb-2">
-                                <div class="col-span-8"><strong>1. RAZÓN SOCIAL:</strong> Andean Pure Grains S.A.C.</div>
-                                <div class="col-span-4"><strong>2. RUC N°:</strong> 20123456789</div>
-                            </div>
-                            <div class="grid grid-cols-12 gap-2 mb-2">
-                                <div class="col-span-8"><strong>3. DOMICILIO LEGAL:</strong> Av. Las Américas 123, Santa Catalina</div>
-                                <div class="col-span-4"><strong>5. DISTRITO:</strong> La Victoria</div>
-                            </div>
-                            <div class="grid grid-cols-12 gap-2 mb-2">
-                                <div class="col-span-8"><strong>7. REGIÓN:</strong> Lima</div>
-                            </div>
-                            <div class="grid grid-cols-12 gap-2">
-                                <div class="col-span-8"><strong>11. REPRESENTANTE LEGAL:</strong> Diego Castillo Flores</div>
-                                <div class="col-span-4"><strong>12. DNI:</strong> 76543210</div>
+                        <div class="border border-black">
+                            <div class="bg-slate-100 p-2 font-bold uppercase border-b border-black text-xs tracking-wider">Parte I. Información del Exportador</div>
+                            <div class="p-5 grid gap-4 bg-white">
+                                <div class="grid grid-cols-12 gap-4 border-b border-dashed border-slate-300 pb-3">
+                                    <div class="col-span-8"><span class="text-slate-500 text-[9px] uppercase block mb-1">1. Nombre o Razón Social:</span><span class="font-bold text-sm">Andean Pure Grains S.A.C.</span></div>
+                                    <div class="col-span-4"><span class="text-slate-500 text-[9px] uppercase block mb-1">2. R.U.C. N°:</span><span class="font-bold font-mono text-sm">20123456789</span></div>
+                                </div>
+                                <div class="grid grid-cols-12 gap-4">
+                                    <div class="col-span-12"><span class="text-slate-500 text-[9px] uppercase block mb-1">3. Domicilio Legal (Av./Calle/Jr.):</span><span class="font-bold">Av. Las Américas 123, La Victoria, Lima</span></div>
+                                </div>
                             </div>
                         </div>
 
                         <!-- PARTE V -->
-                        <div>
-                            <div class="bg-slate-200 p-1 font-bold mb-2">PARTE V. INFORMACIÓN DEL ENVÍO Y PROCEDENCIA (Tránsito/Emb)</div>
-                            <div class="grid grid-cols-2 gap-2 mb-2">
-                                <div><strong>38. PAÍS DE ORIGEN:</strong> Perú</div>
-                                <div><strong>39. PAÍS DESTINO:</strong> Estados Unidos</div>
+                        <div class="border border-black">
+                            <div class="bg-slate-100 p-2 font-bold uppercase border-b border-black text-xs tracking-wider">Parte V. Información del Envío y Procedencia</div>
+                            <div class="p-5 bg-white grid gap-4">
+                                <div class="grid grid-cols-2 gap-4 border-b border-dashed border-slate-300 pb-3">
+                                    <div><span class="text-slate-500 text-[9px] uppercase block mb-1">38. País de Origen:</span><span class="font-bold text-sm">PERÚ</span></div>
+                                    <div><span class="text-slate-500 text-[9px] uppercase block mb-1">39. País de Procedencia:</span><span class="font-bold text-sm">PERÚ</span></div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 border-b border-dashed border-slate-300 pb-3">
+                                    <div><span class="text-slate-500 text-[9px] uppercase block mb-1">40. Punto de Salida:</span><span class="font-bold">Terminal Portuario DP WORLD - Callao</span></div>
+                                    <div><span class="text-slate-500 text-[9px] uppercase block mb-1">41. Lugar de Ubicación del Envío:</span><span class="font-bold">Almacén DP WORLD (Zona Primaria)</span></div>
+                                </div>
+                                <div class="grid grid-cols-1">
+                                    <div><span class="text-slate-500 text-[9px] uppercase block mb-1">42. Identificador del Documento de Transporte (B/L):</span><span class="font-bold font-mono text-sm text-blue-800">BL-2026-001</span></div>
+                                </div>
                             </div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div><strong>40. PUNTO DE INGRESO/SALIDA:</strong> Pto Marítimo Callao</div>
-                                <div><strong>42. B/L:</strong> BL-2026-001</div>
+                        </div>
+
+                        <!-- PARTE VI -->
+                        <div class="border border-black">
+                            <div class="bg-slate-100 p-2 font-bold uppercase border-b border-black text-xs tracking-wider">Parte VI. Del Tránsito Internacional</div>
+                            <div class="p-5 bg-white grid grid-cols-2 gap-4">
+                                <div><span class="text-slate-500 text-[9px] uppercase block mb-1">43. País de Destino:</span><span class="font-bold text-sm">ESTADOS UNIDOS DE AMÉRICA (USA)</span></div>
+                                <div><span class="text-slate-500 text-[9px] uppercase block mb-1">44. Punto de Entrada:</span><span class="font-bold text-sm">Los Ángeles, California (LAX)</span></div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="mt-24 text-center w-64 mx-auto">
-                        <div class="border-t-2 border-black pt-2">
-                            <p class="font-bold text-sm">Firma y Sello</p>
-                            <p class="text-xs">Diego Castillo Flores</p>
+
+                    <div class="mt-20 grid grid-cols-2 gap-20 px-10">
+                        <div class="text-center relative">
+                            <div class="font-signature sig-black text-3xl absolute -top-10 left-1/2 transform -translate-x-1/2">Diego Castillo F.</div>
+                            <div class="border-t-2 border-black pt-2">
+                                <p class="font-bold text-[10px] uppercase text-slate-800">Firma del Solicitante</p>
+                                <p class="text-[8px] text-slate-500 italic uppercase mt-1">Representante Legal APG</p>
+                            </div>
+                        </div>
+                        <div class="text-center relative">
+                            <div class="w-20 h-20 border-4 border-green-700 rounded-full absolute -top-14 left-1/2 transform -translate-x-1/2 opacity-30 flex items-center justify-center rotate-12">
+                                <span class="text-[9px] font-bold text-green-800 leading-tight">SENASA<br>INSPECCIÓN<br>CONFORME</span>
+                            </div>
+                            <div class="border-t-2 border-black pt-2">
+                                <p class="font-bold text-[10px] uppercase text-slate-800">Inspector SENASA</p>
+                                <p class="text-[8px] text-slate-500 italic uppercase mt-1">Sello y Firma</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- DOC 8: CERTIFICADO FITOSANITARIO -->
+            <!-- DOCUMENT 10: CERTIFICADO FITOSANITARIO OFICIAL -->
             <section id="doc-fito" class="content-section hidden fade-in">
-                <div class="document-paper border-8 border-double border-green-800 p-10">
-                    <div class="text-center mb-8 border-b-2 border-green-800 pb-4">
-                        <h1 class="text-xl font-bold">REPÚBLICA DEL PERÚ - SENASA</h1>
-                        <h2 class="text-2xl font-bold mt-2 text-green-900">CERTIFICADO FITOSANITARIO</h2>
-                        <p class="text-sm italic">Phytosanitary Certificate</p>
+                <div class="document-paper border-[8px] border-double border-green-800 p-10 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]">
+                    <!-- Fito Header -->
+                    <div class="text-center mb-8 border-b-2 border-green-800 pb-6 relative">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Escudo_nacional_del_Per%C3%BA.svg/800px-Escudo_nacional_del_Per%C3%BA.svg.png" alt="Escudo Perú" class="h-16 mx-auto mb-3 grayscale opacity-80">
+                        <h1 class="text-xl font-extrabold uppercase text-green-900 tracking-widest">República del Perú</h1>
+                        <h2 class="text-[10px] font-bold uppercase text-slate-600 tracking-widest mb-4">Ministerio de Desarrollo Agrario y Riego - SENASA</h2>
+                        <h3 class="text-3xl font-extrabold mt-2 text-green-900">CERTIFICADO FITOSANITARIO</h3>
+                        <p class="text-xs italic font-bold text-slate-600 uppercase tracking-widest mt-1">Phytosanitary Certificate</p>
+                        
+                        <div class="absolute right-0 top-0 text-right">
+                            <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest">No. Certificado</p>
+                            <p class="font-mono text-red-600 font-bold text-lg">118-2026-FITO-045</p>
+                        </div>
                     </div>
 
-                    <div class="space-y-4 text-sm">
-                        <div class="bg-green-50 p-2 font-bold border-b border-green-200">I. Organización de Protección Fitosanitaria de Perú a la Organización de EE.UU.</div>
-                        
-                        <div class="grid grid-cols-3 gap-4">
-                            <div class="col-span-1 font-bold">Nombre y Dirección del Exportador:</div>
-                            <div class="col-span-2">Andean Pure Grains S.A.C., Av. Las Américas 123, La Victoria, Lima - RUC 20123456789</div>
-                            
-                            <div class="col-span-1 font-bold">Nombre y Dirección del Destinatario:</div>
-                            <div class="col-span-2">UNFI (United Natural Foods, Inc.), Mira Loma, CA, USA</div>
-                            
-                            <div class="col-span-1 font-bold">Medios de Transporte:</div>
-                            <div class="col-span-2">Vía Marítima (Vessel: MSC NATALIA V.124)</div>
-                            
-                            <div class="col-span-1 font-bold">Cantidad y Descripción:</div>
-                            <div class="col-span-2">5,000 Doypacks - QUINUA EN GRANO (Chenopodium quinoa) - 2,270.00 KG Netos.</div>
+                    <!-- Fito Content -->
+                    <div class="space-y-4 text-xs font-medium text-slate-800">
+                        <div class="grid grid-cols-2 gap-4 border border-green-800">
+                            <div class="p-4 border-r border-green-800 bg-white/50">
+                                <p class="font-extrabold text-[9px] uppercase text-green-800 mb-1">1. Nombre y dirección del exportador:</p>
+                                <p class="font-bold text-sm uppercase">Andean Pure Grains S.A.C.</p>
+                                <p>RUC 20123456789</p>
+                                <p>Av. Las Américas 123, La Victoria, Lima - Perú</p>
+                            </div>
+                            <div class="p-4 bg-white/50">
+                                <p class="font-extrabold text-[9px] uppercase text-green-800 mb-1">2. Nombre y dirección declarados del destinatario:</p>
+                                <p class="font-bold text-sm uppercase">UNFI (United Natural Foods, Inc.)</p>
+                                <p>11905 Riverside Dr</p>
+                                <p>Mira Loma, CA 91752, USA</p>
+                            </div>
                         </div>
 
-                        <div class="bg-green-50 p-2 font-bold border-b border-green-200 mt-8">II. Declaración Adicional / Additional Declaration</div>
-                        <div class="p-4 border-2 border-red-500 text-red-800 font-bold bg-red-50 text-center uppercase tracking-wider rounded">
-                            SIN DECLARACIÓN ADICIONAL. No requiere tratamiento cuarentenario.
+                        <div class="grid grid-cols-2 gap-4 border border-green-800">
+                            <div class="p-4 border-r border-green-800 bg-white/50">
+                                <p class="font-extrabold text-[9px] uppercase text-green-800 mb-1">3. Medio de transporte declarado:</p>
+                                <p class="font-bold">Vía Marítima / MSC NATALIA V.124</p>
+                            </div>
+                            <div class="p-4 bg-white/50">
+                                <p class="font-extrabold text-[9px] uppercase text-green-800 mb-1">4. Punto de entrada declarado:</p>
+                                <p class="font-bold">Los Ángeles, California, USA</p>
+                            </div>
+                        </div>
+
+                        <div class="border border-green-800 p-4 bg-green-50/50">
+                            <p class="font-extrabold text-[9px] uppercase text-green-800 mb-3">5. Descripción de la mercancía y cantidad declarada:</p>
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <p class="font-extrabold text-base text-slate-900 uppercase">Quinua Orgánica en Grano</p>
+                                    <p class="text-sm italic text-slate-700">Chenopodium quinoa</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-bold text-[9px] uppercase text-slate-500">Partida (HS Code)</p>
+                                    <p class="font-mono font-bold text-sm text-slate-800">1008.50.90.00</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4 border-t border-green-800/30 pt-3 mt-3">
+                                <div>
+                                    <p class="font-bold text-[9px] uppercase text-slate-500">Cantidad</p>
+                                    <p class="font-bold text-sm">5,000 POUCHES</p>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-[9px] uppercase text-slate-500">Peso Neto</p>
+                                    <p class="font-mono font-bold text-sm">2,270.00 KGS</p>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-[9px] uppercase text-slate-500">Peso Bruto</p>
+                                    <p class="font-mono font-bold text-sm">2,500.00 KGS</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-green-800 bg-white/50">
+                            <div class="p-4 border-b border-green-800">
+                                <p class="font-extrabold text-[9px] uppercase text-green-800 mb-1">6. Declaración Adicional / Additional Declaration:</p>
+                                <p class="text-center italic uppercase font-extrabold py-3 text-sm tracking-widest">Sin declaración adicional / No additional declaration</p>
+                            </div>
+                            <div class="p-4">
+                                <p class="font-extrabold text-[9px] uppercase text-green-800 mb-1">7. Tratamiento de Desinfestación o Desinfección:</p>
+                                <p class="text-center font-extrabold text-rose-700 py-3 text-sm tracking-widest uppercase">No Requiere Tratamiento / No Treatment Required</p>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 text-justify text-[9px] text-slate-600 italic leading-relaxed">
+                            Por el presente se certifica que las plantas, productos vegetales u otros artículos reglamentados descritos aquí se han inspeccionado y/o sometido a prueba de acuerdo con los procedimientos oficiales adecuados y se considera que están libres de las plagas cuarentenarias especificadas por la parte contratante importadora y que cumplen los requisitos fitosanitarios vigentes de la parte contratante importadora, incluidos los relativos a las plagas no cuarentenarias reglamentadas.
+                        </div>
+                    </div>
+
+                    <div class="mt-16 flex justify-between items-end px-4 relative">
+                        <div class="w-32 h-32 border-[4px] border-double border-green-800 rounded-full flex items-center justify-center opacity-60 rotate-12">
+                            <div class="text-center">
+                                <p class="text-[9px] font-bold text-green-800 leading-none">SENASA</p>
+                                <p class="text-[7px] text-green-800 uppercase mt-1">Sanidad<br>Vegetal</p>
+                                <p class="text-[8px] font-bold text-green-800 mt-1">PERÚ</p>
+                            </div>
+                        </div>
+                        <div class="text-center w-72">
+                            <div class="font-signature sig-blue text-4xl mb-2">Ing. Carlos Mendoza</div>
+                            <div class="border-t-2 border-green-800 pt-2">
+                                <p class="font-bold text-[10px] uppercase text-slate-800">Firma del Funcionario Autorizado</p>
+                                <p class="text-[8px] text-slate-600 mt-1 uppercase tracking-widest">Lugar de Emisión: Callao, Perú</p>
+                                <p class="text-[9px] font-bold text-slate-800 mt-1 uppercase">Fecha: 07 de Abril de 2026</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -917,17 +1254,36 @@
             document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
             element.classList.add('active');
 
+            const sectionNames = {
+                'dashboard': 'Dashboard Operativo',
+                'senasa': 'Requisitos Sanitarios',
+                'doc-factura': 'Factura Comercial',
+                'doc-packing': 'Packing List',
+                'doc-dam-a': 'DAM Formato A',
+                'doc-dam-b': 'DAM Formato B',
+                'doc-bl': 'Bill of Lading',
+                'doc-origen': 'Certificado de Origen (PTPA)',
+                'doc-carta': 'Carta de Responsabilidad',
+                'doc-cve03': 'Formato SENASA CVE-03',
+                'doc-ca0203': 'Formato SENASA RIV',
+                'doc-fito': 'Certificado Fitosanitario Oficial'
+            };
+            
+            document.getElementById('section-title').innerText = sectionNames[sectionId] || 'Portal de Exportación';
+
             document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.add('hidden');
                 section.classList.remove('fade-in');
             });
 
             const target = document.getElementById(sectionId);
-            target.classList.remove('hidden');
-            void target.offsetWidth;
-            target.classList.add('fade-in');
-            
-            document.querySelector('main').scrollTo({ top: 0, behavior: 'smooth' });
+            if (target) {
+                target.classList.remove('hidden');
+                // Trigger reflow for animation
+                void target.offsetWidth; 
+                target.classList.add('fade-in');
+                document.querySelector('main').scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
     </script>
 </body>
