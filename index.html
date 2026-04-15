@@ -8,8 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts: Inter (UI), Courier Prime (Docs), Caveat (Signatures) -->
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Inter (UI), Courier Prime (Docs) -->
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -17,8 +17,7 @@
                 extend: {
                     fontFamily: { 
                         sans: ['Inter', 'sans-serif'],
-                        mono: ['Courier Prime', 'monospace'],
-                        signature: ['Caveat', 'cursive']
+                        mono: ['Courier Prime', 'monospace']
                     },
                     colors: {
                         brand: { 50: '#f4f1ea', 100: '#e9e2d5', 500: '#D4AF37', 600: '#b5952f', 800: '#3E2723', 900: '#271816' },
@@ -69,23 +68,26 @@
         .fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Signatures */
-        .sig-blue { color: #1e3a8a; transform: rotate(-2deg); }
-        .sig-black { color: #0f172a; transform: rotate(1deg); }
-
         /* Timeline Styles */
         .timeline-item { position: relative; padding-left: 40px; margin-bottom: 24px; }
         .timeline-item::before { content: ''; position: absolute; left: 11px; top: 0; bottom: -24px; width: 2px; background-color: #e2e8f0; }
         .timeline-item:last-child::before { display: none; }
         .timeline-dot { position: absolute; left: 0; top: 0; width: 24px; height: 24px; border-radius: 50%; background-color: #D4AF37; border: 4px solid #fff; box-shadow: 0 0 0 1px #e2e8f0; z-index: 1; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; }
         
-        .doc-badge { cursor: pointer; transition: all 0.2s; display: inline-flex; items-center; gap: 0.5rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; border: 1px solid transparent; }
+        .doc-badge { cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; border: 1px solid transparent; }
         .doc-badge:hover { transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
         .badge-comercial { background-color: #f0fdf4; color: #166534; border-color: #bbf7d0; }
         .badge-sanitario { background-color: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
         .badge-aduanas { background-color: #fdf4ff; color: #86198f; border-color: #f5d0fe; }
         .badge-logistica { background-color: #fff7ed; color: #9a3412; border-color: #fed7aa; }
 
+        @media print {
+            aside, header, .no-print { display: none !important; }
+            main { overflow: visible !important; height: auto !important; width: 100% !important; padding: 0 !important; background: white !important; }
+            .content-section { display: block !important; page-break-after: always; opacity: 1 !important; transform: none !important; }
+            .document-paper { box-shadow: none !important; border: none !important; margin: 0 !important; padding: 15px !important; width: 100% !important; min-height: 100vh !important; }
+            .hidden { display: none !important; }
+        }
     </style>
 </head>
 <body class="h-screen flex overflow-hidden text-slate-800">
@@ -439,9 +441,9 @@
                         </tfoot>
                     </table>
 
-                    <div class="mt-24 flex justify-end">
+                    <div class="mt-20 flex justify-end">
                         <div class="text-center w-64">
-                            <div class="font-signature sig-blue text-3xl mb-1">Diego Castillo F.</div>
+                            <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Firma_Castillo.png" alt="Firma Diego Castillo" class="h-16 mx-auto mix-blend-multiply opacity-90 mb-1">
                             <div class="border-t-2 border-brand-800 pt-2">
                                 <p class="font-bold text-xs uppercase text-slate-800">Diego Castillo Flores</p>
                                 <p class="text-[9px] text-slate-500 uppercase tracking-widest mt-1">Export Manager</p>
@@ -534,7 +536,7 @@
                 <div class="document-paper">
                     <!-- SUNAT Header -->
                     <div class="flex justify-between items-center mb-4 border-b-2 border-black pb-2">
-                        <img src=" https://upload.wikimedia.org/wikipedia/commons/9/97/Escudo_nacional_del_Per%C3%BA.png" alt="Escudo Perú" class="h-14 w-auto object-contain">
+                        <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Sunat-Logo-Vector.svg-.png" alt="SUNAT Logo" class="h-10 w-auto object-contain">
                         <div class="text-center flex-1">
                             <h1 class="text-[16px] font-extrabold uppercase tracking-tight leading-tight">Declaración Única de Aduanas</h1>
                             <div class="font-bold border-2 border-black px-6 py-0.5 inline-block mt-1 text-sm bg-white tracking-widest">FORMATO A</div>
@@ -687,7 +689,7 @@
                     
                     <div class="mt-12 flex justify-between px-10">
                         <div class="w-64 text-center relative border border-black p-4 pt-12 h-32">
-                            <div class="font-signature sig-black text-4xl absolute top-4 left-1/2 transform -translate-x-1/2">Diego Castillo F.</div>
+                            <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Firma_Castillo.png" alt="Firma" class="h-16 absolute top-0 left-1/2 transform -translate-x-1/2 mix-blend-multiply opacity-90 grayscale">
                             <div class="border-t border-black pt-1 w-full mt-2">
                                 <p class="font-bold text-[9px] uppercase font-sans">Nombre del Declarante / Agente</p>
                                 <p class="text-[8px] font-sans text-slate-500">Documento de Identificación y Firma</p>
@@ -711,7 +713,7 @@
                 <div class="document-paper">
                     <!-- SUNAT Header -->
                     <div class="flex justify-between items-center mb-4 border-b-2 border-black pb-2">
-                        <img src=" https://upload.wikimedia.org/wikipedia/commons/9/97/Escudo_nacional_del_Per%C3%BA.png" alt="Escudo Perú" class="h-14 w-auto object-contain">
+                        <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Sunat-Logo-Vector.svg-.png" alt="SUNAT Logo" class="h-10 w-auto object-contain">
                         <div class="text-center flex-1">
                             <h1 class="text-[16px] font-extrabold uppercase tracking-tight leading-tight">Declaración Única de Aduanas</h1>
                             <div class="font-bold border-2 border-black px-6 py-0.5 inline-block mt-1 text-sm bg-white tracking-widest">FORMATO B <span class="text-[10px] font-normal">(Detalle de Ítems)</span></div>
@@ -911,10 +913,18 @@
                             <div class="w-2/3 p-4 border-r-2 border-slate-800 font-sans text-[8px] text-slate-500 text-justify italic leading-tight">
                                 RECEIVED by the Carrier in apparent good order and condition (unless otherwise stated herein) the total number or quantity of Containers or other packages or units indicated in the box entitled "Total No. of Packages Received by the Carrier" for Carriage from the Port of Loading to the Port of Discharge.
                             </div>
-                            <div class="w-1/3 p-4 flex flex-col justify-end items-center pb-2">
-                                <div class="font-signature sig-black text-3xl mb-1">MSC Line Agt.</div>
-                                <p class="font-sans font-bold text-[8px] uppercase border-t border-slate-400 pt-1 w-full text-center">As Agent for the Carrier</p>
-                                <p class="font-sans text-[7px] uppercase mt-1">Lima, Peru / Apr 07, 2026</p>
+                            <div class="w-1/3 p-4 flex flex-col justify-end items-center pb-2 relative">
+                                <!-- Sello del Agente Carrier -->
+                                <div class="w-24 h-24 border-[4px] border-double border-blue-900 rounded-full flex items-center justify-center -rotate-12 mix-blend-multiply opacity-80 mb-2">
+                                    <div class="text-center">
+                                        <p class="text-2xl font-black text-blue-900 leading-none tracking-tighter">MSC</p>
+                                        <p class="text-[6px] font-bold text-blue-900 uppercase border-y-2 border-blue-900 my-1 py-0.5 tracking-widest">Official Agent</p>
+                                        <p class="text-[7px] font-bold text-blue-900 uppercase tracking-widest">Callao - Peru</p>
+                                    </div>
+                                </div>
+                                
+                                <p class="font-sans font-bold text-[8px] uppercase border-t border-slate-400 pt-1 w-full text-center relative z-10">As Agent for the Carrier</p>
+                                <p class="font-sans text-[7px] uppercase mt-1 relative z-10">Lima, Peru / Apr 07, 2026</p>
                             </div>
                         </div>
                     </div>
@@ -925,7 +935,7 @@
             <section id="doc-origen" class="content-section hidden fade-in">
                 <div class="document-paper">
                     <div class="text-center border-b-4 border-double border-slate-800 pb-6 mb-8">
-                        <img src=" https://upload.wikimedia.org/wikipedia/commons/9/97/Escudo_nacional_del_Per%C3%BA.png" alt="Escudo Perú" class="h-16 mx-auto mb-4 opacity-80">
+                        <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Escudo_nacional_del_Per%C3%BA.png" alt="Escudo Perú" class="h-16 mx-auto mb-4 opacity-80">
                         <h1 class="text-3xl font-extrabold uppercase tracking-widest text-slate-900">Certificate of Origin</h1>
                         <p class="text-sm font-bold uppercase tracking-wider text-slate-600 mt-2">United States - Peru Trade Promotion Agreement (PTPA)</p>
                     </div>
@@ -982,7 +992,7 @@
                         
                     <div class="grid grid-cols-2 gap-x-20 pt-20 px-10">
                         <div class="text-center relative">
-                            <div class="font-signature sig-blue text-5xl absolute -top-14 left-1/2 transform -translate-x-1/2">Diego Castillo F.</div>
+                            <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Firma_Castillo.png" alt="Firma" class="h-20 absolute -top-16 left-1/2 transform -translate-x-1/2 mix-blend-multiply opacity-90">
                             <div class="border-t-2 border-black pt-3">
                                 <p class="font-extrabold text-xs uppercase">Diego Castillo Flores</p>
                                 <p class="text-[9px] uppercase text-slate-500 mt-1">Authorized Signature & Title</p>
@@ -1007,7 +1017,7 @@
             <section id="doc-carta" class="content-section hidden fade-in">
                 <div class="document-paper">
                     <div class="flex items-center justify-center flex-col mb-12 border-b-2 border-slate-200 pb-8">
-                        <img src=" https://upload.wikimedia.org/wikipedia/commons/9/97/Escudo_nacional_del_Per%C3%BA.png" alt="Escudo Perú" class="h-16 mb-4">
+                        <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Escudo_nacional_del_Per%C3%BA.png" alt="Escudo Perú" class="h-16 mb-4">
                         <h1 class="text-2xl font-extrabold uppercase tracking-widest text-center">Carta de Responsabilidad</h1>
                         <p class="text-xs font-bold text-slate-500 mt-2 uppercase tracking-widest bg-slate-100 px-4 py-1 rounded-full">Control Antinarcóticos - DIRANDRO PNP</p>
                     </div>
@@ -1048,7 +1058,7 @@
                     </div>
 
                     <div class="mt-28 text-center w-80 mx-auto relative">
-                        <div class="font-signature sig-blue text-5xl absolute -top-14 left-1/2 transform -translate-x-1/2">Diego Castillo F.</div>
+                        <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Firma_Castillo.png" alt="Firma" class="h-20 absolute -top-16 left-1/2 transform -translate-x-1/2 mix-blend-multiply opacity-90">
                         <div class="border-t-2 border-black pt-3">
                             <p class="font-extrabold text-sm uppercase">Diego Castillo Flores</p>
                             <p class="text-xs text-slate-600 font-bold mt-1">Gerente de Exportaciones</p>
@@ -1125,7 +1135,7 @@
                     </div>
                     
                     <div class="mt-28 text-center w-72 mx-auto relative">
-                        <div class="font-signature sig-black text-5xl absolute -top-14 left-1/2 transform -translate-x-1/2">Diego Castillo F.</div>
+                        <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Firma_Castillo.png" alt="Firma" class="h-20 absolute -top-16 left-1/2 transform -translate-x-1/2 mix-blend-multiply opacity-90 grayscale">
                         <div class="border-t-2 border-black pt-3">
                             <p class="font-extrabold text-xs uppercase text-slate-800">Diego Castillo Flores</p>
                             <p class="text-[9px] text-slate-500 font-bold mt-1 uppercase tracking-widest">Firma del Solicitante / Representante</p>
@@ -1188,7 +1198,7 @@
 
                     <div class="mt-24 grid grid-cols-2 gap-20 px-10">
                         <div class="text-center relative">
-                            <div class="font-signature sig-black text-4xl absolute -top-12 left-1/2 transform -translate-x-1/2">Diego Castillo F.</div>
+                            <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Firma_Castillo.png" alt="Firma" class="h-16 absolute -top-14 left-1/2 transform -translate-x-1/2 mix-blend-multiply opacity-90 grayscale">
                             <div class="border-t-2 border-black pt-3">
                                 <p class="font-extrabold text-[10px] uppercase text-slate-800">Firma del Solicitante</p>
                                 <p class="text-[8px] text-slate-500 font-bold uppercase mt-1">Representante Legal APG</p>
@@ -1212,7 +1222,7 @@
                 <div class="document-paper border-[8px] border-double border-green-800 p-10 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]">
                     <!-- Fito Header -->
                     <div class="text-center mb-8 border-b-2 border-green-800 pb-6 relative">
-                        <img src=" https://upload.wikimedia.org/wikipedia/commons/9/97/Escudo_nacional_del_Per%C3%BA.png" alt="Escudo Perú" class="h-16 mx-auto mb-3 opacity-90">
+                        <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Escudo_nacional_del_Per%C3%BA.png" alt="Escudo Perú" class="h-16 mx-auto mb-3 opacity-90">
                         <h1 class="text-xl font-extrabold uppercase text-green-900 tracking-widest">República del Perú</h1>
                         <h2 class="text-[10px] font-bold uppercase text-slate-600 tracking-widest mb-4">Ministerio de Desarrollo Agrario y Riego - SENASA</h2>
                         <h3 class="text-3xl font-extrabold mt-2 text-green-900">CERTIFICADO FITOSANITARIO</h3>
@@ -1305,7 +1315,7 @@
                             </div>
                         </div>
                         <div class="text-center w-72 relative">
-                            <div class="font-signature sig-blue text-5xl absolute -top-12 left-1/2 transform -translate-x-1/2 w-full">Ing. Carlos Mendoza</div>
+                            <img src="https://raw.githubusercontent.com/RickNE7/AuxSOS/main/Firma_Mendonza.png" alt="Firma Ing. Carlos Mendoza" class="h-24 absolute -top-16 left-1/2 transform -translate-x-1/2 mix-blend-multiply opacity-90">
                             <div class="border-t-2 border-green-800 pt-3">
                                 <p class="font-extrabold text-[10px] uppercase text-slate-800">Firma del Funcionario Autorizado</p>
                                 <p class="text-[8px] text-slate-600 font-bold mt-1 uppercase tracking-widest">Lugar de Emisión: Callao, Perú</p>
